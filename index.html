@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang=”en”>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Name of your awesome camera app -->
+    <title>Camera App</title>
+    <!-- Link to your main style sheet-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Camera -->
+<main id="camera">
+
+    <!-- Camera sensor -->
+    <canvas id="camera--sensor"></canvas>
+
+    <h3>Smart Lens</h3>
+    <!-- Camera view -->
+    <video id="camera--view" autoplay playsinline></video>
+    <!-- Camera output -->
+    <img src="//:0" alt="" id="camera--output">
+
+    <input type="range" class="slider" id="zoom" >
+
+    <button id="detail0">
+        <img src="images/info.png">
+    </button>
+    <button id="detail1">
+        <img src="images/info.png">
+    </button>
+    <button id="detail2">
+        <img src="images/info.png">
+    </button>
+    <button id="detail3">
+        <img src="images/info.png">
+    </button>
+    <p class="info">
+        Clicca sui riquadri per ricevere informazioni
+    </p>
+</main>
+<!-- Reference to your JavaScript file -->
+<script src="js/app.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
