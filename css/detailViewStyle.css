@@ -1,0 +1,86 @@
+* {box-sizing: border-box;
+}
+body {font-family: Verdana, sans-serif;
+    padding: 7px;}
+.responsive-image{
+    max-width: 100%;
+}
+
+#detailName{
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-top: 0;
+
+}
+
+#artwork{
+    margin: 10px 0 10px 0;
+}
+
+.flex-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+}
+
+#detailImage{
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+.flex-container div {
+    display: block;
+}
+
+#audioGuide {
+    border: none;
+    background-color: white;
+    color: #2091EB;
+    justify-content: center;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#audioGuide p{
+    text-align: justify-all;
+    margin-top: 0;
+
+}
+
+#restart {
+    display: none;
+    border: 2px solid #F1F1F1;
+    margin-left: 10px;
+    padding: 5px;
+    background-color: white;
+    color: #2091EB;
+    justify-content: center;
+    font-size: 25px;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 1300px){
+    .flex-container{
+        display: inline;
+
+    }
+    #detailImage{
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 80%;
+    }
+
+    #audioGuide{
+        width: 30%;
+        margin-left: 35%;
+
+    }
+
+    #restart{
+        width: 30%;
+        margin-left: 35%;
+    }
+
+}

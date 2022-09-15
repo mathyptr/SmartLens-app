@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang=”en”>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Camera App</title>
+    <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/getDetail_init.js"></script>
+</head>
+<body>
+<!-- Camera -->
+<main id="camera">
+
+    <!-- Camera sensor -->
+    <canvas id="camera--sensor"></canvas>
+
+    <h3 id="SmartLens">Smart Lens
+        <a href="index.html" id="cross">
+            <span></span>
+        </a>
+    </h3>
+    <!-- Camera view -->
+    <video id="camera--view" autoplay playsinline></video>
+
+
+    <canvas id="canvas_no_display"></canvas>
+
+    <input type="range" class="slider" id="zoom" >
+
+
+    <div id="sheet" class="column items-center justify-end" aria-hidden="true">
+        <p class="info">
+            Clicca sui dettagli per ricevere informazioni
+        </p>
+        <div id="detailContainer">
+            <a id="detail0_0" class="details">
+                <img src="" id="detail0_0img">
+            </a>
+            <a id="detail0_1" class="details">
+                <img src="" id="detail0_1img">
+            </a>
+            <a id="detail1_0" class="details">
+                <img src="" id="detail1_0img">
+            </a>
+            <a id="detail1_1" class="details">
+                <img src="" id="detail1_1img">
+            </a>
+        </div>
+
+        <!-- Dark background for the sheet -->
+        <div class="overlay"></div>
+
+        <!-- The sheet itself -->
+        <div class="contents column">
+            <!-- Sheet controls -->
+            <header class="controls">
+                <!-- The thing to drag if you want to resize the sheet -->
+                <div class="draggable-area">
+                    <div class="draggable-thumb"></div>
+                </div>
+                <!-- Button to close the sheet -->
+                <button id="close-sheet" type="button" title="Close the sheet">⮯</button>
+            </header>
+
+            <!-- Body of the sheet -->
+            <main class="body fill column">
+                <h2 id="artwork">
+                    <span id="artworkTitle"></span>
+                    -
+                    <span id="author"></span>
+                </h2>
+                <h3 id="detailName"></h3>
+                <div class="flex-container">
+                    <img class="responsive-image" id="detailImage" src="">
+                    <div>
+                        <button type="button" id="audioGuide">
+                            <img class="responsive-image" src="images/icons/Audio%20Icon.png">
+                            <p>Ascolta la guida</p>
+                        </button>
+                        <button type="button" id="restart">
+                            &#8635; Restart
+                        </button>
+                        <p id="description">
+
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</main>
+<!-- Reference to your JavaScript file -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript"></script>
+<script src="js/app.js"></script>
+<script src="js/getDetailFromCamera.js" type="module"></script>
+<script src="js/bottomSheetManager.js"></script>
+<script src="js/textToSpeech.js"></script>
+
+</body>
+</html>

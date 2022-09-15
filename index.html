@@ -5,43 +5,85 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Name of your awesome camera app -->
-    <title>Camera App</title>
+    <title>Smart Lens</title>
     <!-- Link to your main style sheet-->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/indexStyle.css">
 </head>
 <body>
-<!-- Camera -->
-<main id="camera">
+    <h2 id="title">
+        Logo Museo
+    </h2>
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="images/venere.jpg" style="width:100%">
+        </div>
 
-    <!-- Camera sensor -->
-    <canvas id="camera--sensor"></canvas>
+        <div class="mySlides fade">
+            <img src="images/Soffitto.jpg" style="width:100%">
+        </div>
 
-    <h3>Smart Lens</h3>
-    <!-- Camera view -->
-    <video id="camera--view" autoplay playsinline></video>
-    <!-- Camera output -->
-    <img src="//:0" alt="" id="camera--output">
+        <div class="mySlides fade">
+            <img src="images/Vista-uffizi.jpg" style="width:100%">
+        </div>
 
-    <input type="range" class="slider" id="zoom" >
+    </div>
+    <br>
 
-    <button id="detail0">
-        <img src="images/info.png">
-    </button>
-    <button id="detail1">
-        <img src="images/info.png">
-    </button>
-    <button id="detail2">
-        <img src="images/info.png">
-    </button>
-    <button id="detail3">
-        <img src="images/info.png">
-    </button>
-    <p class="info">
-        Clicca sui riquadri per ricevere informazioni
+    <div class="dotContainer" >
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
+    <a href="camera-view.html" id="toCamera">
+        Attiva la guida interattiva
+    </a>
+
+    <p style="text-align: justify">
+       Descrizione della Guida: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
-</main>
-<!-- Reference to your JavaScript file -->
-<script src="js/app.js"></script>
-<script src="js/script.js"></script>
+
+    <ul class="social">
+        <a href="#">
+            <img src="images/icons/facebook-square-color.png" alt="facebook" class="responsive-image">
+        </a>
+        <a href="#">
+            <img src="images/icons/twitter-color.png" alt="twitter" class="responsive-image">
+        </a>
+        <a href="#">
+            <img src="images/icons/snapchat-line.png" alt="snapchat" class="responsive-image">
+        </a>
+        <a href="#">
+            <img src="images/icons/ig-instagram.png" alt="instagram" class="responsive-image">
+        </a>
+        <a href="#">
+            <img src="images/icons/linkedin-app.png" alt="linkedin" class="responsive-image">
+        </a>
+        <a href="#">
+            <img src="images/icons/pinterest-round-color.png" alt="pinterest" class="responsive-image">
+        </a>
+    </ul>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 4000); // Change image every 2 seconds
+        }
+    </script>
 </body>
 </html>
