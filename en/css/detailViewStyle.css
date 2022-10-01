@@ -23,7 +23,7 @@ body {font-family: Verdana, sans-serif;}
 #languageContainer a:hover{
     background-color: #F1F1F1;
 }
-#Italian{
+#English{
     border-bottom: 2px solid black;
 }
 
@@ -121,16 +121,11 @@ body {font-family: Verdana, sans-serif;}
     .flex-container div{
         padding-right: 0;
     }
-
     #detailImage{
         margin-left: 10%;
         margin-right: 10%;
         width: 80%;
         padding-right: 0;
-    }
-
-    #audio{
-        margin: auto;
     }
 
     #audioGuide{

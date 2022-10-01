@@ -5,14 +5,11 @@ const description = document.querySelector("#description")
 const audioGuide = document.querySelector('#audioGuide')
 const restartButton = document.querySelector('#restart')
 
-
+//Text to Speech Management
 let voices = undefined;
 const synth = window.speechSynthesis
-const utterThis = new SpeechSynthesisUtterance()
 setTimeout(() => {
     voices = synth.getVoices()
-    utterThis.voice = voices[21];
-    utterThis.lang = 'it-IT';
 }, 100);
 
 
@@ -38,11 +35,11 @@ window.addEventListener('load', function (){
 audioGuide.addEventListener('click', function (){
     if(action == 1){
         restart.style.display = 'inline'
-        ourText = "L'opera che stai guardando è "
+        ourText = "You are in front of "
         ourText = ourText.concat(artworkTitle.innerText)
-        ourText = ourText.concat(' di ')
+        ourText = ourText.concat(' by ')
         ourText = ourText.concat(author.innerText)
-        ourText = ourText.concat('. ed hai selezionato ')
+        ourText = ourText.concat(". and you have selected")
         ourText = ourText.concat(detail.outerText)
         ourText = ourText.concat('. ')
         ourText = ourText.concat(description.outerText)
@@ -50,9 +47,10 @@ audioGuide.addEventListener('click', function (){
         action = 2
         for(let i = 0; i < text.length; i++){
             let utterance = new SpeechSynthesisUtterance(text[i])
-            utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+            utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
             synth.speak(utterance)
         }
+
 
     }
     else if(action == 2){
@@ -68,19 +66,19 @@ audioGuide.addEventListener('click', function (){
 
 restartButton.addEventListener('click', function (){
     synth.cancel()
-    ourText = "L'opera che stai guardando è "
+    ourText = "You are in front of "
     ourText = ourText.concat(artworkTitle.innerText)
-    ourText = ourText.concat(' di ')
+    ourText = ourText.concat(' by ')
     ourText = ourText.concat(author.innerText)
-    ourText = ourText.concat('. ed hai selezionato .')
+    ourText = ourText.concat(". and you have selected")
     ourText = ourText.concat(detail.outerText)
-    ourText = ourText.concat('  . !')
+    ourText = ourText.concat('. ')
     ourText = ourText.concat(description.outerText)
     let text = ourText.split(".")
     action = 2
     for(let i = 0; i < text.length; i++){
         let utterance = new SpeechSynthesisUtterance(text[i])
-        utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+        utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
         synth.speak(utterance)
     }
 })
@@ -94,9 +92,7 @@ window.onbeforeunload = function (){
 
 
 
-
-
-
+//Bottom Sheet Drag Manager
 const $ = document.querySelector.bind(document)
 
 

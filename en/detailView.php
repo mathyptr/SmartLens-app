@@ -1,13 +1,13 @@
 <?php
 $id = $_GET['id'];
-require_once("./server/config.php");
+require_once("../server/config.php");
 ini_set('display_errors', 1);
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 if(!$conn){
     echo 'Connection error: '. mysqli_connect_error();
 }
 $id = $conn-> escape_string($id);
-$sql = "SELECT * FROM details WHERE id='$id'";
+$sql = "SELECT * FROM detailsen WHERE id='$id'";
 
 $result = mysqli_query($conn, $sql);
 
@@ -33,8 +33,8 @@ mysqli_close($conn)
 </head>
 <body>
 <div id="languageContainer">
-    <a id="Italian" href="#">Italiano</a>
-    <a id="English" href="en/detailView.php?id=<?php echo htmlspecialchars($detail[0]['id'])?>">English</a>
+    <a id="Italian" href="../detailView.php?id=<?php echo htmlspecialchars($detail[0]['id'])?>">Italiano</a>
+    <a id="English" href="#">English</a>
 </div>
 <a id="close-sheet" href="camera-view.html">&#10006;</a>
 <h2 id="artwork">
@@ -69,8 +69,8 @@ mysqli_close($conn)
     <div id="information">
         <audio id="audio" controls src=""></audio>
         <button type="button" id="audioGuide">
-            <img class="responsive-image" src="images/icons/Audio%20Icon.png" alt="Icona audio-guida">
-            <p>Ascolta la guida</p>
+            <img class="responsive-image" src="../images/icons/Audio%20Icon.png" alt="Icona audio-guida">
+            <p>Listen to the audioguide</p>
         </button>
         <button type="button" id="restart">
             &#8635; Restart
@@ -83,6 +83,7 @@ mysqli_close($conn)
         </p>
     </div>
 </div>
+
 <video class="responsive-image" id="detailVideo" src="" controls>
 </video>
 
@@ -105,7 +106,6 @@ mysqli_close($conn)
         video.poster="<?php echo htmlspecialchars($detail[0]['image'])?>";
     }
 </script>
-
 
 <script src="js/textToSpeech.js"></script>
 </body>

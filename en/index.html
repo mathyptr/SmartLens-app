@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang=”en”>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Name of your awesome camera app -->
+  <title>Smart Lens</title>
+  <!-- Link to your main style sheet-->
+  <link rel="stylesheet" href="css/indexStyle.css">
+</head>
+<body>
+<div id="languageContainer">
+  <a id="Italian" href="../index.html">Italiano</a>
+  <a id="English" href="#">English</a>
+</div>
+<h2 id="title">
+  Museum Logo
+</h2>
+<div class="slideshow-container">
+  <div class="mySlides fade">
+    <img src="../images/venere.jpg" style="width:100%">
+  </div>
+
+  <div class="mySlides fade">
+    <img src="../images/Soffitto.jpg" style="width:100%">
+  </div>
+
+  <div class="mySlides fade">
+    <img src="../images/Vista-uffizi.jpg" style="width:100%">
+  </div>
+
+</div>
+<br>
+
+<div class="dotContainer" >
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
+
+<a href="camera-view.html" id="toCamera">
+  Try the interactive guide
+</a>
+
+<p style="text-align: justify">
+  Guide description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+
+<ul class="social">
+  <a href="#">
+    <img src="../images/icons/facebook-square-color.png" alt="facebook" class="responsive-image">
+  </a>
+  <a href="#">
+    <img src="../images/icons/twitter-color.png" alt="twitter" class="responsive-image">
+  </a>
+  <a href="#">
+    <img src="../images/icons/snapchat-line.png" alt="snapchat" class="responsive-image">
+  </a>
+  <a href="#">
+    <img src="../images/icons/ig-instagram.png" alt="instagram" class="responsive-image">
+  </a>
+  <a href="#">
+    <img src="../images/icons/linkedin-app.png" alt="linkedin" class="responsive-image">
+  </a>
+  <a href="#">
+    <img src="../images/icons/pinterest-round-color.png" alt="pinterest" class="responsive-image">
+  </a>
+</ul>
+
+<script>
+  let slideIndex = 0;
+  showSlides();
+
+  function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+    setTimeout(showSlides, 4000); // Change image every 2 seconds
+  }
+</script>
+</body>
+</html>

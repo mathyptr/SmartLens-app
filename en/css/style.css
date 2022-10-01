@@ -240,20 +240,12 @@ button {
     gap: 1rem;
 }
 
-#detailName{
-    border-bottom: 2px solid black;
-    padding-bottom: 10px;
-    margin-top: 0;
-
-}
-
 #languageContainer{
     display: flex;
     justify-content: flex-end;
     top: 0;
     right: 0;
     padding-bottom: 5px;
-    padding-top: 10px;
     border-bottom: 2px solid black ;
 }
 #languageContainer a{
@@ -266,8 +258,15 @@ button {
 #languageContainer a:hover{
     background-color: #F1F1F1;
 }
-#Italian{
+#English{
     border-bottom: 2px solid black;
+}
+
+#detailName{
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-top: 0;
+
 }
 
 #artwork{
@@ -315,7 +314,6 @@ button {
     font-size: 14px;
     margin-right: 10px;
     padding: 0;
-    display: none;
 }
 
 #audioGuide p{
@@ -353,7 +351,6 @@ button {
     margin: 0;
     margin-left: 30px;
     font-size: 12px;
-
 }
 
 #detailContainer{
@@ -394,7 +391,6 @@ button {
 }
 
 
-
 @media only screen and (max-width: 900px) and (orientation: portrait) {
     .flex-container{
         display: inline;
@@ -418,6 +414,7 @@ button {
     #audioGuide{
         width: 30%;
         margin-left: 35%;
+
     }
 
     #restart{
