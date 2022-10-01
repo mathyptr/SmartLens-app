@@ -213,10 +213,11 @@
                                 document.getElementById('detailVideo').style.display = 'none';
                             }
                             setIsSheetShown(true)
-
+                            let detailNames = [];
                             if (details[0]) {
                                 let detail = getDetails(details[0]);
                                 if (detail) {
+                                    detailNames.push(detail['detail-name']);
                                     info.style.display = 'block';
                                     detail0_0.style.display = 'block';
                                     detailContainer.style.display = 'flex';
@@ -228,9 +229,10 @@
                                 }
                             }
 
-                            if (details[1]) {
+                            if (details[1] && !detailNames.includes(detail['detail-name'])) {
                                 let detail = getDetails(details[1]);
                                 if (detail) {
+                                    detailNames.push(detail['detail-name']);
                                     info.style.display = 'block';
                                     detail0_1.style.display = 'block';
                                     detailContainer.style.display = 'flex'
@@ -244,7 +246,8 @@
 
                             if (details[2]) {
                                 let detail = getDetails(details[2]);
-                                if (detail) {
+                                if (detail && !detailNames.includes(detail['detail-name'])) {
+                                    detailNames.push(detail['detail-name']);
                                     info.style.display = 'block';
                                     detail1_0.style.display = 'block';
                                     detailContainer.style.display = 'flex'
@@ -258,7 +261,8 @@
 
                             if (details[3]) {
                                 let detail = getDetails(details[3]);
-                                if (detail) {
+                                if (detail && !detailNames.includes(detail['detail-name'])) {
+                                    detailNames.push(detail['detail-name']);
                                     info.style.display = 'block';
                                     detail1_1.style.display = 'block';
                                     detailContainer.style.display = 'flex'
