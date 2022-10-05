@@ -182,6 +182,54 @@ const setIsSheetShown = (value) => {
     sheet.setAttribute("aria-hidden", String(!value))
 }
 
+function displayInfo(results, boundingBoxes){
+
+    let main_artwork = details[detailIDs[results[0]]]['artwork-id'];
+    for(let i=0; i<detailLinks.length; i++){
+        detailLinks[i].style.display = 'none';
+    }
+
+    detailContainer.style.display = 'none';
+    artworkTitle.innerText = details[main_artwork]['artwork'];
+    author.innerText = details[main_artwork]['author'];
+    detailName.innerText = details[main_artwork]['detail-name'];
+    detailImage.src = details[main_artwork]['image'];
+    description.innerText = details[main_artwork]['description'];
+    if(details[main_artwork]['audio-guide'] != "") {
+        document.getElementById('audio').style.display = 'block';
+        document.getElementById('audio').src = details[main_artwork]['audio-guide'];
+        document.getElementById('audioGuide').style.display = 'none';
+        document.getElementById('restart').style.display = 'none';
+    }else{
+        document.getElementById('audioGuide').style.display = 'inline';
+        document.getElementById('audio').style.display = 'none';
+    }
+
+    if(details[main_artwork]['video'] != ""){
+        document.getElementById('detailVideo').src = details[main_artwork]['video'];
+        document.getElementById('detailVideo').style.display = 'block';
+        document.getElementById('detailVideo').poster = details[main_artwork]['image'];
+    }else{
+        document.getElementById('detailVideo').style.display = 'none';
+    }
+    setIsSheetShown(true)
+    let detailNames = [];
+    let colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
+    for(let i in results){
+        if (!detailNames.includes(details[detailIDs[results[i]]]['detail-name'])) {
+            detailNames.push(details[detailIDs[results[i]]]['detail-name']);
+            detailLinks[i].style.display = 'block';
+            detailContainer.style.display = 'flex';
+            detailImg[i].src = details[detailIDs[results[i]]]['detail-icon'];
+            detailImg[i].style.borderColor = colors[i];
+            detailLabels[i].innerText = details[detailIDs[results[i]]]['detail-name'];
+            detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]];
+            drawBoxes(boundingBoxes[i], colors[i])
+        } else {
+            detailLinks[i].style.display = 'none';
+        }
+    }
+}
 
 
 async function predictLoop() {
@@ -197,53 +245,8 @@ async function predictLoop() {
     let results = predictions[0];
     let boundingBoxes = predictions[1];
     if (results.length !== 0) {
+        displayInfo(results, boundingBoxes);
 
-        let main_artwork = details[detailIDs[results[0]]]['artwork-id'];
-        for(let i=0; i<detailLinks.length; i++){
-            detailLinks[i].style.display = 'none';
-        }
-
-        detailContainer.style.display = 'none';
-        artworkTitle.innerText = details[main_artwork]['artwork'];
-        author.innerText = details[main_artwork]['author'];
-        detailName.innerText = details[main_artwork]['detail-name'];
-        detailImage.src = details[main_artwork]['image'];
-        description.innerText = details[main_artwork]['description'];
-        if(details[main_artwork]['audio-guide'] != "") {
-            document.getElementById('audio').style.display = 'block';
-            document.getElementById('audio').src = details[main_artwork]['audio-guide'];
-            document.getElementById('audioGuide').style.display = 'none';
-            document.getElementById('restart').style.display = 'none';
-        }else{
-            document.getElementById('audioGuide').style.display = 'inline';
-            document.getElementById('audio').style.display = 'none';
-        }
-
-        if(details[main_artwork]['video'] != ""){
-            document.getElementById('detailVideo').src = details[main_artwork]['video'];
-            document.getElementById('detailVideo').style.display = 'block';
-            document.getElementById('detailVideo').poster = details[main_artwork]['image'];
-        }else{
-            document.getElementById('detailVideo').style.display = 'none';
-        }
-        setIsSheetShown(true)
-        let detailNames = [];
-        let colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
-        for(let i in results){
-            if (!detailNames.includes(details[detailIDs[results[i]]]['detail-name'])) {
-                detailNames.push(details[detailIDs[results[i]]]['detail-name']);
-                info.style.display = 'block';
-                detailLinks[i].style.display = 'block';
-                detailContainer.style.display = 'flex';
-                detailImg[i].src = details[detailIDs[results[i]]]['detail-icon'];
-                detailImg[i].style.borderColor = colors[i];
-                detailLabels[i].innerText = details[detailIDs[results[i]]]['detail-name'];
-                detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]];
-                drawBoxes(boundingBoxes[i], colors[i])
-            } else {
-                detailLinks[i].style.display = 'none';
-            }
-        }
 
     }
 
@@ -269,13 +272,8 @@ function startPredictLoop() {
 
 const webcam = document.getElementById('camera--view');
 const camera_box = document.getElementById('camera');
-
-const detailContainer = document.getElementById('detailContainer')
-let video = document.querySelector('#camera--view')
-
-
+const detailContainer = document.getElementById('detailContainer');
 const sheetContents = sheet.querySelector(".contents");
-
 const artworkTitle = document.getElementById('artworkTitle');
 const author = document.getElementById('author');
 const detailName = document.getElementById('detailName');

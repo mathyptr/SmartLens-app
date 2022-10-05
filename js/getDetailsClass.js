@@ -147,7 +147,9 @@ function getClass(webcam) {
     });
 }
 
+function displayInfo(classID){
 
+}
 
 
 function predictLoop() {
@@ -155,6 +157,7 @@ function predictLoop() {
     let classID = getClass(webcam);
 
     if (classID) {
+        displayInfo(classID);
         artworkTitle.innerText = details[detailIDs[classID]]['artwork'];
         author.innerText = details[detailIDs[classID]]['author'];
         detailName.innerText = details[detailIDs[classID]]['detail-name'];

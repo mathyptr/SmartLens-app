@@ -199,6 +199,51 @@ function cutImageUp() {
 }
 
 
+function displayInfo(fullImg, detailIDs){
+
+    for(let i=0; i<detailLinks.length; i++){
+        detailLinks[i].style.display = 'none';
+    }
+    detailContainer.style.display = 'none';
+    artworkTitle.innerText = details[fullImg]['artwork'];
+    author.innerText = details[fullImg]['author'];
+    detailName.innerText = details[fullImg]['detail-name'];
+    detailImage.src = details[fullImg]['image'];
+    description.innerText = details[fullImg]['description'];
+    if(details[fullImg]['audio-guide'] != "") {
+        document.getElementById('audio').style.display = 'block';
+        document.getElementById('audio').src = details[fullImg]['audio-guide'];
+        document.getElementById('audioGuide').style.display = 'none';
+        document.getElementById('restart').style.display = 'none';
+    }else{
+        document.getElementById('audioGuide').style.display = 'inline';
+        document.getElementById('audio').style.display = 'none';
+    }
+
+    if(details[fullImg]['video'] != ""){
+        document.getElementById('detailVideo').src = details[fullImg]['video'];
+        document.getElementById('detailVideo').style.display = 'block';
+        document.getElementById('detailVideo').poster = details[fullImg]['image'];
+    }else{
+        document.getElementById('detailVideo').style.display = 'none';
+    }
+    setIsSheetShown(true)
+    let detailNames = [];
+    for(let i in detailIDs){
+        if (!detailNames.includes(details[detailIDs[i]]['detail-name'])) {
+            detailNames.push(details[detailIDs[i]]['detail-name']);
+            info.style.display = 'block';
+            detailLinks[i].style.display = 'block';
+            detailContainer.style.display = 'flex';
+            detailImg[i].src = details[detailIDs[i]]['detail-icon'];
+            detailLabels[i].innerText = details[detailIDs[i]]['detail-name'];
+            detailLinks[i].href = 'detailView.php?id=' + detailIDs[i];
+        } else {
+            detailLinks[i].style.display = 'none';
+        }
+    }
+}
+
 function predictLoop() {
     console.log('Recognition Started!')
     let imageFeatures = calculateFeaturesOnCurrentFrame(webcam);
@@ -214,48 +259,8 @@ function predictLoop() {
     }
 
     if (fullImg && fullImg in details) {
+        displayInfo(fullImg, detailIDs)
 
-        for(let i=0; i<detailLinks.length; i++){
-            detailLinks[i].style.display = 'none';
-        }
-        detailContainer.style.display = 'none';
-        artworkTitle.innerText = details[fullImg]['artwork'];
-        author.innerText = details[fullImg]['author'];
-        detailName.innerText = details[fullImg]['detail-name'];
-        detailImage.src = details[fullImg]['image'];
-        description.innerText = details[fullImg]['description'];
-        if(details[fullImg]['audio-guide'] != "") {
-            document.getElementById('audio').style.display = 'block';
-            document.getElementById('audio').src = details[fullImg]['audio-guide'];
-            document.getElementById('audioGuide').style.display = 'none';
-            document.getElementById('restart').style.display = 'none';
-        }else{
-            document.getElementById('audioGuide').style.display = 'inline';
-            document.getElementById('audio').style.display = 'none';
-        }
-
-        if(details[fullImg]['video'] != ""){
-            document.getElementById('detailVideo').src = details[fullImg]['video'];
-            document.getElementById('detailVideo').style.display = 'block';
-            document.getElementById('detailVideo').poster = details[fullImg]['image'];
-        }else{
-            document.getElementById('detailVideo').style.display = 'none';
-        }
-        setIsSheetShown(true)
-        let detailNames = [];
-        for(let i in detailIDs){
-            if (!detailNames.includes(details[detailIDs[i]]['detail-name'])) {
-                detailNames.push(details[detailIDs[i]]['detail-name']);
-                info.style.display = 'block';
-                detailLinks[i].style.display = 'block';
-                detailContainer.style.display = 'flex';
-                detailImg[i].src = details[detailIDs[i]]['detail-icon'];
-                detailLabels[i].innerText = details[detailIDs[i]]['detail-name'];
-                detailLinks[i].href = 'detailView.php?id=' + detailIDs[i];
-            } else {
-                detailLinks[i].style.display = 'none';
-            }
-        }
 
     }
 
