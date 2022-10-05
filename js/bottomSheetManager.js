@@ -36,24 +36,43 @@ window.addEventListener('load', function (){
 
 
 audioGuide.addEventListener('click', function (){
-    if(action == 1){
-        restart.style.display = 'inline'
-        ourText = "L'opera che stai guardando è "
-        ourText = ourText.concat(artworkTitle.innerText)
-        ourText = ourText.concat(' di ')
-        ourText = ourText.concat(author.innerText)
-        ourText = ourText.concat('. ed hai selezionato ')
-        ourText = ourText.concat(detail.outerText)
-        ourText = ourText.concat('. ')
-        ourText = ourText.concat(description.outerText)
-        let text = ourText.split(".")
-        action = 2
-        for(let i = 0; i < text.length; i++){
-            let utterance = new SpeechSynthesisUtterance(text[i])
-            utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
-            synth.speak(utterance)
-        }
 
+    if(action == 1){
+        if(document.getElementById('Italian').href == window.location.href + '#'){
+            restart.style.display = 'inline'
+            ourText = "L'opera che stai guardando è "
+            ourText = ourText.concat(artworkTitle.innerText)
+            ourText = ourText.concat(' di ')
+            ourText = ourText.concat(author.innerText)
+            ourText = ourText.concat('. ed hai selezionato ')
+            ourText = ourText.concat(detail.outerText)
+            ourText = ourText.concat('. ')
+            ourText = ourText.concat(description.outerText)
+            let text = ourText.split(".")
+            action = 2
+            for(let i = 0; i < text.length; i++){
+                let utterance = new SpeechSynthesisUtterance(text[i])
+                utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+                synth.speak(utterance)
+            }
+        }else{
+            restart.style.display = 'inline'
+            ourText = "You are in front of "
+            ourText = ourText.concat(artworkTitle.innerText)
+            ourText = ourText.concat(' by ')
+            ourText = ourText.concat(author.innerText)
+            ourText = ourText.concat(". and you have selected")
+            ourText = ourText.concat(detail.outerText)
+            ourText = ourText.concat('. ')
+            ourText = ourText.concat(description.outerText)
+            let text = ourText.split(".")
+            action = 2
+            for(let i = 0; i < text.length; i++){
+                let utterance = new SpeechSynthesisUtterance(text[i])
+                utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
+                synth.speak(utterance)
+            }
+        }
     }
     else if(action == 2){
         synth.pause();
@@ -67,22 +86,41 @@ audioGuide.addEventListener('click', function (){
 })
 
 restartButton.addEventListener('click', function (){
-    synth.cancel()
-    ourText = "L'opera che stai guardando è "
-    ourText = ourText.concat(artworkTitle.innerText)
-    ourText = ourText.concat(' di ')
-    ourText = ourText.concat(author.innerText)
-    ourText = ourText.concat('. ed hai selezionato .')
-    ourText = ourText.concat(detail.outerText)
-    ourText = ourText.concat('  . !')
-    ourText = ourText.concat(description.outerText)
-    let text = ourText.split(".")
-    action = 2
-    for(let i = 0; i < text.length; i++){
-        let utterance = new SpeechSynthesisUtterance(text[i])
-        utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
-        synth.speak(utterance)
+    if(document.getElementById('Italian').href == window.location.href + '#'){
+        synth.cancel()
+        ourText = "L'opera che stai guardando è "
+        ourText = ourText.concat(artworkTitle.innerText)
+        ourText = ourText.concat(' di ')
+        ourText = ourText.concat(author.innerText)
+        ourText = ourText.concat('. ed hai selezionato .')
+        ourText = ourText.concat(detail.outerText)
+        ourText = ourText.concat('  . !')
+        ourText = ourText.concat(description.outerText)
+        let text = ourText.split(".")
+
+        for(let i = 0; i < text.length; i++){
+            let utterance = new SpeechSynthesisUtterance(text[i])
+            utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+            synth.speak(utterance)
+        }
+    }else{
+        synth.cancel()
+        ourText = "You are in front of "
+        ourText = ourText.concat(artworkTitle.innerText)
+        ourText = ourText.concat(' by ')
+        ourText = ourText.concat(author.innerText)
+        ourText = ourText.concat(". and you have selected")
+        ourText = ourText.concat(detail.outerText)
+        ourText = ourText.concat('. ')
+        ourText = ourText.concat(description.outerText)
+        let text = ourText.split(".")
+        for(let i = 0; i < text.length; i++){
+            let utterance = new SpeechSynthesisUtterance(text[i])
+            utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
+            synth.speak(utterance)
+        }
     }
+    action = 2
 })
 
 

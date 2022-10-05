@@ -107,6 +107,6 @@ mysqli_close($conn)
     }
 </script>
 
-<script src="js/textToSpeech.js"></script>
+<script src="../js/textToSpeech.js"></script>
 </body>
 </html>
