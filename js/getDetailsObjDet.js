@@ -103,9 +103,7 @@ try{
     alert('La tua connessione Internet è troppo lenta!')
 }
 
-setTimeout(function(){
-    camera_box.classList.add('loaded');
-}, 500);
+
 
 
 function drawBoxes(bounding_box, color){
@@ -113,11 +111,11 @@ function drawBoxes(bounding_box, color){
     camera_box.appendChild(box)
     let x, y = undefined;
     if(document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight){
-        let offsetY = (document.documentElement.clientWidth * 3/4 - document.documentElement.clientHeight) / 2
+        let offsetY = (document.documentElement.clientWidth *  webcam.videoHeight / webcam.videoWidth - document.documentElement.clientHeight) / 2
         x = bounding_box[1] * document.documentElement.clientWidth;
         y = bounding_box[0] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY;
     }else{
-        let offsetX = (document.documentElement.clientHeight * 4/3 - document.documentElement.clientWidth) / 2;
+        let offsetX = (document.documentElement.clientHeight *  webcam.videoWidth / webcam.videoHeight - document.documentElement.clientWidth) / 2;
         x = bounding_box[1] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX;
         y = bounding_box[0] *  document.documentElement.clientHeight;
     }
@@ -257,7 +255,10 @@ async function predictLoop() {
 
 function startPredictLoop() {
     if (webcam.readyState >= 2) {
-        console.log('Ready to predict')
+        console.log('Ready to predict');
+        setTimeout(function(){
+            camera_box.classList.add('loaded');
+        }, 500);
         setInterval(function (){predictLoop()}, 2000)
     } else {
         setTimeout(function (){startPredictLoop()}, 1000)

@@ -102,9 +102,6 @@ try {
 }
 
 
-setTimeout(function(){
-    camera_box.classList.add('loaded');
-}, 500);
 
 
 
@@ -189,8 +186,11 @@ function predictLoop() {
 
 function startPredictLoop() {
     if (webcam.readyState >= 2) {
-        console.log('Ready to predict')
-        setInterval(function (){predictLoop()}, 2000)
+        console.log('Ready to predict');
+        setTimeout(function(){
+            camera_box.classList.add('loaded');
+        }, 500);
+        setInterval(function (){predictLoop()}, 2000);
     } else {
         setTimeout(function (){startPredictLoop()}, 1000)
     }
