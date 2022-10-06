@@ -90,9 +90,12 @@ await (function($){
     }
 })(jQuery);
 
+let modelURL = window.location.href.replace('camera-view.html', "") + 'networkModels/art_details/art_details';
+
+
 try {
     model = await tf.loadGraphModel(
-        'http://localhost/SmartLens/networkModels/art_details/art_details',
+        modelURL,
         {fromTFHub: true});
 
     console.log('Classifier loaded Succesfully!');
@@ -145,7 +148,29 @@ function getClass(webcam) {
 }
 
 function displayInfo(classID){
+    artworkTitle.innerText = details[detailIDs[classID]]['artwork'];
+    author.innerText = details[detailIDs[classID]]['author'];
+    detailName.innerText = details[detailIDs[classID]]['detail-name'];
+    detailImage.src = details[detailIDs[classID]]['image'];
+    description.innerText = details[detailIDs[classID]]['description'];
+    if(details[detailIDs[classID]]['audio-guide'] != "") {
+        document.getElementById('audio').style.display = 'block';
+        document.getElementById('audio').src = details[detailIDs[classID]]['audio-guide'];
+        document.getElementById('audioGuide').style.display = 'none';
+        document.getElementById('restart').style.display = 'none';
+    }else{
+        document.getElementById('audioGuide').style.display = 'inline';
+        document.getElementById('audio').style.display = 'none';
+    }
 
+    if(details[detailIDs[classID]]['video'] != ""){
+        document.getElementById('detailVideo').src = details[detailIDs[classID]]['video'];
+        document.getElementById('detailVideo').style.display = 'block';
+        document.getElementById('detailVideo').poster = details[detailIDs[classID]]['image'];
+    }else{
+        document.getElementById('detailVideo').style.display = 'none';
+    }
+    setIsSheetShown(true)
 }
 
 
@@ -155,30 +180,6 @@ function predictLoop() {
 
     if (classID) {
         displayInfo(classID);
-        artworkTitle.innerText = details[detailIDs[classID]]['artwork'];
-        author.innerText = details[detailIDs[classID]]['author'];
-        detailName.innerText = details[detailIDs[classID]]['detail-name'];
-        detailImage.src = details[detailIDs[classID]]['image'];
-        description.innerText = details[detailIDs[classID]]['description'];
-        if(details[detailIDs[classID]]['audio-guide'] != "") {
-            document.getElementById('audio').style.display = 'block';
-            document.getElementById('audio').src = details[detailIDs[classID]]['audio-guide'];
-            document.getElementById('audioGuide').style.display = 'none';
-            document.getElementById('restart').style.display = 'none';
-        }else{
-            document.getElementById('audioGuide').style.display = 'inline';
-            document.getElementById('audio').style.display = 'none';
-        }
-
-        if(details[detailIDs[classID]]['video'] != ""){
-            document.getElementById('detailVideo').src = details[detailIDs[classID]]['video'];
-            document.getElementById('detailVideo').style.display = 'block';
-            document.getElementById('detailVideo').poster = details[detailIDs[classID]]['image'];
-        }else{
-            document.getElementById('detailVideo').style.display = 'none';
-        }
-        setIsSheetShown(true)
-
     }
 
 

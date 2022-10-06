@@ -12,6 +12,7 @@ body {font-family: Verdana, sans-serif;}
     right: 0;
     padding-bottom: 5px;
     border-bottom: 2px solid black ;
+    margin-top: 25px;
 }
 #languageContainer a{
     padding: 5px 5px 2px 5px;
@@ -30,7 +31,7 @@ body {font-family: Verdana, sans-serif;}
 #close-sheet{
     position: absolute;
     right: 20px;
-    top:40px;
+    top:5px;
     color: black;
     text-decoration: none;
 }

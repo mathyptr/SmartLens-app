@@ -92,9 +92,11 @@ let objectDetector = undefined;
     }
 })(jQuery);
 
+let modelURL = window.location.href.replace('camera-view.html', "") + 'networkModels/exported_tfjs_30000/exported_tfjs_30000';
+
 try{
     objectDetector = await tf.loadGraphModel(
-        'http://localhost/SmartLens/networkModels/exported_tfjs_30000/exported_tfjs_30000',
+        modelURL,
         {fromTFHub: true});
 
     console.log('Object Detector loaded Succesfully!');

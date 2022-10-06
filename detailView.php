@@ -32,11 +32,12 @@ mysqli_close($conn)
 
 </head>
 <body>
+<a id="close-sheet" href="camera-view.html">&#10006;</a>
 <div id="languageContainer">
     <a id="Italian" href="#">Italiano</a>
     <a id="English" href="en/detailView.php?id=<?php echo htmlspecialchars($detail[0]['id'])?>">English</a>
 </div>
-<a id="close-sheet" href="camera-view.html">&#10006;</a>
+
 <h2 id="artwork">
     <span id="artworkTitle">
         <?php

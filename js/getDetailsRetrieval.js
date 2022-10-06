@@ -1,4 +1,4 @@
-let version = 1; //Cambia valore a 2 per ottenere la versione con 5 descrittori
+let version = 2; //Cambia valore a 2 per ottenere la versione con 5 descrittori
 
 //Caricamento dei dati da database e del modello
 let features = undefined;
