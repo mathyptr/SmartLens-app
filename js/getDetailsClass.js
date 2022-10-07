@@ -90,7 +90,8 @@ await (function($){
     }
 })(jQuery);
 
-let modelURL = window.location.href.replace('camera-view.html', "") + 'networkModels/art_details/art_details';
+let modelURL = window.location.href.replace('/en', "");
+modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details/art_details';
 
 
 try {
@@ -141,21 +142,21 @@ function getClass(webcam) {
         let probabilities = model.predict(normalizedTensorFrame);
         probabilities = probabilities.arraySync();
         const max = Math.max(...probabilities[0]);
-        if(max > 0.5)
+        if(max > detailIDs[probabilities[0].indexOf(max)]['confidence'])
             return probabilities[0].indexOf(max);
         return null;
     });
 }
 
 function displayInfo(classID){
-    artworkTitle.innerText = details[detailIDs[classID]]['artwork'];
-    author.innerText = details[detailIDs[classID]]['author'];
-    detailName.innerText = details[detailIDs[classID]]['detail-name'];
-    detailImage.src = details[detailIDs[classID]]['image'];
-    description.innerText = details[detailIDs[classID]]['description'];
-    if(details[detailIDs[classID]]['audio-guide'] != "") {
+    artworkTitle.innerText = details[detailIDs[classID]['id']]['artwork'];
+    author.innerText = details[detailIDs[classID]['id']]['author'];
+    detailName.innerText = details[detailIDs[classID]['id']]['detail-name'];
+    detailImage.src = details[detailIDs[classID]['id']]['image'];
+    description.innerText = details[detailIDs[classID]['id']]['description'];
+    if(details[detailIDs[classID]['id']]['audio-guide'] != "") {
         document.getElementById('audio').style.display = 'block';
-        document.getElementById('audio').src = details[detailIDs[classID]]['audio-guide'];
+        document.getElementById('audio').src = details[detailIDs[classID]['id']]['audio-guide'];
         document.getElementById('audioGuide').style.display = 'none';
         document.getElementById('restart').style.display = 'none';
     }else{
@@ -163,10 +164,10 @@ function displayInfo(classID){
         document.getElementById('audio').style.display = 'none';
     }
 
-    if(details[detailIDs[classID]]['video'] != ""){
-        document.getElementById('detailVideo').src = details[detailIDs[classID]]['video'];
+    if(details[detailIDs[classID]['id']]['video'] != ""){
+        document.getElementById('detailVideo').src = details[detailIDs[classID]['id']]['video'];
         document.getElementById('detailVideo').style.display = 'block';
-        document.getElementById('detailVideo').poster = details[detailIDs[classID]]['image'];
+        document.getElementById('detailVideo').poster = details[detailIDs[classID]['id']]['image'];
     }else{
         document.getElementById('detailVideo').style.display = 'none';
     }

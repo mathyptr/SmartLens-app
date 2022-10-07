@@ -92,7 +92,8 @@ let objectDetector = undefined;
     }
 })(jQuery);
 
-let modelURL = window.location.href.replace('camera-view.html', "") + 'networkModels/exported_tfjs_30000/exported_tfjs_30000';
+let modelURL = window.location.href.replace('/en', "");
+modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/exported_tfjs_30000/exported_tfjs_30000';
 
 try{
     objectDetector = await tf.loadGraphModel(
@@ -158,7 +159,7 @@ function getObjects(predictions){
     let recognisedDetails = []
     let recognisedBoxes = []
     for(let i=0; i<classes[0].length; i++){
-        if(probabilities[0][i] > 0.85 && !recognisedDetails.includes(classes[0][i])){
+        if(probabilities[0][i] > detailIDs[classes[0][i]]['confidence'] && !recognisedDetails.includes(classes[0][i])){
             recognisedDetails.push(classes[0][i])
             recognisedBoxes.push(boundingBoxes[0][i])
         }
@@ -184,7 +185,7 @@ const setIsSheetShown = (value) => {
 
 function displayInfo(results, boundingBoxes){
 
-    let main_artwork = details[detailIDs[results[0]]]['artwork-id'];
+    let main_artwork = details[detailIDs[results[0]]['id']]['artwork-id'];
     for(let i=0; i<detailLinks.length; i++){
         detailLinks[i].style.display = 'none';
     }
@@ -216,14 +217,14 @@ function displayInfo(results, boundingBoxes){
     let detailNames = [];
     let colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
     for(let i in results){
-        if (!detailNames.includes(details[detailIDs[results[i]]]['detail-name'])) {
-            detailNames.push(details[detailIDs[results[i]]]['detail-name']);
+        if (!detailNames.includes(details[detailIDs[results[i]]['id']]['detail-name'])) {
+            detailNames.push(details[detailIDs[results[i]]['id']]['detail-name']);
             detailLinks[i].style.display = 'block';
             detailContainer.style.display = 'flex';
-            detailImg[i].src = details[detailIDs[results[i]]]['detail-icon'];
+            detailImg[i].src = details[detailIDs[results[i]]['id']]['detail-icon'];
             detailImg[i].style.borderColor = colors[i];
-            detailLabels[i].innerText = details[detailIDs[results[i]]]['detail-name'];
-            detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]];
+            detailLabels[i].innerText = details[detailIDs[results[i]]['id']]['detail-name'];
+            detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]]['id'];
             drawBoxes(boundingBoxes[i], colors[i])
         } else {
             detailLinks[i].style.display = 'none';

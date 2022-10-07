@@ -146,8 +146,8 @@ function getDetailIDs($version){
 
         $id = $row['id'];
         $id_net = $row['id_net'];
-
-        $detailIDs[$id_net] = $id;
+        $confidence = $row['confidence'];
+        $detailIDs[$id_net] = array('id'=> $id, 'confidence'=> $confidence);
     }
 
     echo json_encode($detailIDs);
