@@ -93,7 +93,7 @@ let objectDetector = undefined;
 })(jQuery);
 
 let modelURL = window.location.href.replace('/en', "");
-modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/exported_tfjs_30000/exported_tfjs_30000';
+modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';
 
 try{
     objectDetector = await tf.loadGraphModel(
@@ -112,18 +112,22 @@ try{
 function drawBoxes(bounding_box, color){
     let box = document.createElement('p');
     camera_box.appendChild(box)
-    let x, y = undefined;
+    let x, y, width, height = undefined;
     if(document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight){
         let offsetY = (document.documentElement.clientWidth *  webcam.videoHeight / webcam.videoWidth - document.documentElement.clientHeight) / 2
         x = bounding_box[1] * document.documentElement.clientWidth;
         y = bounding_box[0] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY;
+        width = bounding_box[3] * document.documentElement.clientWidth - x;
+        height = bounding_box[2] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY - y;
     }else{
         let offsetX = (document.documentElement.clientHeight *  webcam.videoWidth / webcam.videoHeight - document.documentElement.clientWidth) / 2;
         x = bounding_box[1] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX;
         y = bounding_box[0] *  document.documentElement.clientHeight;
+        width = bounding_box[3] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX - x;
+        height = bounding_box[2] * document.documentElement.clientWidth - y;
     }
-    let width = bounding_box[3] * document.documentElement.clientWidth - x;
-    let height = bounding_box[2] * document.documentElement.clientWidth - y;
+
+
     box.style.position = 'fixed'
     box.style.zIndex = '2'
     box.style.left = String(x) + 'px';
@@ -153,7 +157,7 @@ async function detectObjects(webcam){
 
 
 function getObjects(predictions){
-    let boundingBoxes = predictions[0].arraySync();
+    let boundingBoxes = predictions[1].arraySync();
     let classes = predictions[2].arraySync();
     let probabilities = predictions[3].arraySync();
     let recognisedDetails = []
@@ -216,7 +220,7 @@ function displayInfo(results, boundingBoxes){
     setIsSheetShown(true)
     let detailNames = [];
     let colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
-    for(let i in results){
+    for(let i=0; i<4; i++){
         if (!detailNames.includes(details[detailIDs[results[i]]['id']]['detail-name'])) {
             detailNames.push(details[detailIDs[results[i]]['id']]['detail-name']);
             detailLinks[i].style.display = 'block';
