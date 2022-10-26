@@ -12,7 +12,7 @@ $version = $_POST['version'];
 $query_string = "";
 
 /* smista secondo il tipo di richiesta */
-switch($action) {
+switch ($action) {
 
     case "getFeatures" :
         //echo($action);
@@ -30,21 +30,20 @@ switch($action) {
 }
 
 
-function getFeatures($version) {
+function getFeatures($version)
+{
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-    if(!$conn){
-        echo 'Connection error: '. mysqli_connect_error();
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
     }
-    if($version == 1){
+    if ($version == 1) {
         $sql = 'SELECT * FROM pythonfeatures';
-    }
-    else{
+    } else {
         $sql = 'SELECT * FROM features5descriptors';
     }
 
     $result = mysqli_query($conn, $sql);
-
 
 
     $features = array();
@@ -56,7 +55,7 @@ function getFeatures($version) {
         $detail_features = $row['features'];
         $distance = $row['distance'];
 
-        $feature = array('artwork' => $artwork,'features' =>$detail_features, 'distance' => $distance);
+        $feature = array('artwork' => $artwork, 'features' => $detail_features, 'distance' => $distance);
         array_push($features, $feature);
     }
 
@@ -64,34 +63,32 @@ function getFeatures($version) {
     mysqli_close($conn);
 }
 
-function getDetails($version) {
+function getDetails($version)
+{
     if (isset($_POST['lang'])) {
         $lang = $_POST['lang'];
-    }else {
+    } else {
         echo "error";
         return;
     }
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-    if(!$conn){
-        echo 'Connection error: '. mysqli_connect_error();
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
     }
-    if($version == 2){
-        if($lang == 'ita'){
-            $sql ="SELECT * FROM details5descriptors";
+    if ($version == 2) {
+        if ($lang == 'ita') {
+            $sql = "SELECT * FROM details5descriptors";
+        } else if ($lang == 'en') {
+            $sql = "SELECT * FROM detailsEn5descriptors";
         }
-        else if($lang == 'en'){
-            $sql ="SELECT * FROM detailsEn5descriptors";
-        }
-    }else{
-        if($lang == 'ita'){
-            $sql ="SELECT * FROM details";
-        }
-        else if($lang == 'en'){
-            $sql ="SELECT * FROM detailsEn";
+    } else {
+        if ($lang == 'ita') {
+            $sql = "SELECT * FROM details";
+        } else if ($lang == 'en') {
+            $sql = "SELECT * FROM detailsEn";
         }
     }
-
 
 
     $result = mysqli_query($conn, $sql);
@@ -111,33 +108,31 @@ function getDetails($version) {
         $artwork_id = $row['artwork-id'];
 
 
-        $details[$id] = array('detail-name'=>$detail_name, 'artwork' => $artwork,'author' =>$author, 'image'=>$image,
+        $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
             'artwork-id' => $artwork_id);
 
     }
 
 
-
     echo json_encode($details);
     mysqli_close($conn);
 }
 
-function getDetailIDs($version){
+function getDetailIDs($version)
+{
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-    if(!$conn){
-        echo 'Connection error: '. mysqli_connect_error();
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
     }
-    if($version == 3){
+    if ($version == 3) {
         $sql = 'SELECT * FROM id_objdet_mapping';
-    }else{
+    } else {
         $sql = 'SELECT * FROM id_class_mapping';
     }
 
     $result = mysqli_query($conn, $sql);
-
-
 
     $detailIDs = array();
 
@@ -147,14 +142,10 @@ function getDetailIDs($version){
         $id = $row['id'];
         $id_net = $row['id_net'];
         $confidence = $row['confidence'];
-        $detailIDs[$id_net] = array('id'=> $id, 'confidence'=> $confidence);
+        $detailIDs[$id_net] = array('id' => $id, 'confidence' => $confidence);
     }
 
     echo json_encode($detailIDs);
     mysqli_close($conn);
 }
-
-
-
-
 
