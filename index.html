@@ -10,85 +10,87 @@
     <link rel="stylesheet" href="css/indexStyle.css">
 </head>
 <body>
-    <div id="languageContainer">
-        <a id="Italian" href="#">Italiano</a>
-        <a id="English" href="en/index.html">English</a>
+<div id="languageContainer">
+    <a id="Italian" href="#">Italiano</a>
+    <a id="English" href="en/index.html">English</a>
+</div>
+
+<h2 id="title">
+    Logo Museo
+</h2>
+<div class="slideshow-container">
+    <div class="mySlides fade">
+        <img src="images/venere.jpg" style="width:100%">
     </div>
 
-    <h2 id="title">
-        Logo Museo
-    </h2>
-    <div class="slideshow-container">
-        <div class="mySlides fade">
-            <img src="images/venere.jpg" style="width:100%">
-        </div>
-
-        <div class="mySlides fade">
-            <img src="images/Soffitto.jpg" style="width:100%">
-        </div>
-
-        <div class="mySlides fade">
-            <img src="images/Vista-uffizi.jpg" style="width:100%">
-        </div>
-
-    </div>
-    <br>
-
-    <div class="dotContainer" >
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+    <div class="mySlides fade">
+        <img src="images/Soffitto.jpg" style="width:100%">
     </div>
 
-    <a href="camera-view.html" id="toCamera">
-        Attiva la guida interattiva
+    <div class="mySlides fade">
+        <img src="images/Vista-uffizi.jpg" style="width:100%">
+    </div>
+
+</div>
+<br>
+
+<div class="dotContainer">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+</div>
+
+<a href="camera-view.html" id="toCamera">
+    Attiva la guida interattiva
+</a>
+
+<p style="text-align: justify">
+    Prova Smart Lens! Con questa guida potrai ricevere informazioni relative alle opere e ai loro dettagli semplicemente
+    inquadrandoli con il tuo smartphone!</p>
+
+<ul class="social">
+    <a href="#">
+        <img src="images/icons/facebook-square-color.png" alt="facebook" class="responsive-image">
     </a>
+    <a href="#">
+        <img src="images/icons/twitter-color.png" alt="twitter" class="responsive-image">
+    </a>
+    <a href="#">
+        <img src="images/icons/snapchat-line.png" alt="snapchat" class="responsive-image">
+    </a>
+    <a href="#">
+        <img src="images/icons/ig-instagram.png" alt="instagram" class="responsive-image">
+    </a>
+    <a href="#">
+        <img src="images/icons/linkedin-app.png" alt="linkedin" class="responsive-image">
+    </a>
+    <a href="#">
+        <img src="images/icons/pinterest-round-color.png" alt="pinterest" class="responsive-image">
+    </a>
+</ul>
 
-    <p style="text-align: justify">
-       Prova Smart Lens! Con questa guida potrai ricevere informazioni relative alle opere e ai loro dettagli semplicemente
-        inquadrandoli  con il tuo smartphone!</p>
+<script>
+    let slideIndex = 0;
+    showSlides();
 
-    <ul class="social">
-        <a href="#">
-            <img src="images/icons/facebook-square-color.png" alt="facebook" class="responsive-image">
-        </a>
-        <a href="#">
-            <img src="images/icons/twitter-color.png" alt="twitter" class="responsive-image">
-        </a>
-        <a href="#">
-            <img src="images/icons/snapchat-line.png" alt="snapchat" class="responsive-image">
-        </a>
-        <a href="#">
-            <img src="images/icons/ig-instagram.png" alt="instagram" class="responsive-image">
-        </a>
-        <a href="#">
-            <img src="images/icons/linkedin-app.png" alt="linkedin" class="responsive-image">
-        </a>
-        <a href="#">
-            <img src="images/icons/pinterest-round-color.png" alt="pinterest" class="responsive-image">
-        </a>
-    </ul>
-
-    <script>
-        let slideIndex = 0;
-        showSlides();
-
-        function showSlides() {
-            let i;
-            let slides = document.getElementsByClassName("mySlides");
-            let dots = document.getElementsByClassName("dot");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {slideIndex = 1}
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " active";
-            setTimeout(showSlides, 4000); // Change image every 2 seconds
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
-    </script>
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 4000); // Change image every 2 seconds
+    }
+</script>
 </body>
 </html>

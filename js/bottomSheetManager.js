@@ -28,17 +28,15 @@ checkBrowserCompatibility()
 
 let action = 1;
 
-window.addEventListener('load', function (){
+window.addEventListener('load', function () {
     action = 1;
 })
 
 
+audioGuide.addEventListener('click', function () {
 
-
-audioGuide.addEventListener('click', function (){
-
-    if(action == 1){
-        if(document.getElementById('Italian').href == window.location.href + '#'){
+    if (action == 1) {
+        if (document.getElementById('Italian').href == window.location.href + '#') {
             restart.style.display = 'inline'
             ourText = "L'opera che stai guardando è "
             ourText = ourText.concat(artworkTitle.innerText)
@@ -50,12 +48,14 @@ audioGuide.addEventListener('click', function (){
             ourText = ourText.concat(description.outerText)
             let text = ourText.split(".")
             action = 2
-            for(let i = 0; i < text.length; i++){
+            for (let i = 0; i < text.length; i++) {
                 let utterance = new SpeechSynthesisUtterance(text[i])
-                utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+                utterance.voice = voices.filter(function (voice) {
+                    return voice.name == 'Google italiano';
+                })[0];
                 synth.speak(utterance)
             }
-        }else{
+        } else {
             restart.style.display = 'inline'
             ourText = "You are in front of "
             ourText = ourText.concat(artworkTitle.innerText)
@@ -67,14 +67,15 @@ audioGuide.addEventListener('click', function (){
             ourText = ourText.concat(description.outerText)
             let text = ourText.split(".")
             action = 2
-            for(let i = 0; i < text.length; i++){
+            for (let i = 0; i < text.length; i++) {
                 let utterance = new SpeechSynthesisUtterance(text[i])
-                utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
+                utterance.voice = voices.filter(function (voice) {
+                    return voice.lang == 'en-GB';
+                })[0];
                 synth.speak(utterance)
             }
         }
-    }
-    else if(action == 2){
+    } else if (action == 2) {
         synth.pause();
         restart.style.display = 'inline'
         action = 3
@@ -85,8 +86,8 @@ audioGuide.addEventListener('click', function (){
 
 })
 
-restartButton.addEventListener('click', function (){
-    if(document.getElementById('Italian').href == window.location.href + '#'){
+restartButton.addEventListener('click', function () {
+    if (document.getElementById('Italian').href == window.location.href + '#') {
         synth.cancel()
         ourText = "L'opera che stai guardando è "
         ourText = ourText.concat(artworkTitle.innerText)
@@ -98,12 +99,14 @@ restartButton.addEventListener('click', function (){
         ourText = ourText.concat(description.outerText)
         let text = ourText.split(".")
 
-        for(let i = 0; i < text.length; i++){
+        for (let i = 0; i < text.length; i++) {
             let utterance = new SpeechSynthesisUtterance(text[i])
-            utterance.voice = voices.filter(function(voice) { return voice.name == 'Google italiano'; })[0];
+            utterance.voice = voices.filter(function (voice) {
+                return voice.name == 'Google italiano';
+            })[0];
             synth.speak(utterance)
         }
-    }else{
+    } else {
         synth.cancel()
         ourText = "You are in front of "
         ourText = ourText.concat(artworkTitle.innerText)
@@ -114,9 +117,11 @@ restartButton.addEventListener('click', function (){
         ourText = ourText.concat('. ')
         ourText = ourText.concat(description.outerText)
         let text = ourText.split(".")
-        for(let i = 0; i < text.length; i++){
+        for (let i = 0; i < text.length; i++) {
             let utterance = new SpeechSynthesisUtterance(text[i])
-            utterance.voice = voices.filter(function(voice) { return voice.lang == 'en-GB'; })[0];
+            utterance.voice = voices.filter(function (voice) {
+                return voice.lang == 'en-GB';
+            })[0];
             synth.speak(utterance)
         }
     }
@@ -124,15 +129,9 @@ restartButton.addEventListener('click', function (){
 })
 
 
-window.onbeforeunload = function (){
+window.onbeforeunload = function () {
     synth.cancel();
 }
-
-
-
-
-
-
 
 
 const $ = document.querySelector.bind(document)
@@ -167,12 +166,10 @@ const setIsSheetShown = (value) => {
 }
 
 
-
 // Hide the sheet when clicking the 'close' button
 sheet.querySelector("#close-sheet").addEventListener("click", () => {
     setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
 })
-
 
 
 const touchPosition = (event) =>

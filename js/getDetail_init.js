@@ -1,6 +1,6 @@
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
     console.log("READY");
     jQuery('#camera').getDetailFromWebcam(
-        {serverURL:"server/actions.php" }
+        {serverURL: "server/actions.php"}
     );
 });

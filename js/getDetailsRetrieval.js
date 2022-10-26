@@ -6,7 +6,7 @@ let features = undefined;
 let details = undefined;
 let model = undefined;
 
-await (function($){
+await (function ($) {
     console.log("jQuery" + $);
     $.fn.getDetailFromWebcam = async function (options) {
         try {
@@ -20,7 +20,8 @@ await (function($){
                     type: "POST",
                     async: false,
                     //contentType: 'application/json; charset=utf-8',
-                    data: {"action": request_type,
+                    data: {
+                        "action": request_type,
                         "version": version
                     },
                     dataType: "json",
@@ -43,7 +44,7 @@ await (function($){
 
             details = await function getDetails(detail_id) {
                 let lang = undefined;
-                if(document.getElementById('Italian').href == window.location.href + '#')
+                if (document.getElementById('Italian').href == window.location.href + '#')
                     lang = 'ita';
                 else
                     lang = 'en';
@@ -79,9 +80,7 @@ await (function($){
             console.log('Details loaded successfully!')
 
 
-
-
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             alert('La tua connessione Internet è troppo lenta!')
         }
@@ -94,13 +93,10 @@ try {
         {fromTFHub: true});
 
     console.log('MobileNet loaded Succesfully!');
-} catch(error) {
+} catch (error) {
     console.log(error)
     alert('La tua connessione Internet è troppo lenta!')
 }
-
-
-
 
 
 //Funzioni utilizzate per il riconoscimento
@@ -167,7 +163,7 @@ function closestDetail(features, webcamFeatures) {
 
 function cutImageUp() {
     let imagePieces = [];
-    if (version == 1){
+    if (version == 1) {
         for (let x = 0; x < 2; ++x) {
             for (let y = 0; y < 2; ++y) {
                 let canvas = document.getElementById('canvas_no_display');
@@ -178,7 +174,7 @@ function cutImageUp() {
                 imagePieces.push(context.getImageData(0, 0, canvas.width, canvas.height));
             }
         }
-    }else{
+    } else {
         let canvas = document.getElementById('canvas_no_display');
         canvas.width = webcam.videoWidth / 3 * 2;
         canvas.height = webcam.videoHeight / 3 * 2;
@@ -197,9 +193,9 @@ function cutImageUp() {
 }
 
 
-function displayInfo(fullImg, detailIDs){
+function displayInfo(fullImg, detailIDs) {
 
-    for(let i=0; i<detailLinks.length; i++){
+    for (let i = 0; i < detailLinks.length; i++) {
         detailLinks[i].style.display = 'none';
     }
     detailContainer.style.display = 'none';
@@ -208,26 +204,26 @@ function displayInfo(fullImg, detailIDs){
     detailName.innerText = details[fullImg]['detail-name'];
     detailImage.src = details[fullImg]['image'];
     description.innerText = details[fullImg]['description'];
-    if(details[fullImg]['audio-guide'] != "") {
+    if (details[fullImg]['audio-guide'] != "") {
         document.getElementById('audio').style.display = 'block';
         document.getElementById('audio').src = details[fullImg]['audio-guide'];
         document.getElementById('audioGuide').style.display = 'none';
         document.getElementById('restart').style.display = 'none';
-    }else{
+    } else {
         document.getElementById('audioGuide').style.display = 'inline';
         document.getElementById('audio').style.display = 'none';
     }
 
-    if(details[fullImg]['video'] != ""){
+    if (details[fullImg]['video'] != "") {
         document.getElementById('detailVideo').src = details[fullImg]['video'];
         document.getElementById('detailVideo').style.display = 'block';
         document.getElementById('detailVideo').poster = details[fullImg]['image'];
-    }else{
+    } else {
         document.getElementById('detailVideo').style.display = 'none';
     }
     setIsSheetShown(true)
     let detailNames = [];
-    for(let i in detailIDs){
+    for (let i in detailIDs) {
         if (!detailNames.includes(details[detailIDs[i]]['detail-name'])) {
             detailNames.push(details[detailIDs[i]]['detail-name']);
             info.style.display = 'block';
@@ -268,12 +264,16 @@ function predictLoop() {
 function startPredictLoop() {
     if (webcam.readyState >= 2) {
         console.log('Ready to predict');
-        setTimeout(function(){
+        setTimeout(function () {
             camera_box.classList.add('loaded');
         }, 500);
-        setInterval(function (){predictLoop()}, 2000)
+        setInterval(function () {
+            predictLoop()
+        }, 2000)
     } else {
-        setTimeout(function (){startPredictLoop()}, 1000)
+        setTimeout(function () {
+            startPredictLoop()
+        }, 1000)
     }
 }
 
@@ -294,7 +294,6 @@ const detailLinks = document.getElementsByClassName('details');
 const detailImg = document.getElementsByClassName('detailImg');
 const detailLabels = document.getElementsByClassName('detailLabel');
 const info = document.getElementById('over-details');
-
 
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));

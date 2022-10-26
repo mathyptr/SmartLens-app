@@ -4,7 +4,7 @@ let detailIDs = undefined;
 let details = undefined;
 let objectDetector = undefined;
 
-(function($){
+(function ($) {
     console.log("jQuery" + $);
     $.fn.getDetailFromWebcam = async function (options) {
         try {
@@ -45,7 +45,7 @@ let objectDetector = undefined;
 
             details = await function getDetails() {
                 let lang = undefined;
-                if(document.getElementById('Italian').href == window.location.href + '#')
+                if (document.getElementById('Italian').href == window.location.href + '#')
                     lang = 'ita';
                 else
                     lang = 'en';
@@ -80,12 +80,7 @@ let objectDetector = undefined;
             console.log('details loaded succesfully!')
 
 
-
-
-
-
-
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             alert('La tua connessione Internet è troppo lenta!')
         }
@@ -95,43 +90,41 @@ let objectDetector = undefined;
 let modelURL = window.location.href.replace('/en', "");
 modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';
 
-try{
+try {
     objectDetector = await tf.loadGraphModel(
         modelURL,
         {fromTFHub: true});
 
     console.log('Object Detector loaded Succesfully!');
-} catch(error) {
+} catch (error) {
     console.log(error)
     alert('La tua connessione Internet è troppo lenta!')
 }
 
 
-
-
-function drawBoxes(bounding_box, color){
+function drawBoxes(bounding_box, color) {
     let box = document.createElement('p');
     camera_box.appendChild(box)
     let x, y, width, height = undefined;
-    if(document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight){
-        let offsetY = (document.documentElement.clientWidth *  webcam.videoHeight / webcam.videoWidth - document.documentElement.clientHeight) / 2
+    if (document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight) {
+        let offsetY = (document.documentElement.clientWidth * webcam.videoHeight / webcam.videoWidth - document.documentElement.clientHeight) / 2
         x = bounding_box[1] * document.documentElement.clientWidth;
         y = bounding_box[0] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY;
         width = bounding_box[3] * document.documentElement.clientWidth - x;
         height = bounding_box[2] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY - y;
-    }else{
-        let offsetX = (document.documentElement.clientHeight *  webcam.videoWidth / webcam.videoHeight - document.documentElement.clientWidth) / 2;
+    } else {
+        let offsetX = (document.documentElement.clientHeight * webcam.videoWidth / webcam.videoHeight - document.documentElement.clientWidth) / 2;
         x = bounding_box[1] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX;
-        y = bounding_box[0] *  document.documentElement.clientHeight;
+        y = bounding_box[0] * document.documentElement.clientHeight;
         width = bounding_box[3] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX - x;
-        height = bounding_box[2] * document.documentElement.clientWidth - y;
+        height = bounding_box[2] * document.documentElement.clientHeight - y;
     }
 
 
     box.style.position = 'fixed'
     box.style.zIndex = '2'
     box.style.left = String(x) + 'px';
-    box.style.top =String(y) + 'px';
+    box.style.top = String(y) + 'px';
     box.style.width = String(width) + 'px';
     box.style.height = String(height) + 'px';
     box.style.border = '4px solid ' + color;
@@ -141,29 +134,27 @@ function drawBoxes(bounding_box, color){
 }
 
 
-
-async function detectObjects(webcam){
+async function detectObjects(webcam) {
 
     let videoFrameAsTensor = tf.browser.fromPixels(webcam);
 
     let normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
 
-    return  await objectDetector.executeAsync(normalizedTensorFrame).then(predictions =>{
+    return await objectDetector.executeAsync(normalizedTensorFrame).then(predictions => {
         return predictions
     })
 
 }
 
 
-
-function getObjects(predictions){
+function getObjects(predictions) {
     let boundingBoxes = predictions[1].arraySync();
     let classes = predictions[2].arraySync();
     let probabilities = predictions[3].arraySync();
     let recognisedDetails = []
     let recognisedBoxes = []
-    for(let i=0; i<classes[0].length; i++){
-        if(probabilities[0][i] > detailIDs[classes[0][i]]['confidence'] && !recognisedDetails.includes(classes[0][i])){
+    for (let i = 0; i < classes[0].length; i++) {
+        if (probabilities[0][i] > detailIDs[classes[0][i]]['confidence'] && !recognisedDetails.includes(classes[0][i])) {
             recognisedDetails.push(classes[0][i])
             recognisedBoxes.push(boundingBoxes[0][i])
         }
@@ -187,10 +178,10 @@ const setIsSheetShown = (value) => {
     sheet.setAttribute("aria-hidden", String(!value))
 }
 
-function displayInfo(results, boundingBoxes){
+function displayInfo(results, boundingBoxes) {
 
     let main_artwork = details[detailIDs[results[0]]['id']]['artwork-id'];
-    for(let i=0; i<detailLinks.length; i++){
+    for (let i = 0; i < detailLinks.length; i++) {
         detailLinks[i].style.display = 'none';
     }
 
@@ -200,27 +191,27 @@ function displayInfo(results, boundingBoxes){
     detailName.innerText = details[main_artwork]['detail-name'];
     detailImage.src = details[main_artwork]['image'];
     description.innerText = details[main_artwork]['description'];
-    if(details[main_artwork]['audio-guide'] != "") {
+    if (details[main_artwork]['audio-guide'] != "") {
         document.getElementById('audio').style.display = 'block';
         document.getElementById('audio').src = details[main_artwork]['audio-guide'];
         document.getElementById('audioGuide').style.display = 'none';
         document.getElementById('restart').style.display = 'none';
-    }else{
+    } else {
         document.getElementById('audioGuide').style.display = 'inline';
         document.getElementById('audio').style.display = 'none';
     }
 
-    if(details[main_artwork]['video'] != ""){
+    if (details[main_artwork]['video'] != "") {
         document.getElementById('detailVideo').src = details[main_artwork]['video'];
         document.getElementById('detailVideo').style.display = 'block';
         document.getElementById('detailVideo').poster = details[main_artwork]['image'];
-    }else{
+    } else {
         document.getElementById('detailVideo').style.display = 'none';
     }
     setIsSheetShown(true)
     let detailNames = [];
     let colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
-    for(let i=0; i<4; i++){
+    for (let i = 0; i < 4; i++) {
         if (!detailNames.includes(details[detailIDs[results[i]]['id']]['detail-name'])) {
             detailNames.push(details[detailIDs[results[i]]['id']]['detail-name']);
             detailLinks[i].style.display = 'block';
@@ -241,7 +232,7 @@ async function predictLoop() {
 
     console.log('Recognition Started!')
     let bounding_boxes = document.getElementsByClassName('bounding-box')
-    for (let i=bounding_boxes.length-1; i >= 0; i--){
+    for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
     }
 
@@ -256,26 +247,23 @@ async function predictLoop() {
     }
 
 
-
-
 }
 
 function startPredictLoop() {
     if (webcam.readyState >= 2) {
         console.log('Ready to predict');
-        setTimeout(function(){
+        setTimeout(function () {
             camera_box.classList.add('loaded');
         }, 500);
-        setInterval(function (){predictLoop()}, 2000)
+        setInterval(function () {
+            predictLoop()
+        }, 2000)
     } else {
-        setTimeout(function (){startPredictLoop()}, 1000)
+        setTimeout(function () {
+            startPredictLoop()
+        }, 1000)
     }
 }
-
-
-
-
-
 
 
 const webcam = document.getElementById('camera--view');

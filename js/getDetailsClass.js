@@ -5,7 +5,7 @@ let detailIDs = undefined;
 let details = undefined;
 let model = undefined;
 
-await (function($){
+await (function ($) {
     console.log("jQuery" + $);
     $.fn.getDetailFromWebcam = async function (options) {
         try {
@@ -41,11 +41,11 @@ await (function($){
                 return tmp;
             }();
 
-            console.log('DetailsIDs loaded succesfully!')
+            console.log('DetailsIDs loaded successfully!')
 
             details = await function getDetails(detail_id) {
                 let lang = undefined;
-                if(document.getElementById('Italian').href == window.location.href + '#')
+                if (document.getElementById('Italian').href == window.location.href + '#')
                     lang = 'ita';
                 else
                     lang = 'en';
@@ -80,10 +80,7 @@ await (function($){
 
             console.log('Details loaded successfully!')
 
-
-
-
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             alert('La tua connessione Internet è troppo lenta!')
         }
@@ -100,13 +97,10 @@ try {
         {fromTFHub: true});
 
     console.log('Classifier loaded Succesfully!');
-} catch(error) {
+} catch (error) {
     console.log(error)
     alert('La tua connessione Internet è troppo lenta!')
 }
-
-
-
 
 
 //Funzioni utilizzate per il riconoscimento
@@ -142,33 +136,34 @@ function getClass(webcam) {
         let probabilities = model.predict(normalizedTensorFrame);
         probabilities = probabilities.arraySync();
         const max = Math.max(...probabilities[0]);
-        if(max > detailIDs[probabilities[0].indexOf(max)]['confidence'])
+        console.log(max)
+        if (max > (detailIDs[probabilities[0].indexOf(max)]['confidence'] - 0.2))
             return probabilities[0].indexOf(max);
         return null;
     });
 }
 
-function displayInfo(classID){
+function displayInfo(classID) {
     artworkTitle.innerText = details[detailIDs[classID]['id']]['artwork'];
     author.innerText = details[detailIDs[classID]['id']]['author'];
     detailName.innerText = details[detailIDs[classID]['id']]['detail-name'];
     detailImage.src = details[detailIDs[classID]['id']]['image'];
     description.innerText = details[detailIDs[classID]['id']]['description'];
-    if(details[detailIDs[classID]['id']]['audio-guide'] != "") {
+    if (details[detailIDs[classID]['id']]['audio-guide'] != "") {
         document.getElementById('audio').style.display = 'block';
         document.getElementById('audio').src = details[detailIDs[classID]['id']]['audio-guide'];
         document.getElementById('audioGuide').style.display = 'none';
         document.getElementById('restart').style.display = 'none';
-    }else{
+    } else {
         document.getElementById('audioGuide').style.display = 'inline';
         document.getElementById('audio').style.display = 'none';
     }
 
-    if(details[detailIDs[classID]['id']]['video'] != ""){
+    if (details[detailIDs[classID]['id']]['video'] != "") {
         document.getElementById('detailVideo').src = details[detailIDs[classID]['id']]['video'];
         document.getElementById('detailVideo').style.display = 'block';
         document.getElementById('detailVideo').poster = details[detailIDs[classID]['id']]['image'];
-    }else{
+    } else {
         document.getElementById('detailVideo').style.display = 'none';
     }
     setIsSheetShown(true)
@@ -189,12 +184,16 @@ function predictLoop() {
 function startPredictLoop() {
     if (webcam.readyState >= 2) {
         console.log('Ready to predict');
-        setTimeout(function(){
+        setTimeout(function () {
             camera_box.classList.add('loaded');
         }, 500);
-        setInterval(function (){predictLoop()}, 2000);
+        setInterval(function () {
+            predictLoop()
+        }, 2000);
     } else {
-        setTimeout(function (){startPredictLoop()}, 1000)
+        setTimeout(function () {
+            startPredictLoop()
+        }, 1000)
     }
 }
 
@@ -215,7 +214,6 @@ const detailLinks = document.getElementsByClassName('details');
 const detailImg = document.getElementsByClassName('detailImg');
 const detailLabels = document.getElementsByClassName('detailLabel');
 const info = document.getElementById('over-details');
-
 
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));

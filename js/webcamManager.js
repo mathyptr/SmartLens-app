@@ -4,13 +4,11 @@ const constraints = {video: {facingMode: "environment"}, audio: false, zoom: tru
 const cameraView = document.querySelector("#camera--view")
 
 
-
-
 // Access the device camera and stream to cameraView
 function cameraStart() {
     navigator.mediaDevices
         .getUserMedia(constraints)
-        .then(function(stream) {
+        .then(function (stream) {
             track = stream.getTracks()[0];
             cameraView.srcObject = stream;
 
@@ -31,13 +29,13 @@ function cameraStart() {
             input.step = capabilities.zoom.step;
             input.value = settings.zoom;
 
-            input.oninput = function(event) {
-                track.applyConstraints({advanced: [ {zoom: event.target.value} ]});
+            input.oninput = function (event) {
+                track.applyConstraints({advanced: [{zoom: event.target.value}]});
             }
             input.hidden = false;
 
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error("Oops. Something is broken.", error);
         });
 }
