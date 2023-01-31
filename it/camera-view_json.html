@@ -5,8 +5,9 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Smart Lens</title>
+    <link rel="stylesheet" href="../css/detailViewStyleJSON.css">
     <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/loadingOverlay.css">
     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/getDetail_init.js"></script>
@@ -26,7 +27,7 @@
 
     <h3 id="SmartLens">Smart Lens
         <a href="index.html" id="cross">
-            <span></span>
+            <span>X</span>
         </a>
     </h3>
     <!-- Camera view -->
@@ -42,7 +43,7 @@
 
         <div id="detailContainer">
             <p class="info" id="over-details">
-                Click on details for more information
+                Clicca sui dettagli per ricevere informazioni
             </p>
             <a id="detail0_0" class="details">
                 <img src="" class="detailImg">
@@ -60,6 +61,7 @@
                 <img src="" class="detailImg">
                 <span class="detailLabel" id="detail1_1Label"></span>
             </a>
+
         </div>
 
 
@@ -78,9 +80,9 @@
 
             <!-- Body of the sheet -->
             <main class="body fill column">
-                <div id="languageContainer">
-                    <a id="Italian" href="../camera-view.html">Italiano</a>
-                    <a id="English" href="#">English</a>
+                <div id="languageContainer" style="display:none">
+                    <a id="English" href="../camera-view_json.html">English</a>
+                    <a id="Italian" href="#">Italiano</a>
                 </div>
                 <h2 id="artwork">
                     <span id="artworkTitle"></span>
@@ -97,7 +99,7 @@
                         <audio id="audio" controls src=""></audio>
                         <button type="button" id="audioGuide">
                             <img class="responsive-image" src="../images/icons/Audio%20Icon.png">
-                            <p>Listen to the audioguide</p>
+                            <p>Ascolta l'audio guida</p>
                         </button>
                         <button type="button" id="restart">
                             &#8635; Restart
@@ -109,6 +111,7 @@
                 </div>
                 <video class="responsive-image" id="detailVideo" src="" controls>
                 </video>
+
             </main>
         </div>
     </div>
@@ -119,10 +122,54 @@
 <script src="../js/bottomSheetManager.js"></script>
 
 <!--Qui si può selezionare la versione di riconoscimento desiderata decommentando lo script di interesse.
- WARNING: è necessario fare la stessa cosa anche in camera-view.html-->
-<script src="../js/getDetailsObjDet.js" type="module"></script>
-<!--<script src="../js/getDetailsRetrieval.js" type="module"></script>-->
-<!--<script src="../js/getDetailsClass.js" type="module"></script> -->
+ WARNING: è necessario fare la stessa cosa anche in ./it/camera-view.html-->
+<script src="../js/getDetailsObjDet_json.js" type="module"></script>
+<!--<script src="js/getDetailsRetrieval.js" type="module"></script>-->
+<!--<script src="js/getDetailsClass.js" type="module"></script>-->
+
+
+<!-- Detail view -->
+<div id="detail_view_json">
+    <div id="detail_close-sheet" >&#10006;</div>
+    <h2 id="detail_artwork">
+    <span id="detail_artworkTitle">
+
+    </span>
+        -
+        <span id="detail_author">
+
+    </span>
+    </h2>
+    <h3 id="detail_detailName">
+
+    </h3>
+    <div class="flex-container">
+        <div>
+            <img class="responsive-image" id="detail_detailImage" src="#" alt="Immagine del dettaglio">
+
+        </div>
+
+        <div id="detail_information">
+            <audio id="detail_audio" controls src=""></audio>
+            <button type="button" id="detail_audioGuide">
+                <img class="responsive-image" src="../images/icons/Audio%20Icon.png" alt="Icona audio-guida">
+                <p>Ascolta la guida</p>
+            </button>
+            <p id="detail_description">
+
+
+            </p>
+        </div>
+    </div>
+    <video class="responsive-image" id="detail_detailVideo" src="" controls>
+    </video>
+
+    <br class="spacer"/>
+
+</div>
+
+<script src="../js/detailTextToSpeech.js"></script>
+
 
 </body>
 </html>

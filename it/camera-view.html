@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Smart Lens</title>
     <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loadingOverlay.css">
-    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/loadingOverlay.css">
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/getDetail_init.js"></script>
 </head>
 <body>
@@ -35,32 +35,31 @@
 
     <canvas id="canvas_no_display"></canvas>
 
-    <input type="range" class="slider" id="zoom" >
+    <input type="range" class="slider" id="zoom">
 
 
     <div id="sheet" class="column justify-end" aria-hidden="true">
 
         <div id="detailContainer">
             <p class="info" id="over-details">
-                Click on details for more information
+                Clicca sui dettagli per ricevere informazioni
             </p>
             <a id="detail0_0" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail0_0Label"></span>
             </a>
             <a id="detail0_1" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail0_1Label"></span>
             </a>
             <a id="detail1_0" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail1_0Label"></span>
             </a>
             <a id="detail1_1" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail1_1Label"></span>
             </a>
-
         </div>
 
 
@@ -73,14 +72,15 @@
                     <div class="draggable-thumb"></div>
                 </div>
                 <!-- Button to close the sheet -->
-                <button id="close-sheet" type="button" title="Close the sheet"><img src="images/icons/down-arrow.png" class="responsive-image"></button>
+                <button id="close-sheet" type="button" title="Close the sheet"><img src="../images/icons/down-arrow.png"
+                                                                                    class="responsive-image"></button>
             </header>
 
             <!-- Body of the sheet -->
             <main class="body fill column">
                 <div id="languageContainer">
+                    <a id="English" href="../camera-view.html">English</a>
                     <a id="Italian" href="#">Italiano</a>
-                    <a id="English" href="it/camera-view.html">English</a>
                 </div>
                 <h2 id="artwork">
                     <span id="artworkTitle"></span>
@@ -96,8 +96,8 @@
                     <div id="information">
                         <audio id="audio" controls src=""></audio>
                         <button type="button" id="audioGuide">
-                            <img class="responsive-image" src="images/icons/Audio%20Icon.png">
-                            <p>Listen the guide</p>
+                            <img class="responsive-image" src="../images/icons/Audio%20Icon.png">
+                            <p>Ascolta la guida</p>
                         </button>
                         <button type="button" id="restart">
                             &#8635; Restart
@@ -109,23 +109,20 @@
                 </div>
                 <video class="responsive-image" id="detailVideo" src="" controls>
                 </video>
-
             </main>
         </div>
     </div>
 </main>
 <!-- Reference to your JavaScript file -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript"></script>
-<script src="js/webcamManager.js"></script>
-<script src="js/bottomSheetManager.js"></script>
+<script src="../js/webcamManager.js"></script>
+<script src="../js/bottomSheetManager.js"></script>
 
 <!--Qui si può selezionare la versione di riconoscimento desiderata decommentando lo script di interesse.
- WARNING: è necessario fare la stessa cosa anche in ./it/camera-view.html-->
-<script src="js/getDetailsObjDet_json.js" type="module"></script>
-<!--<script src="js/getDetailsRetrieval.js" type="module"></script>-->
-<!--<script src="js/getDetailsClass.js" type="module"></script>-->
-
-
+ WARNING: è necessario fare la stessa cosa anche in camera-view.html-->
+<script src="../js/getDetailsObjDet.js" type="module"></script>
+<!--<script src="../js/getDetailsRetrieval.js" type="module"></script>-->
+<!--<script src="../js/getDetailsClass.js" type="module"></script> -->
 
 </body>
 </html>

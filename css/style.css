@@ -20,41 +20,49 @@ html, body{
 #cross {
     width: 20px;
     height: 20px;
-    top: 20px;
+    top: 10px;
     position: absolute;
     right: 60px;
-    z-index: 999;
-}
-
-#cross span, #cross span:before, #cross span:after {
-    width: 100%;
-    height: 2px;
-    background-color: white;
-    border-radius: 2px;
-
-}
-#cross span:before, #cross span:after {
-    content: "";
-    position: absolute;
-    top: 6px;
-}
-#cross span:after {
-    top: 11px;
-}
-
-#cross span{
-    background-color: transparent;
-}
-
-#cross span:before{
-    transform: rotate(45deg) translate(0px, -1px);
     z-index: 9999;
+    display: block;
+    text-decoration: none;
 }
 
-#cross span:after{
-    transform: rotate(-45deg) translate(4px, -4px);
-    z-index: 9999;
+#cross span {
+    color: white;
+    font-weight: bold;
+    font-size: 150%;
 }
+
+/*#cross span, #cross span:before, #cross span:after {*/
+/*    width: 100%;*/
+/*    height: 2px;*/
+/*    background-color: white;*/
+/*    border-radius: 2px;*/
+
+/*}*/
+/*#cross span:before, #cross span:after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    top: 6px;*/
+/*}*/
+/*#cross span:after {*/
+/*    top: 11px;*/
+/*}*/
+
+/*#cross span{*/
+/*    background-color: transparent;*/
+/*}*/
+
+/*#cross span:before{*/
+/*    transform: rotate(45deg) translate(0px, -1px);*/
+/*    z-index: 9999;*/
+/*}*/
+
+/*#cross span:after{*/
+/*    transform: rotate(-45deg) translate(4px, -4px);*/
+/*    z-index: 9999;*/
+/*}*/
 
 #camera, #camera--view, #camera--sensor, #camera--output{
     position: fixed;

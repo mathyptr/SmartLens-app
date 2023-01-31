@@ -23,9 +23,9 @@ img {vertical-align: middle;}
 #languageContainer a:hover{
     background-color: #F1F1F1;
 }
-#Italian{
-    border-bottom: 2px solid black;
-}
+/*#English{*/
+/*    border-bottom: 2px solid black;*/
+/*}*/
 
 #title{
     border-bottom: 2px solid black;

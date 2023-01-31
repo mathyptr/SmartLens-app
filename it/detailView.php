@@ -69,7 +69,7 @@ mysqli_close($conn)
         <audio id="audio" controls src=""></audio>
         <button type="button" id="audioGuide">
             <img class="responsive-image" src="../images/icons/Audio%20Icon.png" alt="Icona audio-guida">
-            <p>Listen to the audioguide</p>
+            <p>Listen to the audio guide</p>
         </button>
         <button type="button" id="restart">
             &#8635; Restart

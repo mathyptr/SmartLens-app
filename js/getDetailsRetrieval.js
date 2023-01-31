@@ -44,10 +44,10 @@ await (function ($) {
 
             details = await function getDetails(detail_id) {
                 let lang = undefined;
-                if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'ita';
-                else
+                if (document.getElementById('English').href == window.location.href + '#')
                     lang = 'en';
+                if (document.getElementById('Italian').href == window.location.href + '#')
+                    lang = 'it';
                 var request_type = "getDetails";
                 var tmp = null;
                 $.ajax({

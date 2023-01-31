@@ -24,11 +24,11 @@ body {font-family: Verdana, sans-serif;}
 #languageContainer a:hover{
     background-color: #F1F1F1;
 }
-#Italian{
+#English{
     border-bottom: 2px solid black;
 }
 
-#close-sheet{
+#close-sheet, #detail_close-sheet{
     position: absolute;
     right: 20px;
     top:5px;
@@ -36,14 +36,14 @@ body {font-family: Verdana, sans-serif;}
     text-decoration: none;
 }
 
-#detailName{
+#detailName, #detail_detailName{
     border-bottom: 2px solid black;
     padding-bottom: 10px;
     margin-top: 0;
 
 }
 
-#artwork{
+#artwork, #detail_artwork{
     margin: 10px 0 10px 0;
 }
 
@@ -57,7 +57,7 @@ body {font-family: Verdana, sans-serif;}
     flex-direction: row;
 }
 
-#detailImage{
+#detailImage, #detail_detailImage{
     padding-right: 20px;
     padding-bottom: 10px;
 }
@@ -67,20 +67,20 @@ body {font-family: Verdana, sans-serif;}
     box-sizing: border-box;
 }
 
-#information {
+#information, #detail_information {
     display: block;
     flex-grow: 4;
     flex-basis: 0;
 }
 
-#audio{
+#audio, #detail_audio{
     display: none;
     justify-content: center;
     margin-right: 10px;
     padding: 0;
 }
 
-#audioGuide {
+#audioGuide, #detail_audioGuide {
     border: none;
     background-color: white;
     color: #2091EB;
@@ -89,13 +89,13 @@ body {font-family: Verdana, sans-serif;}
     margin-right: 10px;
 }
 
-#audioGuide p{
+#audioGuide p, #detail_audioGuide p{
     text-align: justify-all;
     margin-top: 0;
 
 }
 
-#restart {
+#restart, #detail_restart {
     display: none;
     border: 2px solid #F1F1F1;
     margin-left: 10px;
@@ -108,7 +108,7 @@ body {font-family: Verdana, sans-serif;}
     border-radius: 5px;
 }
 
-#detailVideo{
+#detailVideo, #detail_detailVideo{
     max-width: 100%;
     display: none;
     margin: auto;
@@ -123,24 +123,24 @@ body {font-family: Verdana, sans-serif;}
         padding-right: 0;
     }
 
-    #detailImage{
+    #detailImage, #detail_detailImage{
         margin-left: 10%;
         margin-right: 10%;
         width: 80%;
         padding-right: 0;
     }
 
-    #audio{
+    #audio, #detail_audio{
         margin: auto;
     }
 
-    #audioGuide{
+    #audioGuide, #detail_audioGuide{
         width: 30%;
         margin-left: 35%;
 
     }
 
-    #restart{
+    #restart, #detail_restart{
         width: 30%;
         margin-left: 35%;
     }

@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Smart Lens</title>
+    <link rel="stylesheet" href="css/detailViewStyleJSON.css">
     <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/loadingOverlay.css">
@@ -26,7 +27,7 @@
 
     <h3 id="SmartLens">Smart Lens
         <a href="index.html" id="cross">
-            <span></span>
+            <span>X</span>
         </a>
     </h3>
     <!-- Camera view -->
@@ -35,7 +36,7 @@
 
     <canvas id="canvas_no_display"></canvas>
 
-    <input type="range" class="slider" id="zoom" >
+    <input type="range" class="slider" id="zoom">
 
 
     <div id="sheet" class="column justify-end" aria-hidden="true">
@@ -45,19 +46,19 @@
                 Click on details for more information
             </p>
             <a id="detail0_0" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail0_0Label"></span>
             </a>
             <a id="detail0_1" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail0_1Label"></span>
             </a>
             <a id="detail1_0" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail1_0Label"></span>
             </a>
             <a id="detail1_1" class="details">
-                <img src="" class="detailImg" >
+                <img src="" class="detailImg">
                 <span class="detailLabel" id="detail1_1Label"></span>
             </a>
 
@@ -73,14 +74,15 @@
                     <div class="draggable-thumb"></div>
                 </div>
                 <!-- Button to close the sheet -->
-                <button id="close-sheet" type="button" title="Close the sheet"><img src="images/icons/down-arrow.png" class="responsive-image"></button>
+                <button id="close-sheet" type="button" title="Close the sheet"><img src="images/icons/down-arrow.png"
+                                                                                    class="responsive-image"></button>
             </header>
 
             <!-- Body of the sheet -->
             <main class="body fill column">
-                <div id="languageContainer">
-                    <a id="Italian" href="#">Italiano</a>
-                    <a id="English" href="it/camera-view.html">English</a>
+                <div id="languageContainer" style="display:none">
+                    <a id="English" href="#">English</a>
+                    <a id="Italian" href="it/camera-view_json.html">Italiano</a>
                 </div>
                 <h2 id="artwork">
                     <span id="artworkTitle"></span>
@@ -125,6 +127,48 @@
 <!--<script src="js/getDetailsRetrieval.js" type="module"></script>-->
 <!--<script src="js/getDetailsClass.js" type="module"></script>-->
 
+
+<!-- Detail view -->
+<div id="detail_view_json">
+    <div id="detail_close-sheet" >&#10006;</div>
+    <h2 id="detail_artwork">
+    <span id="detail_artworkTitle">
+
+    </span>
+        -
+        <span id="detail_author">
+
+    </span>
+    </h2>
+    <h3 id="detail_detailName">
+
+    </h3>
+    <div class="flex-container">
+        <div>
+            <img class="responsive-image" id="detail_detailImage" src="#" alt="Immagine del dettaglio">
+
+        </div>
+
+        <div id="detail_information">
+            <audio id="detail_audio" controls src=""></audio>
+            <button type="button" id="detail_audioGuide">
+                <img class="responsive-image" src="images/icons/Audio%20Icon.png" alt="Icona audio-guida">
+                <p>Ascolta la guida</p>
+            </button>
+            <p id="detail_description">
+
+
+            </p>
+        </div>
+    </div>
+    <video class="responsive-image" id="detail_detailVideo" src="" controls>
+    </video>
+
+    <br class="spacer"/>
+
+</div>
+
+<script src="js/detailTextToSpeech.js"></script>
 
 
 </body>

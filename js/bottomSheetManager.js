@@ -70,7 +70,7 @@ audioGuide.addEventListener('click', function () {
             for (let i = 0; i < text.length; i++) {
                 let utterance = new SpeechSynthesisUtterance(text[i])
                 utterance.voice = voices.filter(function (voice) {
-                    return voice.lang == 'en-GB';
+                    return voice.lang == 'it-GB';
                 })[0];
                 synth.speak(utterance)
             }
@@ -120,7 +120,7 @@ restartButton.addEventListener('click', function () {
         for (let i = 0; i < text.length; i++) {
             let utterance = new SpeechSynthesisUtterance(text[i])
             utterance.voice = voices.filter(function (voice) {
-                return voice.lang == 'en-GB';
+                return voice.lang == 'it-GB';
             })[0];
             synth.speak(utterance)
         }

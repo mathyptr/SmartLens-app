@@ -44,7 +44,7 @@ let objectDetector = undefined;
             console.log('DetailsIDs loaded succesfully!')
 
             details = await function getDetails() {
-                let lang = undefined;
+                let lang = 'en';
                 if (document.getElementById('English').href == window.location.href + '#')
                     lang = 'en';
                 if (document.getElementById('Italian').href == window.location.href + '#')
@@ -89,7 +89,7 @@ let objectDetector = undefined;
 
 let modelURL = window.location.href.replace('/it', "");
 //modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';
-modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';
+modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';
 
 
 try {
@@ -97,10 +97,10 @@ try {
         modelURL,
         {fromTFHub: true});
 
-    console.log('Object Detector loaded Succesfully!');
+    console.log('Object Detector loaded succesfully!');
 } catch (error) {
     console.log(error)
-    alert('La tua connessione Internet è troppo lenta!')
+    alert('Internet connection is too slow!')
 }
 
 
@@ -219,16 +219,65 @@ function displayInfo(results, boundingBoxes) {
             detailLinks[i].style.display = 'block';
             detailContainer.style.display = 'flex';
             detailImg[i].src = details[detailIDs[results[i]]['id']]['detail-icon'];
-            detailImg[i].style.borderColor = colors[i];
+            detailImg[i].style.borderColor = colors[parseInt(results[i]) % colors.length];
             detailLabels[i].innerText = details[detailIDs[results[i]]['id']]['detail-name'];
-            detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]]['id'];
-            drawBoxes(boundingBoxes[i], colors[i])
+            // detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]]['id'];
+            detailLinks[i].setAttribute('data-id', detailIDs[results[i]]['id']);
+            detailLinks[i].addEventListener('click', function () {
+                let id = this.getAttribute('data-id');
+                let lang = 'en';
+                if (document.getElementById('English').href == window.location.href + '#')
+                    lang = 'en';
+                if (document.getElementById('Italian').href == window.location.href + '#')
+                    lang = 'it';
+                getDetailsInfoJSON(id, lang);
+                return false;
+            });
+            drawBoxes(boundingBoxes[i], colors[parseInt(results[i]) % colors.length])
         } else {
             detailLinks[i].style.display = 'none';
         }
     }
 }
 
+
+function getDetailsInfoJSON(detail_id, lang) {
+    fetch('detailView_json.php?id=' + detail_id + '&lang=' + lang)
+        .then((response) => response.json())
+        .then((data) => {
+                const name = data[0]['detail-name'];
+                const artwork = data[0]['artwork'];
+                const author = data[0]['author'];
+                const description = data[0]['description'];
+                const image = data[0]['image'];
+                const audio_guide = data[0]['audio-guide'];
+                const video = data[0]['video'];
+
+                detail_detailName.innerText = name;
+                detail_artworkTitle.innerText = artwork;
+                detail_author.innerText = author;
+                detail_description.innerText = description;
+                detail_detailImage.src = image;
+                if (audio_guide != "" && audio_guide != null) {
+                    document.getElementById('detail_audio').style.display = 'block';
+                    document.getElementById('detail_audio').src = audio_guide;
+                    document.getElementById('detail_audioGuide').style.display = 'none';
+                    document.getElementById('detail_restart').style.display = 'none';
+                } else {
+                    document.getElementById('detail_audioGuide').style.display = 'inline';
+                    document.getElementById('detail_audio').style.display = 'none';
+                }
+                if (video != "" && video != null) {
+                    document.getElementById('detail_detailVideo').src = video;
+                    document.getElementById('detail_detailVideo').style.display = 'block';
+                    document.getElementById('detail_detailVideo').poster = image;
+                } else {
+                    document.getElementById('detail_detailVideo').style.display = 'none';
+                }
+                document.getElementById('detail_view_json').style.display = 'block';
+            }
+        );
+}
 
 async function predictLoop() {
 
@@ -281,6 +330,20 @@ const detailLinks = document.getElementsByClassName('details');
 const detailImg = document.getElementsByClassName('detailImg');
 const detailLabels = document.getElementsByClassName('detailLabel');
 const info = document.getElementById('over-details');
+
+const detail_artworkTitle = document.getElementById('detail_artworkTitle');
+const detail_author = document.getElementById('detail_author');
+const detail_detailName = document.getElementById('detail_detailName');
+const detail_detailImage = document.getElementById('detail_detailImage');
+const detail_description = document.getElementById('detail_description');
+const detail_audio = document.getElementById('detail_audio');
+const detail_video = document.getElementById('detail_detailVideo');
+const detail_view_close_button = document.getElementById('detail_close-sheet');
+detail_view_close_button.addEventListener('click', function () {
+    document.getElementById('detail_view_json').style.display = 'none';
+    return false;
+});
+
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
 startPredictLoop();

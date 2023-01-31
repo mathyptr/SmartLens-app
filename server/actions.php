@@ -1,6 +1,5 @@
 <?php
 
-
 /* setta il formato di risposta */
 header('Content-Type: text/json');
 require_once("config.php");
@@ -44,8 +43,6 @@ function getFeatures($version)
     }
 
     $result = mysqli_query($conn, $sql);
-
-
     $features = array();
 
     // cicla sul risultato
@@ -77,19 +74,18 @@ function getDetails($version)
         echo 'Connection error: ' . mysqli_connect_error();
     }
     if ($version == 2) {
-        if ($lang == 'ita') {
-            $sql = "SELECT * FROM details5descriptors";
+        if ($lang == 'it') {
+            $sql = "SELECT * FROM details5descriptors_it";
         } else if ($lang == 'en') {
-            $sql = "SELECT * FROM detailsEn5descriptors";
+            $sql = "SELECT * FROM details5descriptors_en";
         }
     } else {
-        if ($lang == 'ita') {
-            $sql = "SELECT * FROM details";
+        if ($lang == 'it') {
+            $sql = "SELECT * FROM details_it";
         } else if ($lang == 'en') {
-            $sql = "SELECT * FROM detailsEn";
+            $sql = "SELECT * FROM details_en";
         }
     }
-
 
     $result = mysqli_query($conn, $sql);
     $details = array();
@@ -107,17 +103,16 @@ function getDetails($version)
         $video = $row['video'];
         $artwork_id = $row['artwork-id'];
 
-
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
             'artwork-id' => $artwork_id);
 
     }
 
-
     echo json_encode($details);
     mysqli_close($conn);
 }
+
 
 function getDetailIDs($version)
 {
@@ -133,7 +128,6 @@ function getDetailIDs($version)
     }
 
     $result = mysqli_query($conn, $sql);
-
     $detailIDs = array();
 
     // cicla sul risultato

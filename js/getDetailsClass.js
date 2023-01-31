@@ -45,10 +45,10 @@ await (function ($) {
 
             details = await function getDetails(detail_id) {
                 let lang = undefined;
-                if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'ita';
-                else
+                if (document.getElementById('English').href == window.location.href + '#')
                     lang = 'en';
+                if (document.getElementById('Italian').href == window.location.href + '#')
+                    lang = 'it';
                 var request_type = "getDetails";
                 var tmp = null;
                 $.ajax({
@@ -87,7 +87,7 @@ await (function ($) {
     }
 })(jQuery);
 
-let modelURL = window.location.href.replace('/en', "");
+let modelURL = window.location.href.replace('/it', "");
 modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details/art_details';
 
 
