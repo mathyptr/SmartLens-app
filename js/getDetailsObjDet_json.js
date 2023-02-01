@@ -88,8 +88,8 @@ let objectDetector = undefined;
 })(jQuery);
 
 let modelURL = window.location.href.replace('/it', "");
-//modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';
-modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';
+//modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
+modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
 
 
 try {
