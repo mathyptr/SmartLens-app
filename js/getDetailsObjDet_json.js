@@ -293,8 +293,12 @@ async function predictLoop() {
     let boundingBoxes = predictions[1];
     if (results.length !== 0) {
         displayInfo(results, boundingBoxes);
-
-
+    } else {
+        for (let i = 0; i < detailLinks.length; i++) {
+            detailLinks[i].style.display = 'none';
+        }
+        detailContainer.style.display = 'none';
+        setIsSheetShown(false)
     }
 
 }
