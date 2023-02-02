@@ -317,11 +317,11 @@ async function predictLoop() {
 
 
 function startPredictLoop() {
-    if (webcam.readyState >= 2) {
+    if (webcam.readyState >= 2 & objectDetector != undefined) {
         console.log('Ready to predict');
         setTimeout(function () {
             camera_box.classList.add('loaded');
-        }, 500);
+        }, 2000);
         setInterval(function () {
             predictLoop()
         }, 2000)
