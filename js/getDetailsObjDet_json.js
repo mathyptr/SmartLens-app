@@ -1,8 +1,9 @@
-let version = 3;
+let version = 3;  // Object detection mode
 //Caricamento dei dati da database e del modello
 let detailIDs = undefined;
 let details = undefined;
 let objectDetector = undefined;
+
 
 (function ($) {
     console.log("jQuery" + $);
@@ -37,11 +38,12 @@ let objectDetector = undefined;
                         //alert('Error occured');
                     }
                 });
-
+                if (tmp == null)
+                    alert('Can not connect to Smart Lens database!')
                 return tmp;
             }();
 
-            console.log('DetailsIDs loaded succesfully!')
+            console.log('DetailsIDs loaded successfully!')
 
             details = await function getDetails() {
                 let lang = 'en';
@@ -77,17 +79,16 @@ let objectDetector = undefined;
 
                 return tmp;
             }();
-            console.log('details loaded succesfully!')
-
-
+            console.log('details loaded successfully!')
         } catch (error) {
             console.log(error)
-            alert('La tua connessione Internet è troppo lenta!')
+            alert('Internet connection is too slow!')
         }
     }
 })(jQuery);
 
-let modelURL = window.location.href.replace('/it', "");
+
+let modelURL = window.location.href.replace('/it', ""); // TODO add other languages
 // XXX: layer #s change with each conversion to TensorflowJS. The bbox layer has a shape [1, 100, 4], the class layer has a shape [1 ... 100], and the probability layer has a shape [1 ... 100].
 //modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
 modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
@@ -98,7 +99,7 @@ try {
         modelURL,
         {fromTFHub: true});
 
-    console.log('Object Detector loaded succesfully!');
+    console.log('Object Detector loaded successfully!');
 } catch (error) {
     console.log(error)
     alert('Internet connection is too slow!')
@@ -138,13 +139,11 @@ function drawBoxes(bounding_box, color) {
 async function detectObjects(webcam) {
 
     let videoFrameAsTensor = tf.browser.fromPixels(webcam);
-
     let normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
 
     return await objectDetector.executeAsync(normalizedTensorFrame).then(predictions => {
         return predictions
     })
-
 }
 
 
@@ -161,8 +160,8 @@ function getObjects(predictions) {
         }
     }
     return [recognisedDetails, recognisedBoxes]
-
 }
+
 
 const setSheetHeight = (value) => {
     sheetHeight = Math.max(0, Math.min(100, value))
@@ -175,9 +174,11 @@ const setSheetHeight = (value) => {
     }
 }
 
+
 const setIsSheetShown = (value) => {
     sheet.setAttribute("aria-hidden", String(!value))
 }
+
 
 function displayInfo(results, boundingBoxes) {
 
@@ -280,6 +281,17 @@ function getDetailsInfoJSON(detail_id, lang) {
         );
 }
 
+function hideInfoSheet() {
+    for (let i = 0; i < detailLinks.length; i++) {
+        detailLinks[i].style.display = 'none';
+    }
+    detailContainer.style.display = 'none';
+    setIsSheetShown(false)
+}
+
+
+const infoDisplayLatency = 5;
+let displayCounter = 0;
 async function predictLoop() {
 
     console.log('Recognition Started!')
@@ -294,14 +306,13 @@ async function predictLoop() {
     let boundingBoxes = predictions[1];
     if (results.length !== 0) {
         displayInfo(results, boundingBoxes);
+        displayCounter = 0;
     } else {
-        for (let i = 0; i < detailLinks.length; i++) {
-            detailLinks[i].style.display = 'none';
+        displayCounter ++;
+        if (displayCounter > infoDisplayLatency) {
+             hideInfoSheet();
         }
-        detailContainer.style.display = 'none';
-        setIsSheetShown(false)
     }
-
 }
 
 
@@ -352,5 +363,3 @@ detail_view_close_button.addEventListener('click', function () {
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
 startPredictLoop();
-
-
