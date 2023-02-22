@@ -87,12 +87,21 @@ let objectDetector = undefined;
     }
 })(jQuery);
 
-
-let modelURL = window.location.href.replace('/it', ""); // TODO add other languages
+let modelURL = window.location.href
+if (window.location.href.includes('/it'))
+    modelURL = window.location.href.replace('/it', "");
+else if (window.location.href.includes('/gr'))
+    modelURL = window.location.href.replace('/gr', "");
+else if (window.location.href.includes('/de'))
+    modelURL = window.location.href.replace('/de', "");
+// alternatively, if the system is not installed on a server with URLs like https:/foo.bar/smartlens use the following line:
+// This code uses the split() method to split the URL into an array of substrings, using the forward slash / as the separator.
+// It then uses the slice() method to extract the first three elements of the array, which correspond to the protocol, host, and port.
+// Finally, it uses the join() method to combine these elements back into a string, which represents the base URL.
+// let baseURL = window.location.href.split("/").slice(0, 3).join("/");
 // XXX: layer #s change with each conversion to TensorflowJS. The bbox layer has a shape [1, 100, 4], the class layer has a shape [1 ... 100], and the probability layer has a shape [1 ... 100].
 //modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
 modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
-
 
 try {
     objectDetector = await tf.loadGraphModel(
@@ -137,13 +146,16 @@ function drawBoxes(bounding_box, color) {
 
 
 async function detectObjects(webcam) {
-
     let videoFrameAsTensor = tf.browser.fromPixels(webcam);
     let normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
 
-    return await objectDetector.executeAsync(normalizedTensorFrame).then(predictions => {
-        return predictions
-    })
+    const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
+
+    // Dispose of the intermediate tensors
+    videoFrameAsTensor.dispose();
+    normalizedTensorFrame.dispose();
+
+    return predictions; // FIXME: there are still 8 tensors leaking on the GPU memory
 }
 
 
@@ -299,7 +311,6 @@ async function predictLoop() {
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
     }
-
     let imageObjects = await detectObjects(webcam);
     let predictions = getObjects(imageObjects);
     let results = predictions[0];
