@@ -101,9 +101,14 @@ else if (window.location.href.includes('/de'))
 // let baseURL = window.location.href.split("/").slice(0, 3).join("/");
 // XXX: layer #s change with each conversion to TensorflowJS. The bbox layer has a shape [1, 100, 4], the class layer has a shape [1 ... 100], and the probability layer has a shape [1 ... 100].
 //modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
-modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
+//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
+modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b96';  // layers: 6: bboxes ; 3: classes ; 1: probabilities
+//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b128';  // layers: 6: bboxes ; 7: classes ; 0: probabilities
+
 
 try {
+    console.log('TFJS version: ' + tf.version.tfjs)
+    console.log('Loading Object Detector...');
     objectDetector = await tf.loadGraphModel(
         modelURL,
         {fromTFHub: true});
@@ -146,8 +151,10 @@ function drawBoxes(bounding_box, color) {
 
 
 async function detectObjects(webcam) {
-    let videoFrameAsTensor = tf.browser.fromPixels(webcam);
-    let normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
+    const videoFrameAsTensor = tf.browser.fromPixels(webcam);
+    const normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
+    let num_tensors_det = tf.memory().numTensors;
+    console.log('Number of tensors before detection: ' + num_tensors_det);
 
     const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
 
@@ -155,14 +162,18 @@ async function detectObjects(webcam) {
     videoFrameAsTensor.dispose();
     normalizedTensorFrame.dispose();
 
+
+    num_tensors_det = tf.memory().numTensors;
+    console.log('Number of tensors after disposal of temp tensors: ' + num_tensors_det);
+
     return predictions; // FIXME: there are still 8 tensors leaking on the GPU memory
 }
 
 
 function getObjects(predictions) {
-    let boundingBoxes = predictions[3].arraySync();
-    let classes = predictions[7].arraySync();
-    let probabilities = predictions[2].arraySync();
+    let boundingBoxes = predictions[6].arraySync();
+    let classes = predictions[3].arraySync();
+    let probabilities = predictions[1].arraySync();
     let recognisedDetails = []
     let recognisedBoxes = []
     for (let i = 0; i < classes[0].length; i++) {
@@ -305,7 +316,6 @@ function hideInfoSheet() {
 const infoDisplayLatency = 5;
 let displayCounter = 0;
 async function predictLoop() {
-
     console.log('Recognition Started!')
     let bounding_boxes = document.getElementsByClassName('bounding-box')
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
