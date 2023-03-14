@@ -1,16 +1,16 @@
 <?php
 
-/* setta il formato di risposta */
+/* set the answer format */
 header('Content-Type: text/json');
 require_once("config.php");
 
 $action = $_POST['action'];
 $version = $_POST['version'];
 
-/* conterrà la stringa di query al database */
+/* contains the DB query string */
 $query_string = "";
 
-/* smista secondo il tipo di richiesta */
+/* handle different query types */
 switch ($action) {
 
     case "getFeatures" :
@@ -45,7 +45,7 @@ function getFeatures($version)
     $result = mysqli_query($conn, $sql);
     $features = array();
 
-    // cicla sul risultato
+    // loop over results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
         $artwork = $row['artwork'];
@@ -90,7 +90,7 @@ function getDetails($version)
     $result = mysqli_query($conn, $sql);
     $details = array();
 
-    // cicla sul risultato
+    // loop over results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $id = $row['id'];
         $detail_name = $row['detail-name'];
@@ -130,7 +130,7 @@ function getDetailIDs($version)
     $result = mysqli_query($conn, $sql);
     $detailIDs = array();
 
-    // cicla sul risultato
+    // loop over results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
         $id = $row['id'];
