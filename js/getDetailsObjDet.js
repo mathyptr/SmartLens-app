@@ -1,4 +1,4 @@
-let version = 3;
+let version = 3;  // Object detection mode
 //Caricamento dei dati da database e del modello
 let detailIDs = undefined;
 let details = undefined;
@@ -37,11 +37,12 @@ let objectDetector = undefined;
                         //alert('Error occured');
                     }
                 });
-
+                if (tmp == null)
+                    alert('Can not connect to Smart Lens database!')
                 return tmp;
             }();
 
-            console.log('DetailsIDs loaded succesfully!')
+            console.log('DetailsIDs loaded successfully!')
 
             details = await function getDetails() {
                 let lang = undefined;
@@ -77,12 +78,10 @@ let objectDetector = undefined;
 
                 return tmp;
             }();
-            console.log('details loaded succesfully!')
-
-
+            console.log('details loaded successfully!')
         } catch (error) {
             console.log(error)
-            alert('La tua connessione Internet è troppo lenta!')
+            alert('Internet connection is too slow!')
         }
     }
 })(jQuery);
@@ -97,10 +96,10 @@ try {
         modelURL,
         {fromTFHub: true});
 
-    console.log('Object Detector loaded Succesfully!');
+    console.log('Object Detector loaded successfully!');
 } catch (error) {
     console.log(error)
-    alert('La tua connessione Internet è troppo lenta!')
+    alert('Internet connection is too slow!')
 }
 
 
@@ -140,6 +139,10 @@ async function detectObjects(webcam) {
 
     let normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
 
+    // Dispose of the intermediate tensors
+    videoFrameAsTensor.dispose();
+    normalizedTensorFrame.dispose();
+
     return await objectDetector.executeAsync(normalizedTensorFrame).then(predictions => {
         return predictions
     })
@@ -160,8 +163,8 @@ function getObjects(predictions) {
         }
     }
     return [recognisedDetails, recognisedBoxes]
-
 }
+
 
 const setSheetHeight = (value) => {
     sheetHeight = Math.max(0, Math.min(100, value))
@@ -174,9 +177,11 @@ const setSheetHeight = (value) => {
     }
 }
 
+
 const setIsSheetShown = (value) => {
     sheet.setAttribute("aria-hidden", String(!value))
 }
+
 
 function displayInfo(results, boundingBoxes) {
 
@@ -219,7 +224,7 @@ function displayInfo(results, boundingBoxes) {
             detailLinks[i].style.display = 'block';
             detailContainer.style.display = 'flex';
             detailImg[i].src = details[detailIDs[results[i]]['id']]['detail-icon'];
-            detailImg[i].style.borderColor = colors[i];
+            detailImg[i].style.borderColor = colors[parseInt(results[i]) % colors.length];
             detailLabels[i].innerText = details[detailIDs[results[i]]['id']]['detail-name'];
             detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]]['id'];
             drawBoxes(boundingBoxes[i], colors[i])
@@ -252,11 +257,11 @@ async function predictLoop() {
 
 
 function startPredictLoop() {
-    if (webcam.readyState >= 2) {
+    if (webcam.readyState >= 2 && objectDetector != undefined) {
         console.log('Ready to predict');
         setTimeout(function () {
             camera_box.classList.add('loaded');
-        }, 500);
+        }, 2000);
         setInterval(function () {
             predictLoop()
         }, 2000)
@@ -284,5 +289,3 @@ const info = document.getElementById('over-details');
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
 startPredictLoop();
-
-
