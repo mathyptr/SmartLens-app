@@ -33,8 +33,8 @@ await (function ($) {
                         return data;
                     },
                     error: function (jqXHR, textStatus) {
-                        console.log('DB error' + textStatus);
-                        //alert('Error occured');
+                        console.log('DB error: ' + textStatus);
+                        alert('Database connection error: '+ textStatus);
                     }
                 });
 
@@ -70,8 +70,24 @@ await (function ($) {
                         return data;
                     },
                     error: function (jqXHR, textStatus) {
-                        console.log('DB error' + textStatus);
-                        //alert('Error occured');
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (textStatus === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (textStatus === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (textStatus === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+                        console.log('DB error: ' + msg);
+                        alert('Database connection error: '+ msg);
                     }
                 });
 

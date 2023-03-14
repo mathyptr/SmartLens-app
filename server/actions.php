@@ -31,11 +31,13 @@ switch ($action) {
 
 function getFeatures($version)
 {
+    error_reporting(E_ALL);
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
     if (!$conn) {
         echo 'Connection error: ' . mysqli_connect_error();
     }
+
     if ($version == 1) {
         $sql = 'SELECT * FROM pythonfeatures';
     } else {
@@ -62,16 +64,18 @@ function getFeatures($version)
 
 function getDetails($version)
 {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
+    }
+
     if (isset($_POST['lang'])) {
         $lang = $_POST['lang'];
     } else {
         echo "error";
         return;
-    }
-    ini_set('display_errors', 1);
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-    if (!$conn) {
-        echo 'Connection error: ' . mysqli_connect_error();
     }
     if ($version == 2) {
         if ($lang == 'it') {
@@ -106,7 +110,6 @@ function getDetails($version)
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
             'artwork-id' => $artwork_id);
-
     }
 
     echo json_encode($details);
@@ -116,11 +119,13 @@ function getDetails($version)
 
 function getDetailIDs($version)
 {
+    error_reporting(E_ALL);
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
     if (!$conn) {
         echo 'Connection error: ' . mysqli_connect_error();
     }
+
     if ($version == 3) {
         $sql = 'SELECT * FROM id_objdet_mapping';
     } else {
@@ -142,4 +147,3 @@ function getDetailIDs($version)
     echo json_encode($detailIDs);
     mysqli_close($conn);
 }
-
