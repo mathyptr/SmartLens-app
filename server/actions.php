@@ -68,13 +68,18 @@ function getDetails($version)
     ini_set('display_errors', 1);
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
     if (!$conn) {
-        echo 'Connection error: ' . mysqli_connect_error();
+        error_log('Connection error: ' . mysqli_connect_error());
+    }
+    /* change character set to utf8 | Object Oriented*/
+    if (!$conn->set_charset("utf8")) {
+        error_log("Error loading character set utf8: %s\n", $conn->error);
     }
 
     if (isset($_POST['lang'])) {
         $lang = $_POST['lang'];
     } else {
         echo "error";
+        error_log("lang not set");
         return;
     }
     if ($version == 2) {
@@ -92,6 +97,7 @@ function getDetails($version)
     }
 
     $result = mysqli_query($conn, $sql);
+    error_log('SQL query: ' . $sql); // debugging
     $details = array();
 
     // loop over results
@@ -110,8 +116,12 @@ function getDetails($version)
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
             'artwork-id' => $artwork_id);
+        foreach ($details[$id] as $key => $value) {
+            error_log($key . ":" . $value);
+        }
     }
-
+    error_log('details num rows: ' . count($details));
+    error_log('JSON details: ' . json_encode($details, JSON_PARTIAL_OUTPUT_ON_ERROR));
     echo json_encode($details);
     mysqli_close($conn);
 }
