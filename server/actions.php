@@ -78,7 +78,7 @@ function getDetails($version)
     if (isset($_POST['lang'])) {
         $lang = $_POST['lang'];
     } else {
-        echo "error";
+        echo "lang not set error";
         error_log("lang not set");
         return;
     }
