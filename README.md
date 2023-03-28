@@ -1,30 +1,39 @@
-# Applicazione per il riconoscimento dei dettagli in opere d'arte
-L'applicativo consente il riconoscimento di opere d'arte e loro dettagli nelle immagini inquadrate dalla webcam di uno
-smartphone in tempo reale mostrando all'utente le informazioni multimediali relative.
-Il meccanismo di riconoscimento dei dettagli è implementato in 3 diversi modi:
-* Retrieval utilizzando la rete MobileNet v3 Small di Tensorflow.js
-* Classificazione sfruttando la rete MobileNet v3 su cui è stato eseguito fine-tuning sul dataset
-presente all'indirizzo [https://github.com/EleonoraRistori/SmartLens/tree/master/data](https://github.com/EleonoraRistori/SmartLens/tree/master/data)
-* Object Detection utilizzando la rete SSD/MobileNetV3 su cui è stato eseguito fine tuning per il riconoscimento degli
-"oggetti" (dettagli) delle opere del dataset precedente.
+# ReInHerit SmartLens app
 
-## Installazione
-Per il corretto funzionamento è necessario un database di tipo MySQL che può essere popolato come descritto in 
-[https://github.com/EleonoraRistori/SmartLens](https://github.com/EleonoraRistori/SmartLens). Sarà poi necessario
-modificare le credenziali utente, password, database e host all'interno del file ./server/config.php 
+This application is part of the **ReInHerit Toolkit**.
 
-## Cambiare metodo di riconoscimento dei dettagli
-Per scegliere il metodo di riconoscimento adottato dall'applicazione è necessario scommentare uno degli script presenti in fondo 
-al file camera-view.html.
-* getDetailsObjDet.js per la Object Detection
-* getDetailsRetrieval per il Retrieval
-* getDetailsClass.js per la Classificazione
+![ReInHerit SmartLens logo](images/info/SmartLens-logo.jpg "ReInHerit SmartLens logo")
 
-La versione con retrieval è fornita in due varianti che adottano una diversa suddivisione delle immagini da cui vengono estratte le features.
-La versione può essere cambiata modificando il valore della variabile version all'inizio del file getDetailsRetrieval.js.
-* version = 1 : il Retrieval è applicato per ogni fotogramma a 5 immagini: quella intera prelevata dalla webcam e 4 sue parti
-ottenute da una suddivisione simmetrica senza sovrapposizione.
-* version = 2 : il Retrieval è applicato per ogni fotogramma a 6 immagini: oltre a quella intera vegono generate 5 sue porzioni
-di altezza e larghezza pari a 2/3 delle misure dell'immagine originale disposte come in figura
+## Recognize details in artworks
+This app allows the recognition of artworks and their details in images captured by the webcam of a smartphone in real time, showing the user the multimedia information related to them.
+Details recognition is implemented using computer vision, applying three different methods:
+* Retrieval using the MobileNet v3 Small network of Tensorflow.js
+* Classification using the MobileNet v3 network on which fine-tuning has been performed on the dataset
+* Object Detection using the SSD/MobileNetV3 network on which fine tuning has been performed for the recognition of the 
+"objects" (details) of the works of the dataset.
 
-![alt text](https://github.com/EleonoraRistori/SmartLens/blob/master/Suddivisione.png?raw=true)
+## Installation
+The application is implemented using HTML, CSS and JavaScript. It is necessary to have a web server to run it.
+Artowrks and details info is stored in a MySQL database.
+Update the `./server/config.php` file to connect to the database. 
+
+## Selecting the CV method
+To select which CV method is used to recognize details (and thus how the interaction is implemented) it is necessary to uncomment one of the scripts at the bottom of the file camera-view.html.
+* getDetailsObjDet.js for Object Detection
+
+![Example of object detection](images/info/example1.png "Example of object detection")
+![Example of object detection](images/info/example2.png "Example of object detection")
+![Example of object detection](images/info/example3.png "Example of details info")
+
+
+* getDetailsRetrieval for Retrieval
+* getDetailsClass.js for Classification
+
+### Retrieval
+The CV method based on retrieval is implemented in the file getDetailsRetrieval.js.
+There are two variants of the method, which adopt a different division of the images from which the features are extracted.
+The version can be changed by modifying the value of the version variable at the beginning of the file getDetailsRetrieval.js.
+* version = 1 : the Retrieval is applied to each frame with 5 images: the whole one taken from the webcam and 4 its parts 
+obtained from a symmetric division without overlap.
+* version = 2 : the Retrieval is applied to each frame with 6 images: in addition to the whole one, 5 its portions
+of height and width equal to 2/3 of the measures of the original image are generated, arranged as in the figure
