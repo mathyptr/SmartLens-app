@@ -4,6 +4,12 @@ let detailIDs = undefined;
 let details = undefined;
 let objectDetector = undefined;
 
+let bb_id=0;
+let classes_id=0;
+let prob_id=0;
+
+let probXview=0;
+
 (function ($) {
     console.log("jQuery" + $);
     $.fn.getDetailFromWebcam = async function (options) {
@@ -133,9 +139,9 @@ else if (window.location.href.includes('/de'))
 // XXX: layer #s change with each conversion to TensorflowJS. The bbox layer has a shape [1, 100, 4], the class layer has a shape [1 ... 100], and the probability layer has a shape [1 ... 100].
 //modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
 //modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
-modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b96';  // layers: 6: bboxes ; 3: classes ; 1: probabilities
+//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b96';  // layers: 6: bboxes ; 3: classes ; 1: probabilities
 //modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b128';  // layers: 6: bboxes ; 7: classes ; 0: probabilities
-
+modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/botticelliwebmodel';  // layers: 1: bboxes ; 0: classes ; 4: probabilities
 
 try {
     console.log('TFJS version: ' + tf.version.tfjs)
@@ -202,12 +208,42 @@ async function detectObjects(webcam) {
 
 
 function getObjects(predictions) {
-    let boundingBoxes = predictions[6].arraySync();
-    let classes = predictions[3].arraySync();
-    let probabilities = predictions[1].arraySync();
+    
+    bb_id=1;
+    classes_id=0;
+    prob_id=4;
+
+    let boundingBoxes = undefined;
+    let classes = undefined;
+    let probabilities = undefined;
+
+
+/*    let boundingBoxes = predictions[bb_id].arraySync();
+    let classes = predictions[classes_id].arraySync();
+    let probabilities = predictions[prob_id].arraySync();
+*/
+
+    for(let i = 0; i < predictions.length; i++) {
+        predictions[i] = predictions[i].arraySync();
+        if(predictions[i][0][0] != undefined) {
+	    if (!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length != 4) {
+	       prob_id = i;
+               probabilities = predictions[i];//.arraySync();
+            }else if(!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length == 4){
+                bb_id = i;
+                boundingBoxes = predictions[i];//.arraySync();
+            }else if(Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0]<1000){
+                classes_id = i;
+                classes = predictions[i];//.arraySync();
+            }
+        }
+    }
+    console.log('Classe Id: ' + classes_id +' BoundingBoxes Id: ' + bb_id + ' Probabilities Id: ' + prob_id);
+
     let recognisedDetails = []
     let recognisedBoxes = []
     for (let i = 0; i < classes[0].length; i++) {
+	probXview=probabilities[0][i] ;
         if (probabilities[0][i] > detailIDs[classes[0][i]]['confidence'] && !recognisedDetails.includes(classes[0][i])) {
             recognisedDetails.push(classes[0][i])
             recognisedBoxes.push(boundingBoxes[0][i])
@@ -348,6 +384,9 @@ const infoDisplayLatency = 5;
 let displayCounter = 0;
 async function predictLoop() {
     console.log('Recognition Started!')
+ 
+    document.getElementById('prob_view').innerText=probXview;
+
     let bounding_boxes = document.getElementsByClassName('bounding-box')
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
@@ -369,6 +408,7 @@ async function predictLoop() {
 
 
 function startPredictLoop() {
+    document.getElementById('prob_view').innerText=probXview;
     if (webcam.readyState >= 2 && objectDetector != undefined) {
         console.log('Ready to predict');
         setTimeout(function () {
