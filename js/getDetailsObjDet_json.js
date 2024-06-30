@@ -188,16 +188,18 @@ function drawBoxes(bounding_box, color) {
 
 
 async function detectObjects(webcam) {
-    const videoFrameAsTensor = tf.browser.fromPixels(webcam);
-    const normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
+//MATHY    const videoFrameAsTensor = tf.browser.fromPixels(webcam);
+//MATHY    const normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
+
     let num_tensors_det = tf.memory().numTensors;
     console.log('Number of tensors before detection: ' + num_tensors_det);
 
-    const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
-
+//    const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
+    const predictions = await objectDetector.executeAsync(process_input(webcam));
+    
     // Dispose of the intermediate tensors
-    videoFrameAsTensor.dispose();
-    normalizedTensorFrame.dispose();
+//MATHY    videoFrameAsTensor.dispose();
+//MATHY    normalizedTensorFrame.dispose();
 
 
     num_tensors_det = tf.memory().numTensors;
@@ -205,6 +207,12 @@ async function detectObjects(webcam) {
 
     return predictions; // FIXME: there are still 8 tensors leaking on the GPU memory
 }
+
+function process_input(video_frame){
+    const tfimg = tf.browser.fromPixels(video_frame).toInt();
+    const expandedimg = tfimg.transpose([0,1,2]).expandDims();
+    return expandedimg;
+  };
 
 
 function getObjects(predictions) {
@@ -227,7 +235,7 @@ function getObjects(predictions) {
         predictions[i] = predictions[i].arraySync();
         if(predictions[i][0][0] != undefined) {
 	    if (!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length != 4) {
-	       prob_id = i;
+	           prob_id = i;
                probabilities = predictions[i];//.arraySync();
             }else if(!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length == 4){
                 bb_id = i;
