@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>TensorFlow.js Model Loading Example</title>
+  </head>
+  <body>
+   <!--    
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js" type="text/javascript"></script>
+ 
+   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.1.0/dist/tf-converter.min.js" type="text/javascript"></script>    
+
+    <script>
+      async function demo() {
+        try {
+//          const model = await tf.loadGraphModel("https://raw.githubusercontent.com/mathyptr/SmartLens-app/19b037d94fa3b0b3d3a4c02e1445521348871340/networkModels/art_details_obj/reinherit_test_final_30k_b128/",{fromTFHub: true});
+const model = await tf.loadGraphModel("https://raw.githubusercontent.com/mathyptr/SmartLens-app/19b037d94fa3b0b3d3a4c02e1445521348871340/networkModels/art_details_obj/botticelliwebmodel/model.json",{fromTFHub: false});
+//       const model = await tf.loadGraphModel("https://smartlens-docker.onrender.com/SmartLens-app/networkModels/art_details_obj/botticelliwebmodel/model.json");
+//          console.log("Model summary:", model.summary());
+            console.log('TFJS version: ' + tf.version.tfjs)
+        } catch (error) {
+          console.error("Error loading model:", error);
+        }
+      }
+      demo();
+    </script>
+  </body>
+</html>

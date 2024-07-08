@@ -1,5 +1,8 @@
 // Set constraints for the video stream
+/* MATHY
 const constraints = {video: {facingMode: "environment"}, audio: false, zoom: true};
+*/
+const constraints = {video: {facingMode: "environment"}, audio: false, zoom: false};
 // Define constants
 const cameraView = document.querySelector("#camera--view")
 

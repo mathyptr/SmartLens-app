@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+<!-- MATHY
     <meta name="viewport" content="width=device-width, initial-scale=1">
+-->    
+    <meta name="viewport" content="width=device-width">
+    
     <title>Smart Lens</title>
     <link rel="stylesheet" href="css/detailViewStyleJSON.css">
     <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
@@ -15,6 +19,7 @@
 <body>
 <!-- Camera -->
 <main id="camera">
+    <!-- 
     <div id="loader-wrapper">
         <div id="loader"></div>
 
@@ -22,6 +27,7 @@
         <div class="loader-section section-right"></div>
 
     </div>
+    -->    
     <!-- Camera sensor -->
     <canvas id="camera--sensor"></canvas>
 
@@ -34,8 +40,8 @@
         </a>
     </h3>
     <!-- Camera view -->
+     
     <video id="camera--view" autoplay playsinline></video>
-
 
     <canvas id="canvas_no_display"></canvas>
 
@@ -121,19 +127,21 @@
 </main>
 <!-- Reference to your JavaScript file -->
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js" type="text/javascript"></script>
-<!-- 
+<!-- MATHY <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js" type="text/javascript"></script> -->
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.13.0/dist/tf.min.js" type="text/javascript"></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.1.0/dist/tf-converter.min.js" type="text/javascript"></script>
+<!-- MATHY
+ <script src="js/mywebcamManager.js"></script>
  -->
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.1.0/dist/tf-converter.min.js" type="text/javascript"></script>
-
-<script src="js/webcamManager.js"></script>
+<script src="js/mygetDetailsOnly.js"></script>
 <script src="js/bottomSheetManager.js"></script>
 
 <!--Qui si può selezionare la versione di riconoscimento desiderata decommentando lo script di interesse.
  WARNING: è necessario fare la stessa cosa anche in ./it/camera-view.html-->
-<script src="js/getDetailsObjDet_json.js" type="module"></script>
+<script src="js/mygetDetailsObjDet_json.js" type="module"></script>
+
 <!--<script src="js/getDetailsRetrieval.js" type="module"></script>-->
 <!--<script src="js/getDetailsClass.js" type="module"></script>-->
 

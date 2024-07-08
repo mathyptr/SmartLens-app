@@ -1,12 +1,8 @@
 let version = 3;  // Object detection mode
 //Caricamento dei dati da database e del modello
-let detailIDs = undefined;
-let details = undefined;
+//let detailIDs = undefined;
+//let details = undefined;
 let objectDetector = undefined;
-
-let setPredictTimeOut=100;//2000;
-let setPredictLoopTimer=1000;//1000;
-
 
 let bb_id=0;
 let classes_id=0;
@@ -14,119 +10,15 @@ let prob_id=0;
 
 let probXview=0;
 
-(function ($) {
-    console.log("jQuery" + $);
-    $.fn.getDetailFromWebcam = async function (options) {
-        try {
 
-            var $this = $(this);
+// Set constraints for the video stream
+//MATHY const constraints = {video: {facingMode: "environment"}, audio: false, zoom: true};
+//const constraints = {video: {facingMode: "environment"}, audio: false};
+const constraints = {video: {facingMode: "user"}, audio: false};
+// Define constants
+const cameraView = document.querySelector("#camera--view")
+const webcam = document.getElementById('camera--view');
 
-            detailIDs = await function getDetailsIDs() {
-
-                var request_type = "getDetailIDs";
-                var tmp = null;
-                $.ajax({
-                    url: options.serverURL,
-                    type: "POST",
-                    async: false,
-                    //contentType: 'application/json; charset=utf-8',
-                    data: {
-                        "action": request_type,
-                        "version": version
-                    },
-                    dataType: "json",
-                    //headers: {"Content-type" :"application/x-www-form-urlencoded"},
-                    success: function (data) {
-                        // Run the code here that needs
-                        //    to access the data returned
-                        tmp = data;
-                        return data;
-                    },
-                    error: function (jqXHR, textStatus) {
-                        var msg = '';
-                        if (jqXHR.status === 0) {
-                            msg = 'Not connect.\n Verify Network.';
-                        } else if (jqXHR.status == 404) {
-                            msg = 'Requested page not found. [404]';
-                        } else if (jqXHR.status == 500) {
-                            msg = 'Internal Server Error [500].';
-                        } else if (textStatus === 'parsererror') {
-                            msg = 'Requested JSON parse failed.';
-                        } else if (textStatus === 'timeout') {
-                            msg = 'Time out error.';
-                        } else if (textStatus === 'abort') {
-                            msg = 'Ajax request aborted.';
-                        } else {
-                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                        }
-                        console.log('DB error: ' + msg);
-                        alert('Database connection error: '+ msg);
-                    }
-                });
-                if (tmp == null)
-                    alert('Can not connect to Smart Lens database!')
-                return tmp;
-            }();
-
-            console.log('DetailsIDs loaded successfully!')
-
-            details = await function getDetails() {
-                let lang = 'en';
-                if (document.getElementById('English').href == window.location.href + '#')
-                    lang = 'en';
-                if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'it';
-                var request_type = "getDetails";
-                var tmp = null;
-                $.ajax({
-                    url: options.serverURL,
-                    type: "POST",
-                    async: false,
-                    //contentType: 'application/json; charset=utf-8',
-                    data: {
-                        "action": request_type,
-                        "lang": lang,
-                        "version": version
-                    },
-                    dataType: "json",
-                    //headers: {"Content-type" :"application/x-www-form-urlencoded"},
-                    success: function (data) {
-                        // Run the code here that needs
-                        //    to access the data returned
-                        tmp = data;
-                        return data;
-                    },
-                    error: function (jqXHR, textStatus) {
-                        var msg = '';
-                        if (jqXHR.status === 0) {
-                            msg = 'Not connect.\n Verify Network.';
-                        } else if (jqXHR.status == 404) {
-                            msg = 'Requested page not found. [404]';
-                        } else if (jqXHR.status == 500) {
-                            msg = 'Internal Server Error [500].';
-                        } else if (textStatus === 'parsererror') {
-                            msg = 'Requested JSON parse failed.';
-                        } else if (textStatus === 'timeout') {
-                            msg = 'Time out error.';
-                        } else if (textStatus === 'abort') {
-                            msg = 'Ajax request aborted.';
-                        } else {
-                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                        }
-                        console.log('DB error: ' + msg);
-                        alert('Database connection error: '+ msg);
-                    }
-                });
-
-                return tmp;
-            }();
-            console.log('details loaded successfully!')
-        } catch (error) {
-            console.log(error)
-            alert('Internet connection is too slow!')
-        }
-    }
-})(jQuery);
 
 let modelURL = window.location.href
 if (window.location.href.includes('/it'))
@@ -135,29 +27,112 @@ else if (window.location.href.includes('/gr'))
     modelURL = window.location.href.replace('/gr', "");
 else if (window.location.href.includes('/de'))
     modelURL = window.location.href.replace('/de', "");
-// alternatively, if the system is not installed on a server with URLs like https:/foo.bar/smartlens use the following line:
-// This code uses the split() method to split the URL into an array of substrings, using the forward slash / as the separator.
-// It then uses the slice() method to extract the first three elements of the array, which correspond to the protocol, host, and port.
-// Finally, it uses the join() method to combine these elements back into a string, which represents the base URL.
-// let baseURL = window.location.href.split("/").slice(0, 3).join("/");
-// XXX: layer #s change with each conversion to TensorflowJS. The bbox layer has a shape [1, 100, 4], the class layer has a shape [1 ... 100], and the probability layer has a shape [1 ... 100].
-//modelURL = modelURL.replace('camera-view.html', "") + 'networkModels/art_details_obj/art_details';  // layers: 1: bboxes ; 2: classes ; 3: probabilities
-//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b64';  // layers: 3: bboxes ; 7: classes ; 2: probabilities
-//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b96';  // layers: 6: bboxes ; 3: classes ; 1: probabilities
 //modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b128';  // layers: 6: bboxes ; 7: classes ; 0: probabilities
-modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/botticelliwebmodel/model.json';  // layers: 1: bboxes ; 0: classes ; 4: probabilities
+modelURL = modelURL.replace('mycamera-view_json.html', "") + 'networkModels/art_details_obj/botticelliwebmodel/model.json';  // layers: 1: bboxes ; 0: classes ; 4: probabilities
+//modelURL ='http://localhost:4444/model.json';
 
+/*
 try {
-    console.log('TFJS version: ' + tf.version.tfjs)
+//MATHY    console.log('TFJS version: ' + tf.version.tfjs)
     console.log('Loading Object Detector...');
 //MATHY    objectDetector = await tf.loadGraphModel(modelURL,{fromTFHub: true});
     objectDetector = await tf.loadGraphModel(modelURL,{fromTFHub: false});
+
 
     console.log('Object Detector loaded successfully!');
 } catch (error) {
     console.log(error)
     alert('Internet connection is too slow!')
 }
+*/
+
+async function load_model() {
+    // It's possible to load the model locally or from a repo
+    // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
+    //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
+//    const model = await tf.loadGraphModel(modelURL,{fromTFHub: false});
+    const model = await tf.loadGraphModel(modelURL);
+    return model;
+  }
+
+
+
+// Access the device camera and stream to cameraView
+function cameraStart() {
+    const webCamPromise = navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function (stream) {
+            window.stream = stream;
+            cameraView.srcObject = stream;            
+/*            track = stream.getTracks()[0];
+            cameraView.srcObject = stream;
+
+            const capabilities = track.getCapabilities();
+            const settings = track.getSettings();
+
+            const input = document.querySelector("#zoom");
+
+            // Check whether zoom is supported or not.
+            if (!('zoom' in settings)) {
+                input.style.display = "None";
+                return;
+            }
+
+            // Map zoom to a slider element.
+            input.min = capabilities.zoom.min;
+            input.max = capabilities.zoom.max;
+            input.step = capabilities.zoom.step;
+            input.value = settings.zoom;
+
+            input.oninput = function (event) {
+                track.applyConstraints({advanced: [{zoom: event.target.value}]});
+            }
+            input.hidden = false;
+*/
+
+
+            return new Promise((resolve, reject) => {
+                webcam.onloadedmetadata = () => {
+                  resolve();
+                };
+              });
+
+
+        })
+        .catch(function (error) {
+            console.error("Oops. Something is broken.", error);
+        });
+
+
+        objectDetector = load_model();
+
+        Promise.all([objectDetector, webCamPromise])
+            .then(values => {
+              detectFrame(webcam, values[0]);
+            })
+            .catch(error => {
+              console.error(error);
+        });
+          
+
+}
+
+function detectFrame (video, model)  {
+    tf.engine().startScope();
+    model.executeAsync(process_input(video)).then(predictions => {
+    renderPredictions(predictions, video);
+    requestAnimationFrame(() => {
+      detectFrame(video, model);
+    });
+    tf.engine().endScope();
+  });
+};
+
+function process_input(video_frame){
+const tfimg = tf.browser.fromPixels(video_frame).toInt();
+const expandedimg = tfimg.transpose([0,1,2]).expandDims();
+return expandedimg;
+};
 
 
 function drawBoxes(bounding_box, color) {
@@ -195,7 +170,7 @@ async function detectObjects(webcam) {
 //MATHY    const normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
 
     let num_tensors_det = tf.memory().numTensors;
-//    console.log('Number of tensors before detection: ' + num_tensors_det);
+    console.log('Number of tensors before detection: ' + num_tensors_det);
 
 //    const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
     const predictions = await objectDetector.executeAsync(process_input(webcam));
@@ -211,12 +186,6 @@ async function detectObjects(webcam) {
     return predictions; // FIXME: there are still 8 tensors leaking on the GPU memory
 }
 
-function process_input(video_frame){
-    const tfimg = tf.browser.fromPixels(video_frame).toInt();
-    const expandedimg = tfimg.transpose([0,1,2]).expandDims();
-    return expandedimg;
-  };
-
 
 function getObjects(predictions) {
     
@@ -227,39 +196,60 @@ function getObjects(predictions) {
     let boundingBoxes = undefined;
     let classes = undefined;
     let probabilities = undefined;
+    let prd = [];
 
 
-/*    let boundingBoxes = predictions[bb_id].arraySync();
-    let classes = predictions[classes_id].arraySync();
-    let probabilities = predictions[prob_id].arraySync();
-*/
+    boundingBoxes = predictions[bb_id].arraySync();
+    classes = predictions[classes_id].arraySync();
+    probabilities = predictions[prob_id].arraySync();
 
+/*
     for(let i = 0; i < predictions.length; i++) {
-        predictions[i] = predictions[i].arraySync();
-        if(predictions[i][0][0] != undefined) {
-	    if (!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length != 4) {
-	           prob_id = i;
-               probabilities = predictions[i];//.arraySync();
-            }else if(!Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0].length != 26 && predictions[i][0][0].length == 4){
+        prd[i] = predictions[i].arraySync();
+        if(prd[i][0][0] != undefined) {
+	    if (!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length != 4) {
+	       prob_id = i;
+               probabilities = prd[i];//.arraySync();
+            }else if(!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length == 4){
                 bb_id = i;
-                boundingBoxes = predictions[i];//.arraySync();
-            }else if(Number.isInteger(predictions[i][0][0]) && predictions[i][0].length == 100 && predictions[i][0][0]<1000){
+                boundingBoxes = prd[i];//.arraySync();
+            }else if(Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0]<1000){
                 classes_id = i;
-                classes = predictions[i];//.arraySync();
+                classes = prd[i];//.arraySync();
             }
         }
     }
+*/
 //    console.log('Classe Id: ' + classes_id +' BoundingBoxes Id: ' + bb_id + ' Probabilities Id: ' + prob_id);
 
     let recognisedDetails = []
     let recognisedBoxes = []
+
     for (let i = 0; i < classes[0].length; i++) {
 	probXview=probabilities[0][i] ;
-        if (probabilities[0][i] > detailIDs[classes[0][i]]['confidence'] && !recognisedDetails.includes(classes[0][i])) {
-            recognisedDetails.push(classes[0][i])
-            recognisedBoxes.push(boundingBoxes[0][i])
-        }
+//	if(classes[0][i]<25)
+	{
+		let detail_confidence=detailIDs[classes[0][i]]['confidence'] ;
+//		let detail_confidence=0.75 ;
+		if (probabilities[0][i] > detail_confidence && !recognisedDetails.includes(classes[0][i])) {
+			recognisedDetails.push(classes[0][i])
+			recognisedBoxes.push(boundingBoxes[0][i])
+		}
+	}
     }
+
+/*   let threshold=0.4
+   probabilities[0].forEach((probabilities, i) => {
+	if(classes[0][i]==1 || classes[0][i]==2)
+		probXview=probabilities ;
+      if (probabilities > threshold) {
+		recognisedDetails.push(classes[0][i])
+		recognisedBoxes.push(boundingBoxes[0][i])
+      }
+    })
+
+*/
+
     return [recognisedDetails, recognisedBoxes]
 }
 
@@ -391,21 +381,22 @@ function hideInfoSheet() {
 }
 
 
+
 const infoDisplayLatency = 5;
 let displayCounter = 0;
-async function predictLoop() {
-    console.log('Recognition Started!')
+//async function predictLoop() {
+function renderPredictions(predictions, video) {
+//    console.log('Recognition Started!')
  
-    document.getElementById('prob_view').innerText=probXview;
-
     let bounding_boxes = document.getElementsByClassName('bounding-box')
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
     }
-    let imageObjects = await detectObjects(webcam);
-    let predictions = getObjects(imageObjects);
-    let results = predictions[0];
-    let boundingBoxes = predictions[1];
+//    let imageObjects = await detectObjects(webcam);
+    let predict = getObjects(predictions);
+    document.getElementById('prob_view').innerText=probXview;
+    let results = predict[0];
+    let boundingBoxes = predict[1];
     if (results.length !== 0) {
         displayInfo(results, boundingBoxes);
         displayCounter = 0;
@@ -421,23 +412,22 @@ async function predictLoop() {
 function startPredictLoop() {
     document.getElementById('prob_view').innerText=probXview;
     if (webcam.readyState >= 2 && objectDetector != undefined) {
-	predictLoop();
-//        console.log('Ready to predict');
-      setTimeout(function () {
+        console.log('Ready to predict');
+        setTimeout(function () {
             camera_box.classList.add('loaded');
-        }, setPredictTimeOut);
+        }, 2000);
         setInterval(function () {
             predictLoop()
-        }, setPredictTimeOut)
+        }, 2000)
     } else {
         setTimeout(function () {
             startPredictLoop()
-        }, setPredictLoopTimer)
+        }, 1000)
     }
 }
 
 
-const webcam = document.getElementById('camera--view');
+//const webcam = document.getElementById('camera--view');
 const camera_box = document.getElementById('camera');
 const detailContainer = document.getElementById('detailContainer');
 const sheetContents = sheet.querySelector(".contents");
@@ -466,4 +456,8 @@ detail_view_close_button.addEventListener('click', function () {
 
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
-startPredictLoop();
+//startPredictLoop();
+// Take a picture when cameraTrigger is tapped
+
+// Start the video stream when the window loads
+window.addEventListener("load", cameraStart, false);
