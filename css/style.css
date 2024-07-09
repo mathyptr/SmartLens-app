@@ -68,7 +68,7 @@ html, body{
     position: fixed;
     height: 100%;
     width: 100%;
-    /*MATHY object-fit: cover;*/
+    object-fit: cover;
     z-index: 1;
 }
 
