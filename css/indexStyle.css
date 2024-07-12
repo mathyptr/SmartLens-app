@@ -113,3 +113,141 @@ img {vertical-align: middle;}
         transform: scale(1.8);
     }
 }
+
+
+
+/* css scritto da me */
+.listContainer{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    place-items: center;
+    width: fit-content;
+    padding: 0;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.listContainer .overflow-hidden{
+    width: 300px;
+    overflow: hidden !important;
+    position: relative;
+}
+
+.listItem{
+    width: 100%;
+    aspect-ratio: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-origin: 0;
+    transition: all 300ms ease-in;
+    position: relative;
+}
+
+.listContainer > .overflow-hidden:hover > .listItem{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.paintTitle{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 60px;
+    z-index: 2;
+    background-color: white;
+    opacity: .7;
+    display: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    place-items: center;
+    cursor: pointer;
+}
+
+.overflow-hidden:hover .paintTitle{
+    display: grid;
+}
+
+.overflow-hidden:nth-child(1) .listItem{
+    background-image: url("../images/venere.jpg");
+}
+
+.overflow-hidden:nth-child(2) .listItem{
+    background-image: url("../images/Soffitto.jpg");
+}
+
+.overflow-hidden:nth-child(3) .listItem{
+    background-image: url("../images/Vista-uffizi.jpg");
+}
+
+#mytxt {
+    font-style: italic; 
+    text-align: center;
+}
+
+.myForm{
+    border: 2px solid;
+    border-color: black;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color:white;
+    background-color: black; 
+    box-shadow: 5px 5px 5px #dedede;
+}
+
+
+
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 85% 15%;
+  }
+  
+  /* The Close Button */
+  .close, .modal-content .material-symbols-outlined{
+    color: #aaaaaa;
+    font-size: 1.3rem !important;
+    font-weight: bold;
+    transition: all 200ms;
+    cursor: pointer !important;
+  }
+
+  .ctaContainer{
+    display: flex;
+    place-items: center;
+    justify-content: flex-end;
+    gap: 10%;
+  }
+  
+  .close:hover,
+  .close:focus, 
+  .material-symbols-outlined:hover,
+  .material-symbols-outlined:focus {
+    color: #000 !important;
+    text-decoration: none;
+    cursor: pointer;
+  }

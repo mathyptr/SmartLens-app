@@ -388,7 +388,14 @@ let displayCounter = 0;
 function renderPredictions(predictions, video) {
 //    console.log('Recognition Started!')
  
-    let bounding_boxes = document.getElementsByClassName('bounding-box')
+//if (webcam.readyState >= 2 && objectDetector != undefined) {
+    let element=document.getElementById("loader-wrapper");
+    if(element!=null)
+        element.remove();
+//}
+
+
+   let bounding_boxes = document.getElementsByClassName('bounding-box')
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
     }

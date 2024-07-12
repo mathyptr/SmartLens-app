@@ -7,11 +7,12 @@ if (!$conn) {
     echo 'Connection error: ' . mysqli_connect_error();
 }
 $id = $conn->escape_string($id);
-$sql = "SELECT * FROM details WHERE id='$id'";
+$sql = "SELECT * FROM details_en WHERE id='$id'";
 
 $result = mysqli_query($conn, $sql);
 
 $detail = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 
 mysqli_close($conn)
 

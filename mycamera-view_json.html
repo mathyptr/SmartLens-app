@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/loadingOverlay.css">
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/getDetail_init.js"></script>
+    <script type="text/javascript" src="js/label.js"></script>
 </head>
 <body>
 <!-- Camera -->
@@ -50,7 +51,7 @@
 
         <div id="detailContainer">
             <p class="info" id="over-details">
-                Click on details for more information
+               <!-- Click on details for more information-->
             </p>
             <a id="detail0_0" class="details">
                 <img src="" class="detailImg">
@@ -106,10 +107,10 @@
                         <audio id="audio" controls src=""></audio>
                         <button type="button" id="audioGuide">
                             <img class="responsive-image" src="images/icons/Audio%20Icon.png">
-                            <p>Listen the audio guide</p>
+                            <p id="listenGuide"><!--Listen the audio guide--></p>
                         </button>
                         <button type="button" id="restart">
-                            &#8635; Restart
+                            &#8635; <!--Restart-->
                         </button>
                         <p id="description">
 

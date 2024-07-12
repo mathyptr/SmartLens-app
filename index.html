@@ -8,14 +8,17 @@
     <title>Smart Lens</title>
     <!-- Link to your main style sheet-->
     <link rel="stylesheet" href="css/indexStyle.css">
+    <script type="text/javascript" src="js/label.js"></script>
 </head>
-<body>
+<body onload=setLabel();>
 <div id="languageContainer">
     <a id="English" href="#" style="border-bottom: 2px solid black;">English</a>
     <a id="Italian" href="it/index.html">Italiano</a>
+    <a id="Italian" href="areaRiservata.html">Area riservata</a>
 </div>
 <h2 id="title">
     <img src="images/Reinherit-Logo(31x30).jpg" alt="ReInHerit logo" class="responsive-image">
+    <!--ReInHerit Smart Lens-->
     ReInHerit Smart Lens
 </h2>
 <div class="slideshow-container">
@@ -41,12 +44,11 @@
 </div>
 
 <a href="mycamera-view_json.html" id="toCamera">
-    Try the interactive guide
+    
 </a>
 
-<p style="text-align: justify">
-    Try Smart Lens now! Using this interactive guide you will receive information about artwork and artwork details that
-    you are looking at. You just need to frame it on your smartphone!</p>
+<p style="text-align: justify" id="intro">
+    </p>
 
 <ul class="social">
     <a href="https://www.reinherit.eu">
