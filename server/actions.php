@@ -6,13 +6,14 @@ require_once("config.php");
 
 $action = $_POST['action'];
 $version = $_POST['version'];
+$data = $_POST['data'];
+$type = $_POST['type'];
 
 /* contains the DB query string */
 $query_string = "";
 
 /* handle different query types */
 switch ($action) {
-
     case "getFeatures" :
         //echo($action);
         getFeatures($version);
@@ -26,6 +27,9 @@ switch ($action) {
         getDetailIDs($version);
         break;
 
+    case "updateDetails": //mathy
+        updateDetails($type, $data);
+       break;
 }
 
 
@@ -156,4 +160,34 @@ function getDetailIDs($version)
 
     echo json_encode($detailIDs);
     mysqli_close($conn);
+}
+
+function updateDetails($type, $data) //mathy
+{
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
+    }
+
+    if($type==1)
+        $sql = "UPDATE details_en SET artwork ='" . $data . "'";
+
+    else if($type==2)
+        $sql = "UPDATE details_en SET author ='" . $data . "'";
+
+    else if($type==3)
+        $sql = "UPDATE details_en SET description='" . $data . "'";
+
+    echo $sql;
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+  
+  $conn->close();
 }

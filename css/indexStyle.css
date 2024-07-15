@@ -251,3 +251,33 @@ img {vertical-align: middle;}
     text-decoration: none;
     cursor: pointer;
   }
+
+  textarea {
+    resize: none !important;
+  }
+
+  #sectionTitle , #mytxt {
+    font-family:  "Brush Script MT";
+    font-size: 250%;
+    padding-bottom: 1%;
+    text-align: center;
+  }
+
+  #divDetail , .mySlides{
+    text-align: center;
+    display: block;
+  }
+
+  #imgDetail , .imgExample{
+    width:70%;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+    /* h2 {
+    position: fixed;
+    background-color: white ;
+    z-index: 1;
+  }*/

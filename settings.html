@@ -9,33 +9,36 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/sett.js" defer></script>
+    <script type="text/javascript" src="js/label.js" defer></script>
 </head>
-<body>
+<body >
 </div>
 <div id="languageContainer">
     <a id="English" href="#" style="border-bottom: 2px solid black;">English</a>
-    <a id="Italian" href="it/index.html">Italiano</a>
+    <a id="Italian">Italiano</a>
 </div>
     <h2 id="title">
     <img src="images/Reinherit-Logo(31x30).jpg" alt="ReInHerit logo" class="responsive-image">
-    Sezione modifiche
+    ReInHerit Smart Lens
     </h2>
     <div>
-        <div>
-            <img src="images/venere.jpg" style="width:100%">
+        <div id="sectionTitle"></div>
+        <div  id="divDetail">
+            <img id="imgDetail" src="images/venere.jpg">
         </div>
     </div>
     
     <div class="listContainer">
         <div class="listItem">
-        <p id="btnTitle" class="myForm">Titolo</p>
+        <p id="btnTitle" class="myForm"></p>
         <div id="modalTitle" class="modal">
             <div class="modal-content">
-                <input id="modTitle" placeholder="Something..." disabled></input>
+                <textarea  id="modTitle" disabled></textarea>
                 <div class="ctaContainer">
                     <span class="material-symbols-outlined mod">draw</span>
-                    <span class="material-symbols-outlined">save_as</span>
+                    <span class="material-symbols-outlined" id="saveTitle">save_as</span>
                     <span class="material-symbols-outlined close">close</span>
                 </div>
             </div>
@@ -43,13 +46,13 @@
         </div>
 
         <div class="listItem">
-            <p id="btnAuthor" class="myForm">Autore</p>
+            <p id="btnAuthor" class="myForm"></p>
             <div id="modalAuthor" class="modal">
                 <div class="modal-content">
-                    <input id="modAuthor" placeholder="Something..." disabled></input>
+                    <textarea id="modAuthor" disabled></textarea>
                     <div class="ctaContainer">
                         <span class="material-symbols-outlined mod">draw</span>
-                        <span class="material-symbols-outlined">save_as</span>
+                        <span class="material-symbols-outlined" id="saveAuthor">save</span>
                         <span class="material-symbols-outlined close">close</span>
                     </div>
                 </div>
@@ -57,13 +60,13 @@
             </div>
 
         <div class="listItem">
-        <p id="btnDesc" class="myForm">Descrizione</p>
+        <p id="btnDesc" class="myForm"></p>
         <div id="modalDesc" class="modal">
             <div class="modal-content">
-                <input id="modDesc" placeholder="Something..." disabled></input>
+                <textarea cols="30" rows="10" id="modDesc"  disabled></textarea>
                 <div class="ctaContainer">
                     <span class="material-symbols-outlined mod">draw</span>
-                    <span class="material-symbols-outlined">save_as</span>
+                    <span class="material-symbols-outlined" id="saveDesc">save_as</span>
                     <span class="material-symbols-outlined close">close</span>
                 </div>
             </div>
