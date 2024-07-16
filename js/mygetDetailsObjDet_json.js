@@ -59,8 +59,11 @@ async function load_model() {
 //    const model = await tf.loadGraphModel(modelURL,{fromTFHub: false});
     const model = await tf.loadGraphModel(modelURL);
     tensor_label= model.outputNodes;
+    console.log('TFJS version: ' + tf.version.tfjs);
     console.log("model.outputNodes: "+model.outputNodes);
-    console.log("model.signature: "+model.signature)
+    console.log("model.signature: "+model.signature);
+    console.log("model.signature outputs: "+model.signature.outputs);
+    console.log("model.signature outputs: "+Object.entries(model.signature.outputs));
     return model;
   }
 
@@ -208,7 +211,7 @@ function getObjects(predictions) {
     let probabilities = undefined;
     let numdet = undefined;
     let prd = [];
-
+/*
     for(let i = 0; i < tensor_label.length; i++) {
         if(tensor_label[i]==classes_label)
             classes_id = i;
@@ -219,6 +222,7 @@ function getObjects(predictions) {
         else if(tensor_label[i]==num_detections_label)
             numdet_id = i;
     }
+    */
 
     boundingBoxes = predictions[bb_id].arraySync();
     classes = predictions[classes_id].arraySync();

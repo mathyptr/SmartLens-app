@@ -10,12 +10,14 @@ var intro;
 var more_info;
 var listen_guide;
 var btn_restart;
+var res;
 
 //label per settings.html
 var section_title;
 var btn_title;
 var btn_author;
 var btn_desc;
+
 
 //label per areaRiservata.html
 var txt;
@@ -31,6 +33,7 @@ const label_intro = document.getElementById('intro');
 const label_more_info= document.getElementById('more_info');
 const label_listen_guide= document.getElementById('listenGuide');
 const label_btn_restart= document.getElementById('restart');
+const label_res= document.getElementById('res');
 
 const label_section_title= document.getElementById('sectionTitle');
 const label_btn_title= document.getElementById('btnTitle');
@@ -50,6 +53,7 @@ intro="Try Smart Lens now! Using this interactive guide you will receive informa
 more_info="Click on details for more information";
 listen_guide="Listen the audio guide";
 btn_restart="Restart";
+res="Reservered area";
 
 //label per settings.html
 section_title="Settings section";
@@ -59,7 +63,7 @@ btn_desc="Description";
 
 //label per areaRiservata.html
 txt="List of artworks";
-artworks=["Venere di Botticelli", "Venere di Botticelli", "Venere di Botticelli"];
+artworks=["Venere, Botticelli", "Duchi di Urbino, Della Francesca", "Annunciazione, Da Vinci"];
 
 //guardare se serve o se basta la label listen_guide
 listen="Ascolta la guida";
@@ -72,6 +76,7 @@ function setIt (){
     more_info="Clicca sui dettagli per ricevere informazioni";
     listen_guide="Ascolta la guida";
     btn_restart="Restart";
+    res="Area riservata";
 
     //label per settings.html
     section_title="Sezione modifiche";
@@ -99,6 +104,7 @@ function setLabel(language){
     if(label_btn_try!=null){ //label per index.html
         label_btn_try.innerText=btn_try;
         label_intro.innerText=intro;
+        label_res.innerText=res;
     }
 
     if(label_more_info!=null){ //label per mycamera-view_json.html
@@ -138,5 +144,17 @@ function setLabel(language){
         en.style.borderBottom="2px solid black";
         it.style.borderBottom="0px";
     }
+
+    var art=[];
+    for(i=0;i<n;i++)
+            art[i]=document.getElementsByClassName("paintTitle")[i];
+
+    if(art[0]!=null){
+        art[0].onclick= function(){ window.location.href = './settings.html'; }
+        art[1].onclick= function(){ window.location.href = './settings.html';}
+        art[2].onclick= function(){ window.location.href = './settings.html';};
+    
+    }
+    
 }
 

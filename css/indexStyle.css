@@ -31,6 +31,7 @@ img {vertical-align: middle;}
     border-bottom: 2px solid black;
     padding-bottom: 10px;
     margin-top: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* Slideshow container */
@@ -109,9 +110,6 @@ img {vertical-align: middle;}
         min-height: 200px;
         overflow: hidden;
     }
-    .mySlides img{
-        transform: scale(1.8);
-    }
 }
 
 
@@ -126,6 +124,8 @@ img {vertical-align: middle;}
     margin: 0 auto;
     gap: 20px;
 }
+
+
 
 .listContainer .overflow-hidden{
     width: 300px;
@@ -171,15 +171,15 @@ img {vertical-align: middle;}
 }
 
 .overflow-hidden:nth-child(1) .listItem{
-    background-image: url("../images/venere.jpg");
+    background-image: url("../images/Venere_botticelli.jpg");
 }
 
 .overflow-hidden:nth-child(2) .listItem{
-    background-image: url("../images/Soffitto.jpg");
+    background-image: url("../images/Duchi_Urbino.jpg");
 }
 
 .overflow-hidden:nth-child(3) .listItem{
-    background-image: url("../images/Vista-uffizi.jpg");
+    background-image: url("../images/Annunciazione.jpg");
 }
 
 #mytxt {
@@ -257,10 +257,10 @@ img {vertical-align: middle;}
   }
 
   #sectionTitle , #mytxt {
-    font-family:  "Brush Script MT";
-    font-size: 250%;
+    font-size: 200%;
     padding-bottom: 1%;
     text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
   }
 
   #divDetail , .mySlides{
@@ -276,8 +276,67 @@ img {vertical-align: middle;}
     cursor: pointer;
   }
 
-    /* h2 {
+#languageContainer{
     position: fixed;
-    background-color: white ;
-    z-index: 1;
-  }*/
+    right:2%;
+    z-index: 100;
+  }
+
+  #logo{
+    padding-left: 2%;
+  }
+
+  #res{
+    font-size: 15px;
+  }
+
+
+  @media only screen and (max-width:768px){
+    #myList{
+    grid-template-columns: 1fr;
+    }
+    #languageContainer{
+        position: absolute;
+        right:3%;
+        margin-top: 1%;
+        z-index: 100;
+        text-size-adjust: 2px !important;
+      }
+    #title{
+        margin-top: 2%;
+        padding-bottom: 2%;
+        font-size: 95%;
+    }
+    #sectionTitle , #mytxt {
+        font-size: 95%;
+        margin:2%;
+      }
+    #logo{
+        right:3.8%;
+        position: fixed;
+        height: 3%;
+        width: 7.5%;
+        margin-top: 12%;
+    }
+    #myBtn{
+        margin-top: 2%;
+        font-size: 65%;
+    }
+    textarea{
+        width: 80%;
+    }
+    .slideshow-container{
+        margin-top: 14%;
+    }
+    .mySlides{
+        width: 100%;
+        bottom: 0px;
+    }
+    .imgExample, #imgDetail{
+        width: 80%;
+    }
+    .slideshow-container{
+        height: 50%;
+    }
+
+}
