@@ -3,12 +3,18 @@ let version = 3;  // Object detection mode
 //let detailIDs = undefined;
 //let details = undefined;
 let objectDetector = undefined;
+let tensor_label=[];
 
 let bb_id=0;
 let classes_id=0;
 let prob_id=0;
-
+let numdet_id=0;
 let probXview=0;
+
+const classes_label= "Identity_2:0";
+const boundingBox_label= "detection_boxes";
+const probabilities_label= "Identity_4:0";
+const num_detections_label="num_detections";
 
 
 // Set constraints for the video stream
@@ -52,6 +58,9 @@ async function load_model() {
     //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
 //    const model = await tf.loadGraphModel(modelURL,{fromTFHub: false});
     const model = await tf.loadGraphModel(modelURL);
+    tensor_label= model.outputNodes;
+    console.log("model.outputNodes: "+model.outputNodes);
+    console.log("model.signature: "+model.signature)
     return model;
   }
 
@@ -188,21 +197,33 @@ async function detectObjects(webcam) {
 
 
 function getObjects(predictions) {
-    
+
     bb_id=1;
     classes_id=0;
     prob_id=4;
+    numdet_id = 5;
 
     let boundingBoxes = undefined;
     let classes = undefined;
     let probabilities = undefined;
+    let numdet = undefined;
     let prd = [];
 
+    for(let i = 0; i < tensor_label.length; i++) {
+        if(tensor_label[i]==classes_label)
+            classes_id = i;
+        else if(tensor_label[i]==boundingBox_label)
+            bb_id = i;
+        else if(tensor_label[i]==probabilities_label)
+            prob_id = i;
+        else if(tensor_label[i]==num_detections_label)
+            numdet_id = i;
+    }
 
     boundingBoxes = predictions[bb_id].arraySync();
     classes = predictions[classes_id].arraySync();
     probabilities = predictions[prob_id].arraySync();
-
+    numdet = predictions[numdet_id].arraySync();
 /*
     for(let i = 0; i < predictions.length; i++) {
         prd[i] = predictions[i].arraySync();
