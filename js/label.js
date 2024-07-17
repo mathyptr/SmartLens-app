@@ -22,8 +22,6 @@ var btn_desc;
 //label per areaRiservata.html
 var txt;
 var artworks=[];
-var artwork;
-var author;
 
 //guardare se serve o se basta la label listen_guide
 var listen;
@@ -170,19 +168,23 @@ function setLabel(language){
         label_listen.innerText=listen;
     }
 }
-    it.onclick= function () { 
-        setIt(); 
-        setLabel("it");
-        it.style.borderBottom="2px solid black";
-        en.style.borderBottom="0px";
+ 
+    if(it!=null){
+        it.onclick= function () { 
+            setIt(); 
+            setLabel("it");
+            it.style.borderBottom="2px solid black";
+            en.style.borderBottom="0px";
+        }
+    
+        en.onclick= function () { 
+            setIt(); 
+            setLabel("en");
+            en.style.borderBottom="2px solid black";
+            it.style.borderBottom="0px";
+        }
     }
-
-    en.onclick= function () { 
-        setIt(); 
-        setLabel("en");
-        en.style.borderBottom="2px solid black";
-        it.style.borderBottom="0px";
-    }
+   
 
     /*var art=[];
     for(i=0;i<n;i++)

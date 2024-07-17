@@ -11,10 +11,13 @@ let prob_id=0;
 let numdet_id=0;
 let probXview=0;
 
+
 const classes_label= "Identity_2:0";
-const boundingBox_label= "detection_boxes";
+const boundingBox_label= "Identity_1:0";
 const probabilities_label= "Identity_4:0";
 const num_detections_label="num_detections";
+
+
 
 
 // Set constraints for the video stream
@@ -58,7 +61,8 @@ async function load_model() {
     //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
 //    const model = await tf.loadGraphModel(modelURL,{fromTFHub: false});
     const model = await tf.loadGraphModel(modelURL);
-    tensor_label= model.outputNodes;
+    //tensor_label= model.outputNodes;
+    tensor_label= model.signature.outputs;
     console.log('TFJS version: ' + tf.version.tfjs);
     console.log("model.outputNodes: "+model.outputNodes);
     console.log("model.signature: "+model.signature);
@@ -66,8 +70,6 @@ async function load_model() {
     console.log("model.signature outputs: "+Object.entries(model.signature.outputs));
     return model;
   }
-
-
 
 // Access the device camera and stream to cameraView
 function cameraStart() {
@@ -213,16 +215,28 @@ function getObjects(predictions) {
     let prd = [];
 /*
     for(let i = 0; i < tensor_label.length; i++) {
-        if(tensor_label[i]==classes_label)
+        if(tensor_label[i]['name']==classes_label)
             classes_id = i;
-        else if(tensor_label[i]==boundingBox_label)
+        else if(tensor_label[i]['name']==boundingBox_label)
             bb_id = i;
-        else if(tensor_label[i]==probabilities_label)
+        else if(tensor_label[i]['name']==probabilities_label)
             prob_id = i;
-        else if(tensor_label[i]==num_detections_label)
+        else if(tensor_label[i]['name']==num_detections_label)
             numdet_id = i;
     }
-    */
+*/
+    let i=0;
+    for (const [key, value] of Object.entries(tensor_label)) {
+        if(value['name']==classes_label)
+            classes_id = i;
+        else if(value['name']==boundingBox_label)
+            bb_id = i;
+        else if(value['name']==probabilities_label)
+            prob_id = i;
+        else if(value['name']==num_detections_label)
+            numdet_id = i;
+        i++;
+    }
 
     boundingBoxes = predictions[bb_id].arraySync();
     classes = predictions[classes_id].arraySync();
@@ -232,8 +246,8 @@ function getObjects(predictions) {
     for(let i = 0; i < predictions.length; i++) {
         prd[i] = predictions[i].arraySync();
         if(prd[i][0][0] != undefined) {
-	    if (!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length != 4) {
-	       prob_id = i;
+   if (!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length != 4) {
+      prob_id = i;
                probabilities = prd[i];//.arraySync();
             }else if(!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length == 4){
                 bb_id = i;
@@ -251,25 +265,25 @@ function getObjects(predictions) {
     let recognisedBoxes = []
 
     for (let i = 0; i < classes[0].length; i++) {
-	probXview=probabilities[0][i] ;
-//	if(classes[0][i]<25)
-	{
-		let detail_confidence=detailIDs[classes[0][i]]['confidence'] ;
-//		let detail_confidence=0.75 ;
-		if (probabilities[0][i] > detail_confidence && !recognisedDetails.includes(classes[0][i])) {
-			recognisedDetails.push(classes[0][i])
-			recognisedBoxes.push(boundingBoxes[0][i])
-		}
-	}
+        probXview=probabilities[0][i] ;
+// if(classes[0][i]<25)
+        {
+            let detail_confidence=detailIDs[classes[0][i]]['confidence'] ;
+// let detail_confidence=0.75 ;
+            if (probabilities[0][i] > detail_confidence && !recognisedDetails.includes(classes[0][i])) {
+                recognisedDetails.push(classes[0][i])
+                recognisedBoxes.push(boundingBoxes[0][i])
+            }
+        }
     }
 
 /*   let threshold=0.4
    probabilities[0].forEach((probabilities, i) => {
-	if(classes[0][i]==1 || classes[0][i]==2)
-		probXview=probabilities ;
+if(classes[0][i]==1 || classes[0][i]==2)
+probXview=probabilities ;
       if (probabilities > threshold) {
-		recognisedDetails.push(classes[0][i])
-		recognisedBoxes.push(boundingBoxes[0][i])
+recognisedDetails.push(classes[0][i])
+recognisedBoxes.push(boundingBoxes[0][i])
       }
     })
 

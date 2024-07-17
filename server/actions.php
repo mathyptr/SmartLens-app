@@ -4,11 +4,20 @@
 header('Content-Type: text/json');
 require_once("config.php");
 
-$action = $_POST['action'];
-$version = $_POST['version'];
-$data = $_POST['data'];
-$type = $_POST['type'];
-$id = $_POST['id'];
+if(isset($_POST['action']))
+    $action = $_POST['action'];
+
+if(isset($_POST['version']))
+    $version = $_POST['version'];
+
+if(isset($_POST['data']))
+    $data = $_POST['data'];
+
+if(isset($_POST['type']))
+    $type = $_POST['type'];
+
+if(isset($_POST['id']))
+    $id = $_POST['id'];
 
 /* contains the DB query string */
 $query_string = "";
@@ -32,9 +41,9 @@ switch ($action) {
         updateDetails($type, $data,$id);
        break;
 
-    case "getArtwork": //mathy
+    /*case "getArtwork": //mathy
         getArtwork($id);
-    break;
+    break;*/
        
 }
 
@@ -199,7 +208,7 @@ function updateDetails($type, $data, $id) //mathy
 }
 
 
-function getArtwork($id)
+/*function getArtwork($id)
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -220,4 +229,4 @@ function getArtwork($id)
 
     echo json_encode($artwork);
     mysqli_close($conn);
-}
+}*/
