@@ -3,18 +3,21 @@ var author;
 var description;
 
   function getDetailsInfoJSON(detail_id, lang) {
-            fetch('detailView_json.php?id=' + detail_id + '&lang=' + lang)
+    var name=document.getElementById("modTitle");
+    var auth=document.getElementById("modAuthor");
+    var desc=document.getElementById("modDesc");
+
+            fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang)
                 .then((response) => response.json())
                 .then((data) => {
-                        const name = data[0]['detail-name'];
-                        artwork = data[0]['artwork'];
-                        author = data[0]['author'];
-                        description = data[0]['description'];
+                        name.innerText = data[0]['title'];
+                        auth.innerText = data[0]['author'];
+                        desc.innerText = data[0]['description'];
                     }
                 );
         }
         
-        window.onload=getDetailsInfoJSON("BOCCF-cf","en");
+   //     window.onload=getDetailsInfoJSON(id,"en");
         // Get the modal
         var modalTitle = document.getElementById("modalTitle");
         var modalAuthor = document.getElementById("modalAuthor");
@@ -44,19 +47,25 @@ var description;
         // When the user clicks the button, open the modal 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
-            var name=document.getElementById("modTitle");
-            name.innerText=artwork;
+            //var name=document.getElementById("modTitle");
+           // name.innerText=artwork;
         }
         btnAuthor.onclick = function () {
             modalAuthor.style.display = "block";
-            var auth=document.getElementById("modAuthor");
-            auth.innerText=author;
+           // var auth=document.getElementById("modAuthor");
+           // auth.innerText=author;
         }
         btnDesc.onclick = function () {
             modalDesc.style.display = "block";
-            var desc=document.getElementById("modDesc");
-            desc.innerText=description;
+          //  var desc=document.getElementById("modDesc");
+           // desc.innerText=description;
         }
+
+       
+ 
+
+
+
 
         // When the user clicks on <span> (x), close the modal
         spanTitle.onclick = function(){
@@ -100,7 +109,7 @@ var description;
         saveTitle.onclick = function(){
             var title=document.getElementById("modTitle");
             var data=title.value;
-            saveData(1,data);
+            saveData(1,data, document.cookie);
             title.style.backgroundColor="#ecffde";
             title.style.border="2px solid green";
             setTimeout(() => {  
@@ -113,7 +122,7 @@ var description;
         saveAuthor.onclick = function(){
             var auth=document.getElementById("modAuthor");
             var data=auth.value;
-            saveData(2,data);
+            saveData(2,data,document.cookie);
             auth.style.backgroundColor="#ecffde";
             auth.style.border="2px solid green";
             setTimeout(() => {  
@@ -126,7 +135,7 @@ var description;
         saveDesc.onclick = function(){
             var desc=document.getElementById("modDesc");
             var data=desc.value;
-            saveData(3,data);
+            saveData(3,data,document.cookie);
             desc.style.backgroundColor="#ecffde";
             desc.style.border="2px solid green";
             setTimeout(() => {  
@@ -136,7 +145,7 @@ var description;
             document.getElementById("modDesc").disabled=true;
         }
 
-        function saveData (type,data){
+        function saveData (type,data, id){
             var request_type = "updateDetails";
             $.ajax({
                 type: "POST",
@@ -144,9 +153,26 @@ var description;
                 data: {
                     "action": request_type,
                     "data": data,
-                    "type": type
+                    "type": type,
+                    "id": id
                 },
                 async: false
                 });
         }
+
+        if(document.cookie==1){
+            getDetailsInfoJSON(1,"en");
+            document.getElementById("imgDetail").src="./images/Venere_botticelliEx.jpg";
+        }
+            
+        else if(document.cookie==2){
+            getDetailsInfoJSON(2,"en");
+            document.getElementById("imgDetail").src="./images/Duchi_UrbinoEx.jpg";
+        }
+            
+        else if(document.cookie==3){
+            getDetailsInfoJSON(3,"en");
+            document.getElementById("imgDetail").src="./images/Annunciazione.jpg";
+        }
+            
       

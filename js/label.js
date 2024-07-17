@@ -22,6 +22,8 @@ var btn_desc;
 //label per areaRiservata.html
 var txt;
 var artworks=[];
+var artwork;
+var author;
 
 //guardare se serve o se basta la label listen_guide
 var listen;
@@ -45,6 +47,30 @@ const label_listen = document.getElementById('ascoltaGuida');
 const label_txt= document.getElementById('mytxt');
 const label_artworks=[];
 
+for(i=0;i<n;i++)
+    label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
+
+
+function getDetailsInfoJSON(detail_id, lang) {
+    fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang)
+        .then((response) => response.json())
+        .then((data) => {
+            label_artworks[detail_id-1].innerText = data[0]['title'];
+            //author = data[0]['author'];
+            }
+        );
+}
+
+
+
+/*function getDetailsInfoJSON(detail_id, lang) {
+    return fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang).then(function(response) {
+        return response.json();
+    }).then(function(json) {
+        return json;
+    });
+}*/
+
 
 function setEn (){
 //label per index.html
@@ -63,7 +89,6 @@ btn_desc="Description";
 
 //label per areaRiservata.html
 txt="List of artworks";
-artworks=["Venere, Botticelli", "Duchi di Urbino, Della Francesca", "Annunciazione, Da Vinci"];
 
 //guardare se serve o se basta la label listen_guide
 listen="Ascolta la guida";
@@ -86,20 +111,20 @@ function setIt (){
 
     //label per areaRiservata.html
     txt="Lista delle opere";
-    artworks=["Venere di Botticelli", "Venere di Botticelli", "Venere di Botticelli"];
 
     //guardare se serve o se basta la label listen_guide
     listen="Ascolta la guida";
 }
 
-window.onload=setLabel("");
+//window.onload= setLabel("");
+
+window.onload= setLabel("");
 
 function setLabel(language){
+    
     if ((default_lan=="en")&&(language!="it"))
         setEn();
 
-    for(i=0;i<n;i++)
-    label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
     if(label_btn_try!=null){ //label per index.html
         label_btn_try.innerText=btn_try;
@@ -119,18 +144,32 @@ function setLabel(language){
         label_btn_author.innerText=btn_author;
         label_btn_desc.innerText=btn_desc;
     }
-
+    
     if(label_txt!=null){ //label per areaRiservata.html
         label_txt.innerText=txt;
-        for(i=0;i<n;i++)
-            label_artworks[i].innerText=artworks[i];
+       /*getDetailsInfoJSON(1,"en").then(function (result) {
+            artwork = result[0]['title'];
+            author = result[0]['author'];
+        });*/
+        getDetailsInfoJSON(1,"en");
+        getDetailsInfoJSON(2,"en");
+        getDetailsInfoJSON(3,"en");
+        /*var result= getArtwork(1);
+        artwork = result[0]['title'];
+        author = result[0]['author'];*/
+
+
+       /* label_artworks[0].innerText=artwork+", "+author;
+        label_artworks[1].innerText=artwork+", "+author;
+        label_artworks[2].innerText=artwork+", "+author;*/
+
     }
 
     //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
         label_listen.innerText=listen;
     }
-   
+}
     it.onclick= function () { 
         setIt(); 
         setLabel("it");
@@ -145,16 +184,48 @@ function setLabel(language){
         it.style.borderBottom="0px";
     }
 
-    var art=[];
+    /*var art=[];
     for(i=0;i<n;i++)
-            art[i]=document.getElementsByClassName("paintTitle")[i];
+            art[i]=document.getElementsByClassName("paintTitle")[i];*/
 
-    if(art[0]!=null){
-        art[0].onclick= function(){ window.location.href = './settings.html'; }
-        art[1].onclick= function(){ window.location.href = './settings.html';}
-        art[2].onclick= function(){ window.location.href = './settings.html';};
+    if(label_artworks[0]!=null){
+        label_artworks[0].onclick= function(){ 
+            document.cookie=1;
+            window.location.href = './settings.html';
+         }
+        label_artworks[1].onclick= function(){ 
+            document.cookie=2;
+            window.location.href = './settings.html';}
+        label_artworks[2].onclick= function(){ 
+            document.cookie=3;
+            window.location.href = './settings.html';}
     
     }
-    
-}
 
+
+
+    function getArtwork (id){
+        var request_type = "getArtwork";
+        var tmp = null;
+        $.ajax({
+            type: "POST",
+            url: "server/actions.php",
+            async: true,
+            data: {
+                "action": request_type,
+                "id": id
+            },
+            dataType: "json",
+            //headers: {"Content-type" :"application/x-www-form-urlencoded"},
+            success: function (data) {
+                tmp = data;
+                return data;
+            },
+        });
+        if (tmp == null)
+            alert('Can not connect to Smart Lens database!')
+        return tmp;
+    };
+
+
+    

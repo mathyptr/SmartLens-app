@@ -8,6 +8,7 @@ $action = $_POST['action'];
 $version = $_POST['version'];
 $data = $_POST['data'];
 $type = $_POST['type'];
+$id = $_POST['id'];
 
 /* contains the DB query string */
 $query_string = "";
@@ -28,8 +29,13 @@ switch ($action) {
         break;
 
     case "updateDetails": //mathy
-        updateDetails($type, $data);
+        updateDetails($type, $data,$id);
        break;
+
+    case "getArtwork": //mathy
+        getArtwork($id);
+    break;
+       
 }
 
 
@@ -162,7 +168,7 @@ function getDetailIDs($version)
     mysqli_close($conn);
 }
 
-function updateDetails($type, $data) //mathy
+function updateDetails($type, $data, $id) //mathy
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -172,22 +178,46 @@ function updateDetails($type, $data) //mathy
     }
 
     if($type==1)
-        $sql = "UPDATE details_en SET artwork ='" . $data . "'";
+        $sql = "UPDATE artworks SET artwork ='" . $data . "' where id='".$id."'";
 
     else if($type==2)
-        $sql = "UPDATE details_en SET author ='" . $data . "'";
+        $sql = "UPDATE artworks SET author ='" . $data . "' where id='".$id."'";
 
     else if($type==3)
-        $sql = "UPDATE details_en SET description='" . $data . "'";
+        $sql = "UPDATE artworks SET description='" . $data . "' where id='".$id."'";
 
     echo $sql;
     
     if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+        echo "Record updated successfully";
     ;
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
   
   $conn->close();
+}
+
+
+function getArtwork($id)
+{
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
+    }
+
+    $sql = "SELECT * FROM artworks where id='".$id."'";
+    $result = mysqli_query($conn, $sql);
+    // loop over results
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $title = $row['title'];
+        $author = $row['author'];
+        $description = $row['description'];
+        $artwork=('title' => $title,'author' => $author,'description' => $description);
+    }
+
+    echo json_encode($artwork);
+    mysqli_close($conn);
 }
