@@ -170,7 +170,7 @@ img {vertical-align: middle;}
     display: grid;
 }
 
-.overflow-hidden:nth-child(1) .listItem{
+/*.overflow-hidden:nth-child(1) .listItem{
     background-image: url("../images/Venere_botticelli.jpg");
 }
 
@@ -180,14 +180,14 @@ img {vertical-align: middle;}
 
 .overflow-hidden:nth-child(3) .listItem{
     background-image: url("../images/Annunciazione.jpg");
-}
+}*/
 
 #mytxt {
     font-style: italic; 
     text-align: center;
 }
 
-.myForm{
+.myForm, #settDet, #home{
     border: 2px solid;
     border-color: black;
     text-align: center;
@@ -340,3 +340,8 @@ img {vertical-align: middle;}
     }
 
 }
+
+#divGo{
+    text-align: right;
+}
+

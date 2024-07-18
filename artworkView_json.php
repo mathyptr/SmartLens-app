@@ -2,6 +2,8 @@
 
 header('Content-type: application/json');
 $id = $_GET['id'];
+$table = $_GET['table'];
+$req=$_GET['req'];
 require_once("./server/config.php");
 ini_set('display_errors', 1);
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
@@ -13,7 +15,15 @@ if (!$conn->set_charset("utf8")) {
     error_log("Error loading character set utf8: %s\n", $conn->error);
 }
 $id = $conn->escape_string($id);
-$sql = "SELECT * FROM artworks WHERE id=$id";
+
+if($req==1)
+    $sql = "SELECT * FROM ".$table." WHERE id=$id";
+
+else if($req==2)
+    $sql = "SELECT * FROM ".$table." WHERE artwork=$id";
+
+else if($req==3)
+    $sql = "SELECT * FROM ".$table;
 
 error_log('SQL query: ' . $sql); // debugging
 $result = mysqli_query($conn, $sql);

@@ -19,6 +19,12 @@ if(isset($_POST['type']))
 if(isset($_POST['id']))
     $id = $_POST['id'];
 
+if(isset($_POST['table']))
+    $table = $_POST['table'];
+
+if(isset($_POST['col']))
+    $col = $_POST['col'];
+
 /* contains the DB query string */
 $query_string = "";
 
@@ -38,7 +44,7 @@ switch ($action) {
         break;
 
     case "updateDetails": //mathy
-        updateDetails($type, $data,$id);
+        updateDetails($data,$id,$table, $col);
        break;
 
     /*case "getArtwork": //mathy
@@ -177,7 +183,7 @@ function getDetailIDs($version)
     mysqli_close($conn);
 }
 
-function updateDetails($type, $data, $id) //mathy
+function updateDetails($data, $id, $table, $col) //mathy
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -186,15 +192,8 @@ function updateDetails($type, $data, $id) //mathy
         echo 'Connection error: ' . mysqli_connect_error();
     }
 
-    if($type==1)
-        $sql = "UPDATE artworks SET artwork ='" . $data . "' where id='".$id."'";
-
-    else if($type==2)
-        $sql = "UPDATE artworks SET author ='" . $data . "' where id='".$id."'";
-
-    else if($type==3)
-        $sql = "UPDATE artworks SET description='" . $data . "' where id='".$id."'";
-
+    $sql = "UPDATE ".$table." SET ".$col."='" . $data . "' where id='".$id."'";
+    
     echo $sql;
     
     if ($conn->query($sql) === TRUE) {
@@ -230,3 +229,4 @@ function updateDetails($type, $data, $id) //mathy
     echo json_encode($artwork);
     mysqli_close($conn);
 }*/
+?>

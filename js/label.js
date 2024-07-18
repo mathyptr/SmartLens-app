@@ -17,7 +17,9 @@ var section_title;
 var btn_title;
 var btn_author;
 var btn_desc;
-
+var btn_conf;
+var home;
+var det;
 
 //label per areaRiservata.html
 var txt;
@@ -39,6 +41,10 @@ const label_section_title= document.getElementById('sectionTitle');
 const label_btn_title= document.getElementById('btnTitle');
 const label_btn_author= document.getElementById('btnAuthor');
 const label_btn_desc= document.getElementById('btnDesc');
+//const label_btn_conf= document.getElementById('btnConf');
+
+const label_home= document.getElementById('home');
+const label_det=document.getElementById('settDet');
     
 const label_listen = document.getElementById('ascoltaGuida');
 
@@ -49,16 +55,40 @@ for(i=0;i<n;i++)
     label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
 
-function getDetailsInfoJSON(detail_id, lang) {
-    fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang)
+/*function getDetailsInfoJSON(detail_id, lang, table,req) {
+    var myimg=document.getElementsByClassName("overflow-hidden")[detail_id-1];   
+    var myfocus=document.getElementsByClassName("listItem")[detail_id-1];   
+    fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang+ '&table=' + table+'&req=' + req)
         .then((response) => response.json())
         .then((data) => {
             label_artworks[detail_id-1].innerText = data[0]['title'];
-            //author = data[0]['author'];
+            //if(myimg!=null){
+                myimg.style.backgroundImage ="url("+data[0]['imgsrc']+")";
+                myfocus.style.backgroundImage ="url("+data[0]['imgsrc']+")";
+          //  }         
             }
         );
-}
+}*/
 
+function getDetailsInfoJSON(detail_id, lang, table,req) {
+var myimg=[];
+var myfocus=[];
+for(i=0;i<n;i++){
+myimg[i]=document.getElementsByClassName("overflow-hidden")[i];   
+myfocus[i]=document.getElementsByClassName("listItem")[i];   
+}
+fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang+ '&table=' + table+'&req=' + req)
+        .then((response) => response.json())
+        .then((data) => {
+           // for(i=0;i<n;i++){
+            for(i=0;i<data.length;i++){
+            label_artworks[i].innerText = data[i]['title'];
+            myimg[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
+            myfocus[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
+            }
+        }
+    );
+}
 
 
 /*function getDetailsInfoJSON(detail_id, lang) {
@@ -84,6 +114,9 @@ section_title="Settings section";
 btn_title="Title";
 btn_author="Author";
 btn_desc="Description";
+home = "Home";
+det ="Go to details";
+btn_conf="Confidence";
 
 //label per areaRiservata.html
 txt="List of artworks";
@@ -106,6 +139,9 @@ function setIt (){
     btn_title="Titolo";
     btn_author="Autore";
     btn_desc="Descrizione";
+    home = "Home";
+    det ="Vai ai dettagli";
+    btn_conf="Confidenza";
 
     //label per areaRiservata.html
     txt="Lista delle opere";
@@ -139,28 +175,22 @@ function setLabel(language){
     if(label_section_title!=null){ //label per settings.html
         label_section_title.innerText=section_title;
         label_btn_title.innerText=btn_title;
-        label_btn_author.innerText=btn_author;
         label_btn_desc.innerText=btn_desc;
+        label_home.innerText=home;
+        label_det.innerText=det;
+        if(document.cookie<=n)
+            label_btn_author.innerText=btn_author;
+        else
+            label_btn_author.innerText=btn_conf;
     }
     
     if(label_txt!=null){ //label per areaRiservata.html
         label_txt.innerText=txt;
-       /*getDetailsInfoJSON(1,"en").then(function (result) {
-            artwork = result[0]['title'];
-            author = result[0]['author'];
-        });*/
-        getDetailsInfoJSON(1,"en");
-        getDetailsInfoJSON(2,"en");
-        getDetailsInfoJSON(3,"en");
-        /*var result= getArtwork(1);
-        artwork = result[0]['title'];
-        author = result[0]['author'];*/
-
-
-       /* label_artworks[0].innerText=artwork+", "+author;
-        label_artworks[1].innerText=artwork+", "+author;
-        label_artworks[2].innerText=artwork+", "+author;*/
-
+        if(document.cookie<=n)
+            getDetailsInfoJSON(1,"en","artworks",3);
+        else
+            getDetailsInfoJSON(document.cookie-n,"en", "details",2);
+           
     }
 
     //guardare se serve o se basta la label listen_guide
@@ -184,22 +214,39 @@ function setLabel(language){
             it.style.borderBottom="0px";
         }
     }
-   
 
-    /*var art=[];
-    for(i=0;i<n;i++)
-            art[i]=document.getElementsByClassName("paintTitle")[i];*/
+   if(label_det!=null){
+    label_det.onclick=function(){
+        for(i=1;i<=n;i++){
+            if(document.cookie==i){
+                window.location.href = './areaRiservata.html';
+                document.cookie=n+i;
+            }
+        }
+    //label_det.style.display="none";
+    }
+   }
+     
 
     if(label_artworks[0]!=null){
         label_artworks[0].onclick= function(){ 
-            document.cookie=1;
+            if(document.cookie<=n)
+                document.cookie=1;
+            else
+                document.cookie=n+1;
             window.location.href = './settings.html';
          }
         label_artworks[1].onclick= function(){ 
-            document.cookie=2;
+            if(document.cookie<=n)
+                document.cookie=2;
+            else
+                document.cookie=n+2;
             window.location.href = './settings.html';}
         label_artworks[2].onclick= function(){ 
-            document.cookie=3;
+            if(document.cookie<=n)
+                document.cookie=3;
+            else
+                document.cookie=n+3;
             window.location.href = './settings.html';}
     
     }
