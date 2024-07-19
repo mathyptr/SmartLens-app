@@ -23,7 +23,7 @@ const num_detections_label="num_detections";
 // Set constraints for the video stream
 //MATHY const constraints = {video: {facingMode: "environment"}, audio: false, zoom: true};
 //const constraints = {video: {facingMode: "environment"}, audio: false};
-const constraints = {video: {facingMode: "user"}, audio: false};
+const constraints = {video: {facingMode: "environment"}, audio: false};
 // Define constants
 const cameraView = document.querySelector("#camera--view")
 const webcam = document.getElementById('camera--view');

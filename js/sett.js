@@ -21,7 +21,7 @@ var id;
                 .then((data) => {
                         name.innerText = data[0]['title'];
                         //if(auth!=null)
-                        if(document.cookie<=num)
+                        if(getCookie("details")=="")
                             auth.innerText = data[0]['author'];
                         else
                             auth.innerText = data[0]['confidence'];
@@ -33,6 +33,34 @@ var id;
                 );
         }
         
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        
+        
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+              let c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return "";
+          }
+        
+          function deleteCookie(cname) {
+            document.cookie = cname+"=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          }
+
    //     window.onload=getDetailsInfoJSON(id,"en");
         // Get the modal
         var modalTitle = document.getElementById("modalTitle");
@@ -114,9 +142,9 @@ var id;
 
       // if(modAuthor!="nullo"){
             modAuthor.onclick = function(){
-                if(modAuthor!="nullo"){
+               // if(modAuthor!="nullo"){
                 document.getElementById("modAuthor").disabled=false;
-            }
+           // }
             }
       //  }
       /*  if(modConf!="nullo"){
@@ -152,7 +180,7 @@ var id;
         saveTitle.onclick = function(){
             var title=document.getElementById("modTitle");
             var data=title.value;
-            saveData(data, id,table,colTitle);
+            saveData(data, getCookie("details"),table,colTitle);
             title.style.backgroundColor="#ecffde";
             title.style.border="2px solid green";
             setTimeout(() => {  
@@ -168,9 +196,9 @@ var id;
             var auth=document.getElementById("modAuthor");
             var data=auth.value;
             if (document.cookie<=num)
-                saveData(data,id,table,colAuth);
+                saveData(data,getCookie("details"),table,colAuth);
             else
-                saveData(data,id,table,colConf);
+                saveData(data,getCookie("details"),table,colConf);
             auth.style.backgroundColor="#ecffde";
             auth.style.border="2px solid green";
             setTimeout(() => {  
@@ -214,7 +242,7 @@ var id;
         saveDesc.onclick = function(){
             var desc=document.getElementById("modDesc");
             var data=desc.value;
-            saveData(data,id,table,colDesc);
+            saveData(data,getCookie("details"),table,colDesc);
             desc.style.backgroundColor="#ecffde";
             desc.style.border="2px solid green";
             setTimeout(() => {  
@@ -238,44 +266,28 @@ var id;
                 },
                 async: false
                 });
+            if(getCookie("details")>0)
+                getDetailsInfoJSON(getCookie("details"),"en", "details",1);
         }
 
-        for(i=1;i<=num;i++){
-            id=document.cookie;
-            if(document.cookie==i)
-                getDetailsInfoJSON(i,"en", "artworks",1);
-        }
 
-        if (document.cookie>num){
-            id=document.cookie-num;
-         /*   spanConf = document.getElementsByClassName("close")[1];
-            modConf = document.getElementsByClassName("mod")[1];
-            spanAuthor = "nullo";
-            modAuthor = "nullo";*/
+        if(getCookie("details")=="")
+                getDetailsInfoJSON(getCookie("artwork"),"en", "artworks",1);
+
+        if(getCookie("details")>0){
             table="details";
-           /* document.getElementById("saveAuthor").id="saveConf";
-            document.getElementById("modalAuthor").id="modalConf";
-            document.getElementById("modAuthor").id="modConf";
-            document.getElementById("btnAuthor").id="btnConf";*/
-            getDetailsInfoJSON(document.cookie-num,"en", "details",1);
-            document.getElementById("settDet").style.display="none";
+           getDetailsInfoJSON(getCookie("details"),"en", "details",1);
         }
 
 
         home.onclick=function(){ 
-            id=document.cookie;
-           /* spanAuthor = document.getElementsByClassName("close")[1];
-            modAuthor = document.getElementsByClassName("mod")[1];
-            spanConf = "nullo";
-            modConf = "nullo";*/
             table="artworks";
-           /* document.getElementById("saveConf").id="saveAuthor";
-            document.getElementById("modalConf").id="modalAuthor";
-            document.getElementById("modConf").id="modAuthor";
-            document.getElementById("btnConf").id="btnAuthor";*/
-            document.cookie=1;
+           deleteCookie("details");
+           deleteCookie("artwork");
         }
   
+
+       
 
         
         

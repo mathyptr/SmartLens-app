@@ -3,6 +3,8 @@ const en = document.getElementById("English");
 const it = document.getElementById("Italian");
 const title= "ReInHerit Smart Lens";
 const n=3; //numero opere nel db
+var idDet=[];
+var id;
 
 //label per index.html
 var btn_try;
@@ -54,6 +56,33 @@ const label_artworks=[];
 for(i=0;i<n;i++)
     label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function deleteCookie(cname) {
+    document.cookie = cname+"=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
 
 /*function getDetailsInfoJSON(detail_id, lang, table,req) {
     var myimg=document.getElementsByClassName("overflow-hidden")[detail_id-1];   
@@ -82,6 +111,7 @@ fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang+ '&table=' + tabl
         .then((data) => {
            // for(i=0;i<n;i++){
             for(i=0;i<data.length;i++){
+            idDet[i]=data[i]['id'];
             label_artworks[i].innerText = data[i]['title'];
             myimg[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
             myfocus[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
@@ -178,20 +208,25 @@ function setLabel(language){
         label_btn_desc.innerText=btn_desc;
         label_home.innerText=home;
         label_det.innerText=det;
-        if(document.cookie<=n)
+        if(getCookie("details")=="")
             label_btn_author.innerText=btn_author;
-        else
+        else{
             label_btn_author.innerText=btn_conf;
+            getDetailsInfoJSON(id,"en", "details",2);
+        }
+            
     }
     
     if(label_txt!=null){ //label per areaRiservata.html
         label_txt.innerText=txt;
-        if(document.cookie<=n)
+        if(getCookie("details")=="")
             getDetailsInfoJSON(1,"en","artworks",3);
         else
-            getDetailsInfoJSON(document.cookie-n,"en", "details",2);
+            getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
            
     }
+
+
 
     //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
@@ -217,37 +252,53 @@ function setLabel(language){
 
    if(label_det!=null){
     label_det.onclick=function(){
-        for(i=1;i<=n;i++){
-            if(document.cookie==i){
-                window.location.href = './areaRiservata.html';
-                document.cookie=n+i;
-            }
-        }
-    //label_det.style.display="none";
+        if(getCookie("details")=="")
+            setCookie("details",0,1);
+        else if(getCookie("details")>0)
+            setCookie("details",0,1);
+            
+        window.location.href = './areaRiservata.html';
     }
    }
-     
+
+
 
     if(label_artworks[0]!=null){
         label_artworks[0].onclick= function(){ 
-            if(document.cookie<=n)
-                document.cookie=1;
-            else
-                document.cookie=n+1;
+            if(getCookie("details")=="")
+                setCookie("artwork",1,1);
+            else{ 
+               getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                //getDetailsInfoJSON(idDet[0],"en", "details",1);
+                id=idDet[0];
+                setCookie("details",id,1);
+            }
             window.location.href = './settings.html';
-         }
+        }
+
         label_artworks[1].onclick= function(){ 
-            if(document.cookie<=n)
-                document.cookie=2;
-            else
-                document.cookie=n+2;
-            window.location.href = './settings.html';}
+            if(getCookie("details")=="")
+                setCookie("artwork",2,1);
+            else{ 
+                getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                id=idDet[1];
+                //getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                setCookie("details",id,1);
+            }
+            window.location.href = './settings.html';
+        }
+
         label_artworks[2].onclick= function(){ 
-            if(document.cookie<=n)
-                document.cookie=3;
-            else
-                document.cookie=n+3;
-            window.location.href = './settings.html';}
+            if(getCookie("details")=="")
+                setCookie("artwork",3,1);
+            else{ 
+                getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                id=idDet[2];
+               // getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                setCookie("details",id,1);
+            }
+            window.location.href = './settings.html';
+        }
     
     }
 
