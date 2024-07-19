@@ -107,7 +107,7 @@ function getDetails($version)
         error_log("lang not set");
         return;
     }
-    if ($version == 2) {
+    /*if ($version == 2) {
         if ($lang == 'it') {
             $sql = "SELECT * FROM details5descriptors_it";
         } else if ($lang == 'en') {
@@ -119,7 +119,8 @@ function getDetails($version)
         } else if ($lang == 'en') {
             $sql = "SELECT * FROM details_en";
         }
-    }
+    }*/
+    $sql = "SELECT id, title as detailName, confidence, imgsrc, description,artworkTitle,author,artworkId FROM details join (select artworks.id as artworkId, artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";
 
     $result = mysqli_query($conn, $sql);
     error_log('SQL query: ' . $sql); // debugging
@@ -128,15 +129,18 @@ function getDetails($version)
     // loop over results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $id = $row['id'];
-        $detail_name = $row['detail-name'];
-        $artwork = $row['artwork'];
+        $detail_name = $row['detailName'];
+        $artwork = $row['artworkTitle'];
         $author = $row['author'];
-        $image = $row['image'];
-        $detail_icon = $row['detail-icon'];
+        $image = $row['imgsrc'];
+       // $detail_icon = $row['detail-icon'];
         $description = $row['description'];
-        $audio_guide = $row['audio-guide'];
-        $video = $row['video'];
-        $artwork_id = $row['artwork-id'];
+       // $audio_guide = $row['audio-guide'];
+       // $video = $row['video'];
+        $artwork_id = $row['artworkId'];
+        $detail_icon = $row['imgsrc'];
+        $audio_guide = "";
+        $video ="";
 
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
@@ -161,11 +165,12 @@ function getDetailIDs($version)
         echo 'Connection error: ' . mysqli_connect_error();
     }
 
-    if ($version == 3) {
+    /*if ($version == 3) {
         $sql = 'SELECT * FROM id_objdet_mapping';
     } else {
         $sql = 'SELECT * FROM id_class_mapping';
-    }
+    }*/
+    $sql = 'SELECT * FROM net_details';
 
     $result = mysqli_query($conn, $sql);
     $detailIDs = array();

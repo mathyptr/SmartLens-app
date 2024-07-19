@@ -14,7 +14,8 @@ if (!$conn->set_charset("utf8")) {
     error_log("Error loading character set utf8: %s\n", $conn->error);
 }
 $id = $conn->escape_string($id);
-$sql = "SELECT * FROM details_".$lang." WHERE id='$id'";
+//$sql = "SELECT * FROM details_".$lang." WHERE id='$id'";
+$sql =  "SELECT * FROM details join (select artworks.id as idArtwork, artworks.title as titleArtwork, author from artworks) art on art.idArtwork=artwork WHERE id='$id'";
 
 error_log('SQL query: ' . $sql); // debugging
 $result = mysqli_query($conn, $sql);

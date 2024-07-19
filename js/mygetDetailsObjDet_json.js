@@ -294,7 +294,8 @@ recognisedBoxes.push(boundingBoxes[0][i])
 
 
 const setSheetHeight = (value) => {
-    sheetHeight = Math.max(0, Math.min(100, value))
+    //sheetHeight = Math.max(0, Math.min(100, value))
+    sheetHeight = Math.max(0, Math.min(10, value))
     sheetContents.style.height = `${sheetHeight}vh`
 
     if (sheetHeight === 100) {
@@ -377,13 +378,13 @@ function getDetailsInfoJSON(detail_id, lang) {
     fetch('detailView_json.php?id=' + detail_id + '&lang=' + lang)
         .then((response) => response.json())
         .then((data) => {
-                const name = data[0]['detail-name'];
-                const artwork = data[0]['artwork'];
+                const name =data[0]['title']; // data[0]['detail-name'];
+                const artwork = data[0]['titlArtwork'];
                 const author = data[0]['author'];
                 const description = data[0]['description'];
-                const image = data[0]['image'];
-                const audio_guide = data[0]['audio-guide'];
-                const video = data[0]['video'];
+                const image = data[0]['imgsrc']; //data[0]['image'];
+                const audio_guide = null;//data[0]['audio-guide'];
+                const video =null; //data[0]['video'];
 
                 detail_detailName.innerText = name;
                 detail_artworkTitle.innerText = artwork;
