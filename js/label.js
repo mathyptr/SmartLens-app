@@ -38,6 +38,7 @@ const label_more_info= document.getElementById('more_info');
 const label_listen_guide= document.getElementById('listenGuide');
 const label_btn_restart= document.getElementById('restart');
 const label_res= document.getElementById('res');
+const label_exit= document.getElementById('exit');
 
 const label_section_title= document.getElementById('sectionTitle');
 const label_btn_title= document.getElementById('btnTitle');
@@ -193,7 +194,7 @@ function setLabel(language){
     if(label_btn_try!=null){ //label per index.html
         label_btn_try.innerText=btn_try;
         label_intro.innerText=intro;
-        label_res.innerText=res;
+       // label_res.innerText=res;
     }
 
     if(label_more_info!=null){ //label per mycamera-view_json.html
@@ -206,8 +207,8 @@ function setLabel(language){
         label_section_title.innerText=section_title;
         label_btn_title.innerText=btn_title;
         label_btn_desc.innerText=btn_desc;
-        label_home.innerText=home;
-        label_det.innerText=det;
+        //label_home.innerText=home;
+        //label_det.innerText=det;
         if(getCookie("details")=="")
             label_btn_author.innerText=btn_author;
         else{
@@ -261,6 +262,23 @@ function setLabel(language){
     }
    }
 
+   if(label_res!=null){
+        label_res.onclick=function(){
+        window.location.href = './areaRiservata.html';
+        }
+    }
+
+    if(label_res!=null){
+        label_res.onclick=function(){
+        window.location.href = './areaRiservata.html';
+        }
+    }
+    
+    if(label_exit!=null){
+        label_exit.onclick=function(){
+        window.location.href = './index.html';
+        }
+    }
 
 
     if(label_artworks[0]!=null){
@@ -294,7 +312,6 @@ function setLabel(language){
             else{ 
                 getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
                 id=idDet[2];
-               // getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
                 setCookie("details",id,1);
             }
             window.location.href = './settings.html';

@@ -187,7 +187,7 @@ img {vertical-align: middle;}
     text-align: center;
 }
 
-.myForm, #settDet, #home{
+.myForm {
     border: 2px solid;
     border-color: black;
     text-align: center;
@@ -286,10 +286,6 @@ img {vertical-align: middle;}
     padding-left: 2%;
   }
 
-  #res{
-    font-size: 15px;
-  }
-
 
   @media only screen and (max-width:768px){
     #myList{
@@ -342,6 +338,14 @@ img {vertical-align: middle;}
 }
 
 #divGo{
-    text-align: right;
+   text-align: right;
 }
 
+#divExit{
+    text-align: left;
+}
+
+#action{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

@@ -12,7 +12,6 @@ var id;
   function getDetailsInfoJSON(detail_id, lang, table,req) {
     var name=document.getElementById("modTitle");
     var auth=document.getElementById("modAuthor");
-    //var conf=document.getElementById("modConf");
     var desc=document.getElementById("modDesc");
     var det_src=document.getElementById("imgDetail");
 
@@ -20,13 +19,10 @@ var id;
                 .then((response) => response.json())
                 .then((data) => {
                         name.innerText = data[0]['title'];
-                        //if(auth!=null)
                         if(getCookie("details")=="")
                             auth.innerText = data[0]['author'];
                         else
                             auth.innerText = data[0]['confidence'];
-                        /*else
-                            conf.innerText = data[0]['confidence'];*/
                         desc.innerText = data[0]['description'];
                         det_src.src = data[0]['imgsrc'];
                     }
@@ -61,48 +57,36 @@ var id;
             document.cookie = cname+"=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           }
 
-   //     window.onload=getDetailsInfoJSON(id,"en");
         // Get the modal
         var modalTitle = document.getElementById("modalTitle");
         var modalAuthor = document.getElementById("modalAuthor");
-        //var modalConf = document.getElementById("modalConf");
         var modalDesc = document.getElementById("modalDesc");
         
         // Get the button that opens the modal
         var btnTitle = document.getElementById("btnTitle");
         var btnAuthor= document.getElementById("btnAuthor");
-        //var btnConf= document.getElementById("btnConf");
         var btnDesc = document.getElementById("btnDesc");
 
         var saveTitle = document.getElementById("saveTitle");
         var saveAuthor = document.getElementById("saveAuthor");
-        //var saveConf = document.getElementById("saveConf");
         var saveDesc = document.getElementById("saveDesc");
         
         // Get the <span> element that closes the modal
         var spanTitle = document.getElementsByClassName("close")[0];
         var spanAuthor = document.getElementsByClassName("close")[1];
-       // var spanConf ="nullo";//document.getElementsByClassName("close")[1];
         var spanDesc = document.getElementsByClassName("close")[2];
         var modTitle = document.getElementsByClassName("mod")[0];
         var modAuthor = document.getElementsByClassName("mod")[1];
-        //var modConf = "nullo";//document.getElementsByClassName("mod")[1];
         var modDesc = document.getElementsByClassName("mod")[2];
 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
         }
-        //if(btnAuthor!=null){
-            btnAuthor.onclick = function () {
+
+        btnAuthor.onclick = function () {
             modalAuthor.style.display = "block";
-            }
-        //}
-        
-        /*if(btnConf!=null){
-            btnConf.onclick = function () {
-            modalConf.style.display = "block";
-            }
-        }*/
+        }
+
 
         btnDesc.onclick = function () {
             modalDesc.style.display = "block";
@@ -119,19 +103,13 @@ var id;
             modalTitle.style.display = "none";
             document.getElementById("modTitle").disabled=true;
         }
-       // if(spanAuthor!="nullo"){
-            spanAuthor.onclick = function(){
+
+        spanAuthor.onclick = function(){
                 console.log(modAuthor);
                 modalAuthor.style.display = "none";
                 document.getElementById("modAuthor").disabled=true;
             }
-       // }
-     /*   if(spanConf!="nullo"){
-            spanConf.onclick = function(){
-                modalConf.style.display = "none";
-                document.getElementById("modConf").disabled=true;
-            }
-        }*/
+
         spanDesc.onclick = function(){
             modalDesc.style.display = "none";
             document.getElementById("modDesc").disabled=true;
@@ -140,18 +118,9 @@ var id;
             document.getElementById("modTitle").disabled=false;
         }
 
-      // if(modAuthor!="nullo"){
             modAuthor.onclick = function(){
-               // if(modAuthor!="nullo"){
                 document.getElementById("modAuthor").disabled=false;
-           // }
             }
-      //  }
-      /*  if(modConf!="nullo"){
-            modConf.onclick = function(){
-                document.getElementById("modConf").disabled=false;
-            }
-        }*/
         
         modDesc.onclick = function(){
             document.getElementById("modDesc").disabled=false;
@@ -167,10 +136,6 @@ var id;
             modalAuthor.style.display = "none";
             document.getElementById("modAuthor").disabled=true;
           }
-         /* else if (event.target == modalConf) {
-            modalConf.style.display = "none";
-            document.getElementById("modConf").disabled=true;
-          }*/
           else if (event.target == modalDesc) {
             modalDesc.style.display = "none";
             document.getElementById("modDesc").disabled=true;
@@ -208,37 +173,6 @@ var id;
             document.getElementById("modAuthor").disabled=true;
         }
             
-
-        /*if(saveAuthor!=null){
-        saveAuthor.onclick = function(){
-            var auth=document.getElementById("modAuthor");
-            var data=auth.value;
-            saveData(data,id,table,colAuth);
-            auth.style.backgroundColor="#ecffde";
-            auth.style.border="2px solid green";
-            setTimeout(() => {  
-                auth.style.backgroundColor="white";
-                auth.style.border="1px solid black"; 
-            }, 600);
-            document.getElementById("modAuthor").disabled=true;
-        }
-        }
-
-        if(saveConf!=null){
-        saveConf.onclick = function(){
-            var conf=document.getElementById("modConf");
-            var data=conf.value;
-            saveData(data,id,table,colConf);
-            conf.style.backgroundColor="#ecffde";
-            conf.style.border="2px solid green";
-            setTimeout(() => {  
-                conf.style.backgroundColor="white";
-                conf.style.border="1px solid black"; 
-            }, 600);
-            document.getElementById("modConf").disabled=true;
-        }
-        }*/
-
         saveDesc.onclick = function(){
             var desc=document.getElementById("modDesc");
             var data=desc.value;
@@ -281,9 +215,10 @@ var id;
 
 
         home.onclick=function(){ 
-            table="artworks";
+        table="artworks";
            deleteCookie("details");
            deleteCookie("artwork");
+           window.location.href = './areaRiservata.html';
         }
   
 
