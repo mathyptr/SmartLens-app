@@ -14,16 +14,25 @@ var id;
     var auth=document.getElementById("modAuthor");
     var desc=document.getElementById("modDesc");
     var det_src=document.getElementById("imgDetail");
+    var label_actual=[];
+        for(i=0;i<3;i++)
+            label_actual[i]= document.getElementsByClassName("actual")[i];
 
             fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang + '&table=' + table+'&req=' + req)
                 .then((response) => response.json())
                 .then((data) => {
                         name.innerText = data[0]['title'];
-                        if(getCookie("details")=="")
+                        label_actual[0].innerText=data[0]['title'];
+                        if(getCookie("details")==""){
                             auth.innerText = data[0]['author'];
-                        else
+                            label_actual[1].innerText=data[0]['author'];
+                        }
+                        else{
+                            label_actual[1].innerText=data[0]['confidence'];
                             auth.innerText = data[0]['confidence'];
+                        }
                         desc.innerText = data[0]['description'];
+                        label_actual[2].innerText=data[0]['description'];
                         det_src.src = data[0]['imgsrc'];
                     }
                 );
@@ -78,6 +87,10 @@ var id;
         var modTitle = document.getElementsByClassName("mod")[0];
         var modAuthor = document.getElementsByClassName("mod")[1];
         var modDesc = document.getElementsByClassName("mod")[2];
+        
+        var label_actual=[];
+        for(i=0;i<3;i++)
+            label_actual[i]= document.getElementsByClassName("actual")[i];
 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
@@ -118,9 +131,9 @@ var id;
             document.getElementById("modTitle").disabled=false;
         }
 
-            modAuthor.onclick = function(){
+        modAuthor.onclick = function(){
                 document.getElementById("modAuthor").disabled=false;
-            }
+        }
         
         modDesc.onclick = function(){
             document.getElementById("modDesc").disabled=false;

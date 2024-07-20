@@ -334,7 +334,6 @@ img {vertical-align: middle;}
     .slideshow-container{
         height: 50%;
     }
-
 }
 
 #divGo{
@@ -346,6 +345,35 @@ img {vertical-align: middle;}
 }
 
 #action{
+    width: 70%;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin: auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+
+.dataCont{
+    width: 70%;
+    padding-bottom: 2%;
+    margin: auto;
+}
+
+.actual{
+    text-align: justify;
+}
+
+.labelActual{
+    width: fit-content;
+    margin: 0;
+}
+
+.data{
+    background-color: rgb(236, 231, 231);
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap:10px;
 }

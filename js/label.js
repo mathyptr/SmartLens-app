@@ -57,6 +57,10 @@ const label_artworks=[];
 for(i=0;i<n;i++)
     label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
+var label_for_actual=[];
+for(i=0;i<3;i++)
+    label_for_actual[i]= document.getElementsByClassName("labelActual")[i];
+
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -205,14 +209,19 @@ function setLabel(language){
     
     if(label_section_title!=null){ //label per settings.html
         label_section_title.innerText=section_title;
-        label_btn_title.innerText=btn_title;
-        label_btn_desc.innerText=btn_desc;
+        //label_btn_title.innerText=btn_title;
+       // label_btn_desc.innerText=btn_desc;
+        label_for_actual[0].innerText=btn_title+": ";
+        label_for_actual[2].innerText=btn_desc+": ";
         //label_home.innerText=home;
         //label_det.innerText=det;
-        if(getCookie("details")=="")
-            label_btn_author.innerText=btn_author;
+        if(getCookie("details")==""){
+          //  label_btn_author.innerText=btn_author;
+            label_for_actual[1].innerText=btn_author+": ";
+        }
         else{
-            label_btn_author.innerText=btn_conf;
+          //  label_btn_author.innerText=btn_conf;
+            label_for_actual[1].innerText=btn_conf+": ";
             getDetailsInfoJSON(id,"en", "details",2);
         }
             

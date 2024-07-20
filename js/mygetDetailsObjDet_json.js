@@ -294,8 +294,7 @@ recognisedBoxes.push(boundingBoxes[0][i])
 
 
 const setSheetHeight = (value) => {
-    //sheetHeight = Math.max(0, Math.min(100, value))
-    sheetHeight = Math.max(0, Math.min(10, value))
+    sheetHeight = Math.max(0, Math.min(100, value))
     sheetContents.style.height = `${sheetHeight}vh`
 
     if (sheetHeight === 100) {
