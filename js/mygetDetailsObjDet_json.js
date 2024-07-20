@@ -321,8 +321,8 @@ function displayInfo(results, boundingBoxes) {
     artworkTitle.innerText = details[main_artwork]['artwork'];
     author.innerText = details[main_artwork]['author'];
     detailName.innerText = details[main_artwork]['detail-name'];
-    detailImage.src = details[main_artwork]['image'];
-    description.innerText = details[main_artwork]['description'];
+    detailImage.src = details[main_artwork]['image-art'];//details[main_artwork]['image'];
+    description.innerText = details[main_artwork]['desc-art'];//details[main_artwork]['description'];
     if (details[main_artwork]['audio-guide'] != "" && details[main_artwork]['audio-guide'] != null) {
         document.getElementById('audio').style.display = 'block';
         document.getElementById('audio').src = details[main_artwork]['audio-guide'];
@@ -378,7 +378,7 @@ function getDetailsInfoJSON(detail_id, lang) {
         .then((response) => response.json())
         .then((data) => {
                 const name =data[0]['title']; // data[0]['detail-name'];
-                const artwork = data[0]['titlArtwork'];
+                const artwork = data[0]['titleArtwork'];
                 const author = data[0]['author'];
                 const description = data[0]['description'];
                 const image = data[0]['imgsrc']; //data[0]['image'];

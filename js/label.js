@@ -222,7 +222,7 @@ function setLabel(language){
         else{
           //  label_btn_author.innerText=btn_conf;
             label_for_actual[1].innerText=btn_conf+": ";
-            getDetailsInfoJSON(id,"en", "details",2);
+           // getDetailsInfoJSON(getCookie("details"),"en", "details",2);
         }
             
     }

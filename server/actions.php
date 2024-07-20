@@ -120,7 +120,7 @@ function getDetails($version)
             $sql = "SELECT * FROM details_en";
         }
     }*/
-    $sql = "SELECT id, title as detailName, confidence, imgsrc, description,artworkTitle,author,artworkId FROM details join (select artworks.id as artworkId, artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";
+    $sql = "SELECT id, title as detailName, confidence, imgsrc, description,artworkTitle,author,artworkId, imgArt,descArt FROM details join (select imgsrc as imgArt, description as descArt, artworks.id as artworkId, artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";
 
     $result = mysqli_query($conn, $sql);
     error_log('SQL query: ' . $sql); // debugging
@@ -141,10 +141,13 @@ function getDetails($version)
         $detail_icon = $row['imgsrc'];
         $audio_guide = "";
         $video ="";
+        $image_art = $row['imgArt'];
+       // $detail_icon = $row['detail-icon'];
+        $desc_art = $row['descArt'];
 
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
             'detail-icon' => $detail_icon, 'description' => $description, 'audio-guide' => $audio_guide, 'video' => $video,
-            'artwork-id' => $artwork_id);
+            'artwork-id' => $artwork_id,'image-art' => $image_art,'desc-art' => $desc_art);
         foreach ($details[$id] as $key => $value) {
             error_log($key . ":" . $value);
         }
