@@ -47,7 +47,7 @@ body {font-family: Verdana, sans-serif;}
     margin: 10px 0 10px 0;
 }
 
-.flex-container{
+.grid-container{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,7 +62,7 @@ body {font-family: Verdana, sans-serif;}
     padding-bottom: 10px;
 }
 
-.flex-container div {
+.grid-container div {
     padding-right: 20px;
     box-sizing: border-box;
 }
@@ -115,11 +115,11 @@ body {font-family: Verdana, sans-serif;}
 }
 
 @media only screen and (max-width: 700px){
-    .flex-container{
+    .grid-container{
         display: inline;
 
     }
-    .flex-container div{
+    .grid-container div{
         padding-right: 0;
     }
 

@@ -98,12 +98,13 @@
                     <span id="author"></span>
                 </h2>
                 <h3 id="detailName"></h3>
-                <div class="flex-container">
+                <div class="grid-container">
                     <div>
                         <img class="responsive-image" id="detailImage" src="">
                     </div>
 
                     <div id="information">
+                        <p id="description"></p>
                         <audio id="audio" controls src=""></audio>
                         <button type="button" id="audioGuide">
                             <img class="responsive-image" src="images/icons/Audio%20Icon.png">
@@ -112,9 +113,6 @@
                         <button type="button" id="restart">
                             &#8635; <!--Restart-->
                         </button>
-                        <p id="description">
-
-                        </p>
                     </div>
                 </div>
                 <video class="responsive-image" id="detailVideo" src="" controls>
@@ -158,32 +156,28 @@
 
     </span>
     </h2>
-    <h3 id="detail_detailName">
-
-    </h3>
-    <div class="flex-container">
+    <div class="grid-2">
+        <h3 id="detail_detailName"></h3>
         <div>
-            <img class="responsive-image" id="detail_detailImage" src="#" alt="Immagine del dettaglio">
-
-        </div>
-
-        <div id="detail_information">
             <audio id="detail_audio" controls src=""></audio>
             <button type="button" id="detail_audioGuide">
                 <img class="responsive-image" src="images/icons/Audio%20Icon.png" alt="Icona audio-guida">
                 <p id="ascoltaGuida"><!--Ascolta la guida--></p>
             </button>
-            <p id="detail_description">
+        </div>
+    </div>
+    <div class="grid-container">
+        <div>
+            <img class="responsive-image" id="detail_detailImage" src="#" alt="Immagine del dettaglio">
+        </div>
 
-
-            </p>
+        <div id="detail_information">
+           
+            <p id="detail_description"></p>
         </div>
     </div>
     <video class="responsive-image" id="detail_detailVideo" src="" controls>
     </video>
-
-    <br class="spacer"/>
-
 </div>
 
 <script src="js/detailTextToSpeech.js"></script>

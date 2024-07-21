@@ -225,10 +225,15 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
 
     if($col=='description')
         $sql = "update language, language_mapping,".$table."  set language.data='" . $data . "' where language_mapping.data=language.id and ".$table.".id=language_mapping.external_id and type='".$type."' and language.language='".$language."' and ".$table.".id='".$id."'";
-
     else
         $sql = "UPDATE ".$table." SET ".$col."='" . $data . "' where id='".$id."'";
     
+    if($col=='confidence')
+        $sql = "update net_details, details set net_details.confidence=" . $data .", details.confidence=" . $data ." where details.id=net_details.id_net and details.id='".$id."'";
+
+
+    
+
     echo $sql;
     
     if ($conn->query($sql) === TRUE) {

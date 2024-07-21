@@ -1,97 +1,176 @@
-<!doctype html>
-<html lang=”en”>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="”en”">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Name of your awesome camera app -->
     <title>Smart Lens</title>
     <!-- Link to your main style sheet-->
-    <link rel="stylesheet" href="css/indexStyle.css">
+    <link rel="stylesheet" href="css/indexStyle.css" />
     <script type="text/javascript" src="js/label.js" defer></script>
     <script type="text/javascript" src="js/init.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
-<body >
-<div id="languageContainer">
-    <a id="English" style="border-bottom: 2px solid black;">English</a>
-    <a id="Italian" >Italiano</a>
-    <img id="logo" src="images/Reinherit-Logo(31x30).jpg" alt="ReInHerit logo" class="responsive-image">
-</div>
-<h2 id="title">
-    <!--ReInHerit Smart Lens-->
-    ReInHerit Smart Lens
-</h2>
-<div class="slideshow-container">
-    <div class="mySlides fade">
-        <img class="imgExample" src="images/Venere_botticelliEx.jpg" ;>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="view-more" id="view-more">
+      <div class="button-outline button--atlas-outline" id="showMore">
+        <span id="hide-btn-default">View more</span>
+        <div class="marqueebutton-outline" aria-hidden="true">
+          <div class="marquee__inner-outline btn-hover-reset">
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+            <span class="toCamera"></span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="mySlides fade">
-        <img class="imgExample" src="images/Duchi_UrbinoEx.jpg" >
+    <nav class="navbar">
+      <div class="logo-container">
+        <img
+          id="logo"
+          src="images/Reinherit-Logo(31x30).jpg"
+          alt="ReInHerit logo"
+          class="responsive-image"
+        />
+        <h2 id="title">
+          <!--ReInHerit Smart Lens-->
+          ReInHerit Smart Lens
+        </h2>
+      </div>
+
+      <div id="languageContainer">
+        <a id="English" style="border-bottom: 2px solid black">English</a>
+        <a id="Italian">Italiano</a>
+        <span id="res" class="material-symbols-outlined">passkey</span>
+      </div>
+    </nav>
+
+    <a href="mycamera-view_json.html">
+      <div class="slideshow-container" id="slideshow">
+        <div class="mySlides fade">
+          <img class="imgExample" src="images/Venere_botticelliEx.jpg" ; />
+        </div>
+
+        <div class="mySlides fade">
+          <img class="imgExample" src="images/Duchi_UrbinoEx.jpg" />
+        </div>
+
+        <div class="mySlides fade">
+          <img class="imgExample" src="images/Annunciazione.jpg" />
+        </div>
+      </div>
+    </a>
+
+    <div class="dotContainer">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
     </div>
 
-    <div class="mySlides fade">
-        <img class="imgExample" src="images/Annunciazione.jpg" >
-    </div>
+    <p id="intro"></p>
 
-</div>
-<br>
+    <ul class="social">
+      <a href="https://www.reinherit.eu">
+        <img
+          src="images/icons/world-wide-web.png"
+          alt="world wide web"
+          class="responsive-image"
+        />
+      </a>
+      <a href="https://www.facebook.com/ReInHerit/">
+        <img
+          src="images/icons/facebook-square-color.png"
+          alt="facebook"
+          class="responsive-image"
+        />
+      </a>
+      <a href="https://twitter.com/reinherit_">
+        <img
+          src="images/icons/twitter-color.png"
+          alt="twitter"
+          class="responsive-image"
+        />
+      </a>
+      <a href="https://www.instagram.com/reinherit_/">
+        <img
+          src="images/icons/ig-instagram.png"
+          alt="instagram"
+          class="responsive-image"
+        />
+      </a>
+      <a href="https://www.linkedin.com/company/reinherit-h2020/">
+        <img
+          src="images/icons/linkedin-app.png"
+          alt="linkedin"
+          class="responsive-image"
+        />
+      </a>
+    </ul>
+    <!--<a id="res" href="areaRiservata.html"></a>-->
+    <script>
+      let slideIndex = 0;
+      var showMore = document.getElementById("showMore");
+      var slideshow = document.getElementById("slideshow");
+      showSlides();
+      requestAnimationFrame(update);
+      var status = 0;
 
-<div class="dotContainer">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-</div>
+      function update() {
+        if (status == 0) {
+          slideshow.addEventListener("mousemove", function (e) {
+            let left = e.pageX + 20 + "px";
+            let top = e.pageY - 140 + "px";
+            status = 1;
+            showMore.style.visibility = "visible";
+            showMore.style.left = left;
+            showMore.style.top = top;
+          });
+        } else {
+          slideshow.addEventListener("mouseout", function (e) {
+            showMore.style.visibility = "hidden";
+            status = 0;
+          });
+        }
+        requestAnimationFrame(update);
+      }
 
-<a href="mycamera-view_json.html" id="toCamera">
-    
-</a>
-
-<p style="text-align: justify" id="intro">
-    </p>
-
-<ul class="social">
-    <a href="https://www.reinherit.eu">
-        <img src="images/icons/world-wide-web.png" alt="world wide web" class="responsive-image">
-    </a>
-    <a href="https://www.facebook.com/ReInHerit/">
-        <img src="images/icons/facebook-square-color.png" alt="facebook" class="responsive-image">
-    </a>
-    <a href="https://twitter.com/reinherit_">
-        <img src="images/icons/twitter-color.png" alt="twitter" class="responsive-image">
-    </a>
-    <a href="https://www.instagram.com/reinherit_/">
-        <img src="images/icons/ig-instagram.png" alt="instagram" class="responsive-image">
-    </a>
-    <a href="https://www.linkedin.com/company/reinherit-h2020/">
-        <img src="images/icons/linkedin-app.png" alt="linkedin" class="responsive-image">
-    </a>
-</ul>
-<!--<a id="res" href="areaRiservata.html"></a>-->
-<span id="res" class="material-symbols-outlined">passkey</span>
-<script>
-    let slideIndex = 0;
-    showSlides();
-
-    function showSlides() {
+      function showSlides() {
         let i;
         let slides = document.getElementsByClassName("mySlides");
         let dots = document.getElementsByClassName("dot");
         for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+          slides[i].style.display = "none";
         }
         slideIndex++;
         if (slideIndex > slides.length) {
-            slideIndex = 1
+          slideIndex = 1;
         }
         for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
+          dots[i].className = dots[i].className.replace(" active", "");
         }
         slides[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " active";
         setTimeout(showSlides, 4000); // Change image every 2 seconds
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>

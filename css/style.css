@@ -2,8 +2,8 @@ html, body{
     font-family: unify sans,Helvetica,Arial,sans-serif;
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
+    padding-bottom: 50px;
+    min-height: 100vh;
 }
 
 #SmartLens{
@@ -273,14 +273,14 @@ button {
     margin: 10px 0 10px 0;
 }
 
-.flex-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     position: relative;
-    width: 100%;
-    flex-wrap: wrap;
-    flex-direction: row;
+    width: 90vw;
+    margin: auto;
+    gap: 1vw;
+
 }
 
 #detailImage{
@@ -288,7 +288,7 @@ button {
     padding-bottom: 10px;
 }
 
-.flex-container div {
+.grid-container div {
     padding-right: 20px;
     box-sizing: border-box;
 }
@@ -356,7 +356,8 @@ button {
 }
 
 #detailContainer{
-    display:none;
+    /* display:none; */
+    display: flex !important;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     position: relative;
@@ -395,11 +396,11 @@ button {
 
 
 @media only screen and (max-width: 900px) and (orientation: portrait) {
-    .flex-container{
+    .grid-container{
         display: inline;
 
     }
-    .flex-container div{
+    .grid-container div{
         padding-right: 0;
     }
 

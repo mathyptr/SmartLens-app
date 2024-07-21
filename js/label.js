@@ -32,7 +32,7 @@ var listen;
 
 
 const label_title = document.getElementById('title');
-const label_btn_try = document.getElementById('toCamera');
+//const label_btn_try = document.getElementsByClassName('toCamera');
 const label_intro = document.getElementById('intro');
 const label_more_info= document.getElementById('more_info');
 const label_listen_guide= document.getElementById('listenGuide');
@@ -47,7 +47,7 @@ const label_btn_desc= document.getElementById('btnDesc');
 //const label_btn_conf= document.getElementById('btnConf');
 
 const label_home= document.getElementById('home');
-const label_det=document.getElementById('settDet');
+//const label_det=document.getElementById('settDet');
     
 const label_listen = document.getElementById('ascoltaGuida');
 
@@ -60,6 +60,15 @@ for(i=0;i<n;i++)
 var label_for_actual=[];
 for(i=0;i<3;i++)
     label_for_actual[i]= document.getElementsByClassName("labelActual")[i];
+
+var label_btn_try=[];
+for(i=0;i<10;i++)
+    label_btn_try[i]= document.getElementsByClassName("toCamera")[i];
+
+var label_det=[];
+for(i=0;i<10;i++)
+    label_det[i]= document.getElementsByClassName("settDet")[i];
+
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -116,12 +125,14 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
         .then((response) => response.json())
         .then((data) => {
            // for(i=0;i<n;i++){
+           if(label_artworks[0]!=null){
             for(i=0;i<data.length;i++){
-            idDet[i]=data[i]['id'];
-            label_artworks[i].innerText = data[i]['title'];
-            myimg[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
-            myfocus[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
-            }
+                idDet[i]=data[i]['id'];
+                label_artworks[i].innerText = data[i]['title'];
+                myimg[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
+                myfocus[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
+                }
+           }
         }
     );
 }
@@ -203,8 +214,10 @@ function setLabel(){
     else
      setIt();
 
-    if(label_btn_try!=null){ //label per index.html
-        label_btn_try.innerText=btn_try;
+    if(label_btn_try[0]!=null){ //label per index.html
+        for(i = 0; i < 10; i++){
+            label_btn_try[i].innerText=btn_try;
+        }
         label_intro.innerText=intro;
        // label_res.innerText=res;
     }
@@ -222,7 +235,8 @@ function setLabel(){
         label_for_actual[0].innerText=btn_title+": ";
         label_for_actual[2].innerText=btn_desc+": ";
         //label_home.innerText=home;
-        //label_det.innerText=det;
+        for(i = 0; i < 10; i++)
+            label_det[i].innerText=det;
         if(getCookie("details")==""){
           //  label_btn_author.innerText=btn_author;
             label_for_actual[1].innerText=btn_author+": ";
@@ -234,11 +248,11 @@ function setLabel(){
         }
         if(getCookie("language")=="en"){
             en.style.borderBottom="2px solid black";
-            it.style.borderBottom="0px";
+            it.style.borderBottom="2px solid transparent";
         }
         else{
             it.style.borderBottom="2px solid black";
-            en.style.borderBottom="0px";
+            en.style.borderBottom="2px solid transparent";
         }
             
     }
@@ -265,7 +279,7 @@ function setLabel(){
             setCookie("language","it",1);
             setLabel();
             it.style.borderBottom="2px solid black";
-            en.style.borderBottom="0px";
+            en.style.borderBottom="2px solid transparent";
             getInfo();
         }
     
@@ -273,7 +287,7 @@ function setLabel(){
             setCookie("language","en",1);
             setLabel();
             en.style.borderBottom="2px solid black";
-            it.style.borderBottom="0px";
+            it.style.borderBottom="2px solid transparent";
             getInfo();
         }
     }
@@ -289,9 +303,10 @@ function setLabel(){
     }
     }
 
+    var focus=document.getElementById("focusImg");
 
-   if(label_det!=null){
-    label_det.onclick=function(){
+   if(focus!=null){
+    focus.onclick=function(){
         if(getCookie("details")=="")
             setCookie("details",0,1);
         else if(getCookie("details")>0)

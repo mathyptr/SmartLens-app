@@ -18,15 +18,47 @@
 </head>
 <body >
 </div>
-<div id="languageContainer">
-    <a id="English" style="border-bottom: 2px solid black;">English</a>
-    <a id="Italian">Italiano</a>
-    <img id="logo"  src="images/Reinherit-Logo(31x30).jpg" alt="ReInHerit logo" class="responsive-image">
-</div>
-    <h2 id="title">
-    ReInHerit Smart Lens
-    </h2>
-    <div>
+    <div class="view-more" id="view-more">
+        <div class="button-outline button--atlas-outline" id="showMore">
+        <span id="hide-btn-default">View more</span>
+        <div class="marqueebutton-outline" aria-hidden="true">
+            <div class="marquee__inner-outline btn-hover-reset">
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            <span class="settDet"></span>
+            </div>
+        </div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="logo-container">
+        <img
+            id="home"
+            src="images/Reinherit-Logo(31x30).jpg"
+            alt="ReInHerit logo"
+            class="responsive-image"
+        />
+        <h2 id="title">
+            <!--ReInHerit Smart Lens-->
+            ReInHerit Smart Lens
+        </h2>
+        </div>
+
+        <div id="languageContainer">
+        <a id="English" style="border-bottom: 2px solid black">English</a>
+        <a id="Italian">Italiano</a>
+        <span id="exit" class="material-symbols-outlined">exit_to_app</span>
+        </div>
+  </nav>
+    <div id="focusImg">
         <div id="sectionTitle"></div>
         <div  id="divDetail">
             <img id="imgDetail" >
@@ -79,30 +111,23 @@
     <div>
         
     </div>
-    <div id="action">
-        <div id="divExit">
-            <span id="exit" class="material-symbols-outlined">exit_to_app</span>
-        </div>
-        <div id="divGo">
-            <span id="home" class="material-symbols-outlined">home</span>
-            <span id="settDet" class="material-symbols-outlined">settings_timelapse</span>
-         </div>
-    </div>
    
-    <div class="dataCont">
-        <div class="data">
-            <h4 class="labelActual"></h4>
-            <span class="material-symbols-outlined mod"  id="btnTitle" >draw</span>
+    <div class="grid-2">
+        <div class="dataCont">
+            <div class="data">
+                <h4 class="labelActual"></h4>
+                <span class="material-symbols-outlined mod"  id="btnTitle" >draw</span>
+            </div>
+            <p class="actual"></p>
         </div>
-        <p class="actual"></p>
-    </div>
-
-    <div class="dataCont">
-        <div class="data">
-            <h4 class="labelActual"></h4>
-            <span class="material-symbols-outlined mod"  id="btnAuthor" >draw</span>
+    
+        <div class="dataCont">
+            <div class="data">
+                <h4 class="labelActual"></h4>
+                <span class="material-symbols-outlined mod"  id="btnAuthor" >draw</span>
+            </div>
+            <p class="actual"></p>
         </div>
-        <p class="actual"></p>
     </div>
 
     <div class="dataCont">
@@ -110,7 +135,34 @@
             <h4 class="labelActual"></h4>
             <span class="material-symbols-outlined mod"  id="btnDesc" >draw</span>
         </div>
-        <div class="actual"></div>
+        <p class="actual"></p>
     </div>
+
+    <script>
+
+      var showMore = document.getElementById("showMore");
+      var slideshow = document.getElementById("focusImg");
+      requestAnimationFrame(update);
+      var status = 0;
+
+        function update() {
+            if (status == 0) {
+                slideshow.addEventListener("mousemove", function (e) {
+                    let left = e.pageX + 20 + "px";
+                    let top = e.pageY - 30 + "px";
+                    status = 1;
+                    showMore.style.visibility = "visible";
+                    showMore.style.left = left;
+                    showMore.style.top = top;
+                });
+            } else {
+                slideshow.addEventListener("mouseout", function (e) {
+                    showMore.style.visibility = "hidden";
+                    status = 0;
+                });
+            }
+            requestAnimationFrame(update);
+        }
+    </script>
 </body>
 </html>

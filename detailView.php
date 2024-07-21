@@ -56,7 +56,7 @@ mysqli_close($conn)
     echo htmlspecialchars($detail[0]['detail-name']);
     ?>
 </h3>
-<div class="flex-container">
+<div class="grid-container">
     <div>
         <img class="responsive-image" id="detailImage" src="
  <?php
