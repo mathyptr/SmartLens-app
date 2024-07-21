@@ -24,17 +24,17 @@ else
 
 if($req==1){
     // $sql = "SELECT * FROM ".$table." WHERE id=$id";
- $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and ".$table.".id=$id"; 
+ $sql = "select *, language.data as description from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and ".$table.".id=$id"; 
 }
 
 
 else if($req==2)
     //$sql = "SELECT * FROM ".$table." WHERE artwork=$id";
-    $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and artwork=$id";
+    $sql = "select *, language.data as description from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and artwork=$id";
 
 else if($req==3){
  //$sql = "SELECT * FROM ".$table;
- $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."'";
+ $sql = "select *, language.data as description from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."'";
 }
    
 error_log('SQL query: ' . $sql); // debugging

@@ -4,10 +4,12 @@ var description;
 var num=3;
 var table="artworks";
 var colTitle="title";
-var colAuth="authore";
+var colAuth="author";
 var colConf="confidence";
 var colDesc="description";
 var id;
+var english = document.getElementById("English");
+const italian = document.getElementById("Italian");
 
   function getDetailsInfoJSON(detail_id, lang, table,req) {
     var name=document.getElementById("modTitle");
@@ -173,8 +175,8 @@ var id;
         saveAuthor.onclick = function(){
             var auth=document.getElementById("modAuthor",getCookie("language"));
             var data=auth.value;
-            if (document.cookie<=num)
-                saveData(data,getCookie("details"),table,colAuth);
+            if (getCookie("details")==0)
+                saveData(data,getCookie("artwork"),table,colAuth);
             else
                 saveData(data,getCookie("details"),table,colConf,getCookie("language"));
             auth.style.backgroundColor="#ecffde";
@@ -189,7 +191,10 @@ var id;
         saveDesc.onclick = function(){
             var desc=document.getElementById("modDesc");
             var data=desc.value;
-            saveData(data,getCookie("details"),table,colDesc,getCookie("language"));
+            if (getCookie("details")==0)
+                saveData(data,getCookie("artwork"),table,colDesc,getCookie("language"));
+            else
+                saveData(data,getCookie("details"),table,colDesc,getCookie("language"));
             desc.style.backgroundColor="#ecffde";
             desc.style.border="2px solid green";
             setTimeout(() => {  
@@ -226,6 +231,7 @@ var id;
             table="details";
            getDetailsInfoJSON(getCookie("details"),getCookie("language"), "details",1);
         }
+
 
 
         home.onclick=function(){ 

@@ -209,7 +209,7 @@ function getDetailIDs($version)
     mysqli_close($conn);
 }
 
-function updateDetails($data, $id, $table, $col) //mathy
+function updateDetails($data, $id, $table, $col,$language) //mathy
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -217,8 +217,17 @@ function updateDetails($data, $id, $table, $col) //mathy
     if (!$conn) {
         echo 'Connection error: ' . mysqli_connect_error();
     }
+    
+    if ($table=='details')
+        $type='detail';
+    else 
+        $type='artwork';
 
-    $sql = "UPDATE ".$table." SET ".$col."='" . $data . "' where id='".$id."'";
+    if($col=='description')
+        $sql = "update language, language_mapping,".$table."  set language.data='" . $data . "' where language_mapping.data=language.id and ".$table.".id=language_mapping.external_id and type='".$type."' and language.language='".$language."' and ".$table.".id='".$id."'";
+
+    else
+        $sql = "UPDATE ".$table." SET ".$col."='" . $data . "' where id='".$id."'";
     
     echo $sql;
     

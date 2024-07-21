@@ -127,13 +127,19 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
 }
 
 
-/*function getDetailsInfoJSON(detail_id, lang) {
-    return fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang).then(function(response) {
-        return response.json();
-    }).then(function(json) {
-        return json;
-    });
-}*/
+
+function getDescJSON(detail_id, lang, table,req) {
+    
+    fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang + '&table=' + table+'&req=' + req)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById("modDesc").innerText = data[0]['description'];
+                    document.getElementsByClassName("actual")[2].innerText=data[0]['description'];
+                    }
+                );
+}
+
+
 
 
 function setEn (){
@@ -190,11 +196,12 @@ function setIt (){
 
 window.onload= setLabel("");
 
-function setLabel(language){
+function setLabel(){
     
-    if ((getCookie("language")=="en")&&(language!="it"))
+    if ((getCookie("language")=="en"))//&&(language!="it"))
         setEn();
-
+    else
+     setIt();
 
     if(label_btn_try!=null){ //label per index.html
         label_btn_try.innerText=btn_try;
@@ -225,6 +232,14 @@ function setLabel(language){
             label_for_actual[1].innerText=btn_conf+": ";
            // getDetailsInfoJSON(getCookie("details"),"en", "details",2);
         }
+        if(getCookie("language")=="en"){
+            en.style.borderBottom="2px solid black";
+            it.style.borderBottom="0px";
+        }
+        else{
+            it.style.borderBottom="2px solid black";
+            en.style.borderBottom="0px";
+        }
             
     }
     
@@ -248,20 +263,32 @@ function setLabel(language){
     if(it!=null){
         it.onclick= function () { 
             setCookie("language","it",1);
-            setIt(); 
-            setLabel("it");
+            setLabel();
             it.style.borderBottom="2px solid black";
             en.style.borderBottom="0px";
+            getInfo();
         }
     
         en.onclick= function () { 
             setCookie("language","en",1);
-            setIt(); 
-            setLabel("en");
+            setLabel();
             en.style.borderBottom="2px solid black";
             it.style.borderBottom="0px";
+            getInfo();
         }
     }
+
+
+    function getInfo(){
+        if(getCookie("details")=="")
+            getDescJSON(getCookie("artwork"),getCookie("language"), "artworks",1);
+
+       if(getCookie("details")>0){
+        table="details";
+        getDescJSON(getCookie("details"),getCookie("language"), "details",1);
+    }
+    }
+
 
    if(label_det!=null){
     label_det.onclick=function(){
