@@ -2,6 +2,31 @@ let version = 3;  // Object detection mode
 let detailIDs = undefined;
 let details = undefined;
 
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+
 (function ($) {
     console.log("jQuery" + $);
     $.fn.getDetailFromWebcam = async function (options) {
@@ -59,11 +84,12 @@ let details = undefined;
             console.log('DetailsIDs loaded successfully!')
 
             details = await function getDetails() {
-                let lang = 'en';
+                /*let lang = 'en';
                 if (document.getElementById('English').href == window.location.href + '#')
                     lang = 'en';
                 if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'it';
+                    lang = 'it';*/
+                let language =getCookie("language");
                 var request_type = "getDetails";
                 var tmp = null;
                 $.ajax({
@@ -73,7 +99,7 @@ let details = undefined;
                     //contentType: 'application/json; charset=utf-8',
                     data: {
                         "action": request_type,
-                        "lang": lang,
+                        "language": language,
                         "version": version
                     },
                     dataType: "json",

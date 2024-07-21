@@ -1,9 +1,9 @@
 <?php
-
 header('Content-type: application/json');
 $id = $_GET['id'];
 $table = $_GET['table'];
 $req=$_GET['req'];
+$language=$_GET['language'];
 require_once("./server/config.php");
 ini_set('display_errors', 1);
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
@@ -16,15 +16,27 @@ if (!$conn->set_charset("utf8")) {
 }
 $id = $conn->escape_string($id);
 
-if($req==1)
-    $sql = "SELECT * FROM ".$table." WHERE id=$id";
+
+if ($table=='details')
+    $type='detail';
+else 
+    $type='artwork';
+
+if($req==1){
+    // $sql = "SELECT * FROM ".$table." WHERE id=$id";
+ $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and ".$table.".id=$id"; 
+}
+
 
 else if($req==2)
-    $sql = "SELECT * FROM ".$table." WHERE artwork=$id";
+    //$sql = "SELECT * FROM ".$table." WHERE artwork=$id";
+    $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."' and artwork=$id";
 
-else if($req==3)
-    $sql = "SELECT * FROM ".$table;
-
+else if($req==3){
+ //$sql = "SELECT * FROM ".$table;
+ $sql = "select * from language join language_mapping on language_mapping.data=language.id join ".$table." on ".$table.".id=language_mapping.external_id where type='".$type."' and language.language='".$language."'";
+}
+   
 error_log('SQL query: ' . $sql); // debugging
 $result = mysqli_query($conn, $sql);
 

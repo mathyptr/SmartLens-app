@@ -18,7 +18,7 @@ var id;
         for(i=0;i<3;i++)
             label_actual[i]= document.getElementsByClassName("actual")[i];
 
-            fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang + '&table=' + table+'&req=' + req)
+            fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang + '&table=' + table+'&req=' + req)
                 .then((response) => response.json())
                 .then((data) => {
                         name.innerText = data[0]['title'];
@@ -158,7 +158,7 @@ var id;
         saveTitle.onclick = function(){
             var title=document.getElementById("modTitle");
             var data=title.value;
-            saveData(data, getCookie("details"),table,colTitle);
+            saveData(data, getCookie("details"),table,colTitle,getCookie("language"));
             title.style.backgroundColor="#ecffde";
             title.style.border="2px solid green";
             setTimeout(() => {  
@@ -171,12 +171,12 @@ var id;
 
        
         saveAuthor.onclick = function(){
-            var auth=document.getElementById("modAuthor");
+            var auth=document.getElementById("modAuthor",getCookie("language"));
             var data=auth.value;
             if (document.cookie<=num)
                 saveData(data,getCookie("details"),table,colAuth);
             else
-                saveData(data,getCookie("details"),table,colConf);
+                saveData(data,getCookie("details"),table,colConf,getCookie("language"));
             auth.style.backgroundColor="#ecffde";
             auth.style.border="2px solid green";
             setTimeout(() => {  
@@ -189,7 +189,7 @@ var id;
         saveDesc.onclick = function(){
             var desc=document.getElementById("modDesc");
             var data=desc.value;
-            saveData(data,getCookie("details"),table,colDesc);
+            saveData(data,getCookie("details"),table,colDesc,getCookie("language"));
             desc.style.backgroundColor="#ecffde";
             desc.style.border="2px solid green";
             setTimeout(() => {  
@@ -199,7 +199,7 @@ var id;
             document.getElementById("modDesc").disabled=true;
         }
 
-        function saveData (data, id, table,col){
+        function saveData (data, id, table,col,language){
             var request_type = "updateDetails";
             $.ajax({
                 type: "POST",
@@ -209,21 +209,22 @@ var id;
                     "data": data,
                     "id": id,
                     "table": table,
-                    "col": col
+                    "col": col,
+                    "language":language
                 },
                 async: false
                 });
             if(getCookie("details")>0)
-                getDetailsInfoJSON(getCookie("details"),"en", "details",1);
+                getDetailsInfoJSON(getCookie("details"),getCookie("language"), "details",1);
         }
 
 
         if(getCookie("details")=="")
-                getDetailsInfoJSON(getCookie("artwork"),"en", "artworks",1);
+                getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "artworks",1);
 
         if(getCookie("details")>0){
             table="details";
-           getDetailsInfoJSON(getCookie("details"),"en", "details",1);
+           getDetailsInfoJSON(getCookie("details"),getCookie("language"), "details",1);
         }
 
 

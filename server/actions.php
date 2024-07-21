@@ -25,18 +25,20 @@ if(isset($_POST['table']))
 if(isset($_POST['col']))
     $col = $_POST['col'];
 
+if(isset($_POST['language']))
+    $language = $_POST['language'];
+
 /* contains the DB query string */
 $query_string = "";
 
 /* handle different query types */
 switch ($action) {
-    case "getFeatures" :
-        //echo($action);
+      /*case "getFeatures" :
         getFeatures($version);
-        break;
+        break;*/
 
     case "getDetails" :
-        getDetails($version);
+        getDetails($version, $language);
         break;
 
     case "getDetailIDs":
@@ -44,7 +46,7 @@ switch ($action) {
         break;
 
     case "updateDetails": //mathy
-        updateDetails($data,$id,$table, $col);
+        updateDetails($data,$id,$table, $col,$language);
        break;
 
     /*case "getArtwork": //mathy
@@ -54,7 +56,7 @@ switch ($action) {
 }
 
 
-function getFeatures($version)
+/*function getFeatures($version)
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -85,9 +87,9 @@ function getFeatures($version)
 
     echo json_encode($features);
     mysqli_close($conn);
-}
+}*/
 
-function getDetails($version)
+function getDetails($version,$language)
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -100,13 +102,13 @@ function getDetails($version)
         error_log("Error loading character set utf8: %s\n", $conn->error);
     }
 
-    if (isset($_POST['lang'])) {
-        $lang = $_POST['lang'];
+    /*if (isset($_POST['language'])) {
+        $language = $_POST['language'];
     } else {
         echo "lang not set error";
         error_log("lang not set");
         return;
-    }
+    }*/
     /*if ($version == 2) {
         if ($lang == 'it') {
             $sql = "SELECT * FROM details5descriptors_it";
@@ -120,7 +122,23 @@ function getDetails($version)
             $sql = "SELECT * FROM details_en";
         }
     }*/
-    $sql = "SELECT id, title as detailName, confidence, imgsrc, description,artworkTitle,author,artworkId, imgArt,descArt FROM details join (select imgsrc as imgArt, description as descArt, artworks.id as artworkId, artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";
+
+    /*$sql = "SELECT id, title as detailName, confidence, imgsrc, description,
+    artworkTitle,author,artworkId, imgArt,descArt FROM details join 
+    (select imgsrc as imgArt, description as descArt, artworks.id as artworkId, 
+    artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";*/
+
+
+$sql = " select * from (select artwork, details.id,details.title as detailName, details.confidence, details.imgsrc, 
+l1.data as description from details join language_mapping lm1 on details.id=lm1.external_id join 
+language l1 on lm1.data=l1.id where type='detail' and l1.language='".$language."') det join
+(select artworks.id as artworkId, artworks.title as artworkTitle, author, imgsrc as imgArt,
+l2.data as descArt from artworks join language_mapping lm2 on artworks.id=lm2.external_id
+join language l2 on lm2.data=l2.id where type='artwork' and l2.language='".$language."') art
+on art.artworkId=det.artwork";
+
+
+
 
     $result = mysqli_query($conn, $sql);
     error_log('SQL query: ' . $sql); // debugging

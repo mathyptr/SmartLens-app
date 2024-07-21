@@ -55,6 +55,32 @@ try {
 }
 */
 
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+
+
 async function load_model() {
     // It's possible to load the model locally or from a repo
     // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
@@ -357,12 +383,12 @@ function displayInfo(results, boundingBoxes) {
             detailLinks[i].setAttribute('data-id', detailIDs[results[i]]['id']);
             detailLinks[i].addEventListener('click', function () {
                 let id = this.getAttribute('data-id');
-                let lang = 'en';
+                /*let lang = 'en';
                 if (document.getElementById('English').href == window.location.href + '#')
                     lang = 'en';
                 if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'it';
-                getDetailsInfoJSON(id, lang);
+                    lang = 'it';*/
+                getDetailsInfoJSON(id, getCookie("language"));
                 return false;
             });
             drawBoxes(boundingBoxes[i], colors[parseInt(results[i]) % colors.length])
@@ -374,7 +400,7 @@ function displayInfo(results, boundingBoxes) {
 
 
 function getDetailsInfoJSON(detail_id, lang) {
-    fetch('detailView_json.php?id=' + detail_id + '&lang=' + lang)
+    fetch('detailView_json.php?id=' + detail_id + '&language=' + lang)
         .then((response) => response.json())
         .then((data) => {
                 const name =data[0]['title']; // data[0]['detail-name'];
