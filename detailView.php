@@ -1,15 +1,6 @@
 <?php
 
-session_start();
-//se non c'è una sessione attiva redirect alla pagina di login
-if(!isset($_SESSION["autorizzato"])) {
-    header("location: index.html");
-}
 
-else{
-//Altrimenti prelevo il codice identificatico dell'utente loggato
-$cod = $_SESSION['cod'];
- 
 
 $id = $_GET['id'];
 require_once("./server/config.php");
@@ -28,7 +19,6 @@ $detail = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 mysqli_close($conn)
 
-}
 ?>
 <!DOCTYPE html>
 <html lang="it-IT">

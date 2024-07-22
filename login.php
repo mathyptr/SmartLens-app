@@ -1,11 +1,11 @@
 <?php include('./server/config.php'); ?>
+<!-- 
 <!DOCTYPE html>
 <html>
 <head>
 
     <title>Collegati per amministrare il sito - <?php echo $sito_internet ?></title>
 
-    <!--Pannello di gestione creato da Mel Riccardo-->
     <link href="css/login.css" rel="stylesheet" type="text/css" />
     <link href="css/indexStyle.css" rel="stylesheet" type="text/css" />
 </head>
@@ -19,7 +19,6 @@
           class="responsive-image"
         />
         <h2 id="title">
-          <!--ReInHerit Smart Lens-->
           ReInHerit Smart Lens
         </h2>
       </div>
@@ -36,5 +35,50 @@
     </form>
 
 </body>
-</html>
+</html>-->
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+/* Change styles for span and cancel button on extra small screens */
+
+</style>
+<link href="css/indexStyle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<nav class="navbar">
+      <div class="logo-container">
+        <img
+          id="logo"
+          src="images/Reinherit-Logo(31x30).jpg"
+          alt="ReInHerit logo"
+          class="responsive-image"
+        />
+        <h2 id="title">
+          ReInHerit Smart Lens
+        </h2>
+      </div>
+    </nav>
+
+<form id="myForm" action="verifica.php" method="post">
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    <input type="submit" id="submit" value="Login">
+  </div>
+
+  <div id="foot" class="container">
+    <a href="index.html"><span id="exit" class="material-symbols-outlined">exit_to_app</span></a>
+  </div>
+</form>
+
+</body>
+</html>
