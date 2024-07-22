@@ -1,5 +1,17 @@
 <?php
 
+
+session_start();
+//se non c'è una sessione attiva redirect alla pagina di login
+if(!isset($_SESSION["autorizzato"])) {
+  header("location: index.html");
+}
+
+else{
+//Altrimenti prelevo il codice identificatico dell'utente loggato
+$cod = $_SESSION['cod'];
+ 
+
 header('Content-type: application/json');
 $id = $_GET['id'];
 $language = $_GET['language'];
@@ -40,5 +52,5 @@ mysqli_close($conn);
 error_log('JSON details: ' . json_encode($detail, JSON_PARTIAL_OUTPUT_ON_ERROR));
 // convert php to json
 echo json_encode($detail);
-
+}
 ?>

@@ -1,0 +1,48 @@
+#login{
+   margin: auto;
+   width: 30%;
+   margin-top: 10%;
+}
+#inputs, #actions{
+    align-items: center;
+    border:2px solid rgb(117, 135, 117);
+    text-align: center;
+    background-color: rgb(227, 241, 252);
+    border-radius: 10px;
+    margin: 10%;
+}
+
+#username{
+    background-color: rgb(251, 251, 224);
+    border:1px solid rgb(173, 134, 134);
+    margin-top: 10%;
+    margin-bottom: 2%;
+    padding: 2%;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+#password{
+    background-color: rgb(251, 251, 224);
+    border:1px solid rgb(173, 134, 134);
+    margin-bottom: 10%;
+    padding: 2%;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+#submit, #back{
+    background-color: rgb(251, 251, 224);
+    border:1px solid rgb(173, 134, 134);
+    padding: 2%;
+    border-radius: 5px;
+    border-width: 1px;
+    cursor: pointer;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
+}
+#back{
+    text-align: center;
+    width: 25%;
+}

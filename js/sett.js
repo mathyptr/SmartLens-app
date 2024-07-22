@@ -37,7 +37,7 @@ const italian = document.getElementById("Italian");
                         label_actual[2].innerText=data[0]['description'];
                         det_src.src = data[0]['imgsrc'];
                     }
-                );
+                ).catch(error => backToIndex());
         }
         
         function setCookie(cname, cvalue, exdays) {

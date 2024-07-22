@@ -1,5 +1,16 @@
 <?php
 
+session_start();
+//se non c'è una sessione attiva redirect alla pagina di login
+if(!isset($_SESSION["autorizzato"])) {
+    header("location: index.html");
+}
+
+else{
+//Altrimenti prelevo il codice identificatico dell'utente loggato
+$cod = $_SESSION['cod'];
+ 
+  
 /* set the answer format */
 header('Content-Type: text/json');
 require_once("config.php");
@@ -269,4 +280,5 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
     echo json_encode($artwork);
     mysqli_close($conn);
 }*/
+}
 ?>

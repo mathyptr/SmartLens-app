@@ -113,6 +113,13 @@ function getCookie(cname) {
             }
         );
 }*/
+function backToIndex(){
+    if(getCookie("artwork")=="")
+       ;// console.log("ok");
+    else
+        window.location.href = './index.html';
+};
+
 
 function getDetailsInfoJSON(detail_id, lang, table,req) {
 var myimg=[];
@@ -134,9 +141,8 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
                 }
            }
         }
-    );
+    ).catch(error => backToIndex());
 }
-
 
 
 function getDescJSON(detail_id, lang, table,req) {
@@ -147,7 +153,7 @@ function getDescJSON(detail_id, lang, table,req) {
                     document.getElementById("modDesc").innerText = data[0]['description'];
                     document.getElementsByClassName("actual")[2].innerText=data[0]['description'];
                     }
-                );
+                ).catch(error => backToIndex());
 }
 
 
@@ -318,19 +324,21 @@ function setLabel(){
 
    if(label_res!=null){
         label_res.onclick=function(){
-        window.location.href = './areaRiservata.html';
+       // window.location.href = './areaRiservata.html';
+       window.location.href = './login.php'
         }
     }
 
-    if(label_res!=null){
+  /* if(label_res!=null){
         label_res.onclick=function(){
         window.location.href = './areaRiservata.html';
         }
-    }
+    }*/
     
     if(label_exit!=null){
         label_exit.onclick=function(){
-        window.location.href = './index.html';
+        //window.location.href = './index.html';
+        window.location.href = './logout.php'
         }
     }
 

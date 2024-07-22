@@ -532,10 +532,11 @@ a {
   width: 70%;
   padding-bottom: 2%;
   margin: auto;
+  margin-top: 0%;
 }
 
 .actual {
-  text-align: justify;
+  /*text-align: left;*/
 }
 
 .labelActual {
