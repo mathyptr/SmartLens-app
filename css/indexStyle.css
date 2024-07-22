@@ -52,7 +52,7 @@ img {
 
 #title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  /*font-family: Georgia, "Times New Roman", Times, serif;*/
 }
 
 /* Slideshow container */
@@ -118,6 +118,7 @@ img {
   margin: auto;
   max-width: 400px;
   padding: 30px 0 30px 0;
+  margin-top: 5%;
 }
 
 .social a {
@@ -301,6 +302,7 @@ textarea {
 
 #divDetail{
     margin-top: 10vh;
+    cursor:pointer;
 }
 
 #divDetail,
@@ -459,9 +461,10 @@ a {
     text-size-adjust: 2px !important;
   }
   #title {
-    margin-top: 2%;
-    padding-bottom: 2%;
-    font-size: 95%;
+    padding: 0;
+    margin:0;
+    margin-left: 2%;
+    font-size: 90%;
   }
   #sectionTitle,
   #mytxt {
@@ -479,15 +482,32 @@ a {
     margin-top: 14%;
   }
   .mySlides {
+    margin-top: 20%;
     width: 100%;
     bottom: 0px;
   }
-  .imgExample,
   #imgDetail {
     width: 80%;
   }
+
   .slideshow-container {
     height: 50%;
+  }
+  .logo-container, #languageContainer{
+    align-items: center;
+  }
+  #imgDetail{
+    margin-bottom: 5%;
+  }
+  .grid-2{
+    width: 88.5%;
+  }
+  .dataCont{
+    width: 80% !important;
+  }
+  .social{
+    margin-top: 2%;
+    padding: 10%;
   }
 }
 

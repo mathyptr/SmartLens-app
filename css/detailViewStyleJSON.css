@@ -111,7 +111,6 @@
         width: 30%;
         margin-left: 35%;
     }
-
 }
 
 
@@ -128,4 +127,20 @@
 
 .spacer {
     height: 200px;
+}
+
+@media only screen and (max-width: 768px) {
+
+#detail_close-sheet{
+    top: 4.3vh;
+}
+#detail_view_json .grid-2 {
+    width: 80vw;
+}
+#detail_description {
+    width: 80%;
+    text-align: justify;
+    margin: auto;
+    margin-top: 5%;
+}
 }

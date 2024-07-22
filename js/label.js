@@ -40,7 +40,7 @@ const label_btn_restart= document.getElementById('restart');
 const label_res= document.getElementById('res');
 const label_exit= document.getElementById('exit');
 
-const label_section_title= document.getElementById('sectionTitle');
+//const label_section_title= document.getElementById('sectionTitle');
 const label_btn_title= document.getElementById('btnTitle');
 const label_btn_author= document.getElementById('btnAuthor');
 const label_btn_desc= document.getElementById('btnDesc');
@@ -51,7 +51,7 @@ const label_home= document.getElementById('home');
     
 const label_listen = document.getElementById('ascoltaGuida');
 
-const label_txt= document.getElementById('mytxt');
+//const label_txt= document.getElementById('mytxt');
 const label_artworks=[];
 
 for(i=0;i<n;i++)
@@ -228,8 +228,8 @@ function setLabel(){
         label_btn_restart.innerText=btn_restart;
     }
     
-    if(label_section_title!=null){ //label per settings.html
-        label_section_title.innerText=section_title;
+    if( label_for_actual[0]!=null){ //label per settings.html
+       // label_section_title.innerText=section_title;
         //label_btn_title.innerText=btn_title;
        // label_btn_desc.innerText=btn_desc;
         label_for_actual[0].innerText=btn_title+": ";
@@ -256,15 +256,15 @@ function setLabel(){
         }
             
     }
-    
-    if(label_txt!=null){ //label per areaRiservata.html
-        label_txt.innerText=txt;
+    var list=document.getElementById("myList");
+    if(list!=null){ //label per areaRiservata.html
+       // label_txt.innerText=txt;
         if(getCookie("details")=="")
             getDetailsInfoJSON(1,getCookie("language"),"artworks",3);
-        else
+        else if (getCookie("details")==0)
             getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
            
-    }
+   }
 
 
 
@@ -373,11 +373,14 @@ function setLabel(){
     
     }
 
-    label_home.onclick=function(){ 
-        table="artworks";
-           deleteCookie("details");
-           deleteCookie("artwork");
-           window.location.href = './areaRiservata.html';
+    if(label_home!=null){
+        label_home.style="cursor:pointer";
+        label_home.onclick=function(){ 
+            table="artworks";
+               deleteCookie("details");
+               deleteCookie("artwork");
+               window.location.href = './areaRiservata.html';
+        }
     }
 
 

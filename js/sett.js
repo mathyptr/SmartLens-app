@@ -11,7 +11,7 @@ var id;
 var english = document.getElementById("English");
 const italian = document.getElementById("Italian");
 
-  function getDetailsInfoJSON(detail_id, lang, table,req) {
+  function getSetInfoJSON(detail_id, lang, table,req) {
     var name=document.getElementById("modTitle");
     var auth=document.getElementById("modAuthor");
     var desc=document.getElementById("modDesc");
@@ -96,15 +96,18 @@ const italian = document.getElementById("Italian");
 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
+            document.getElementById("modTitle").disabled=false;
         }
 
         btnAuthor.onclick = function () {
             modalAuthor.style.display = "block";
+            document.getElementById("modAuthor").disabled=false;
         }
 
 
         btnDesc.onclick = function () {
             modalDesc.style.display = "block";
+            document.getElementById("modDesc").disabled=false;
         }
 
        
@@ -129,7 +132,7 @@ const italian = document.getElementById("Italian");
             modalDesc.style.display = "none";
             document.getElementById("modDesc").disabled=true;
         }
-        modTitle.onclick = function(){
+       /* modTitle.onclick = function(){
             document.getElementById("modTitle").disabled=false;
         }
 
@@ -139,7 +142,7 @@ const italian = document.getElementById("Italian");
         
         modDesc.onclick = function(){
             document.getElementById("modDesc").disabled=false;
-        }
+        }*/
       
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
@@ -160,7 +163,10 @@ const italian = document.getElementById("Italian");
         saveTitle.onclick = function(){
             var title=document.getElementById("modTitle");
             var data=title.value;
-            saveData(data, getCookie("details"),table,colTitle,getCookie("language"));
+            if (getCookie("details")==0)
+                saveData(data, getCookie("artwork"),table,colTitle,getCookie("language"));
+            else
+                saveData(data, getCookie("details"),table,colTitle,getCookie("language"));
             title.style.backgroundColor="#ecffde";
             title.style.border="2px solid green";
             setTimeout(() => {  
@@ -220,16 +226,18 @@ const italian = document.getElementById("Italian");
                 async: false
                 });
             if(getCookie("details")>0)
-                getDetailsInfoJSON(getCookie("details"),getCookie("language"), "details",1);
+                getSetInfoJSON(getCookie("details"),getCookie("language"), "details",1);
+            if(getCookie("details")=="")
+                getSetInfoJSON(getCookie("artwork"),getCookie("language"), "artworks",1);
         }
 
 
         if(getCookie("details")=="")
-                getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "artworks",1);
+            getSetInfoJSON(getCookie("artwork"),getCookie("language"), "artworks",1);
 
         if(getCookie("details")>0){
             table="details";
-           getDetailsInfoJSON(getCookie("details"),getCookie("language"), "details",1);
+            getSetInfoJSON(getCookie("details"),getCookie("language"), "details",1);
         }
 
 
