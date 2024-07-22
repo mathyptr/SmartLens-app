@@ -373,6 +373,13 @@ function setLabel(){
     
     }
 
+    label_home.onclick=function(){ 
+        table="artworks";
+           deleteCookie("details");
+           deleteCookie("artwork");
+           window.location.href = './areaRiservata.html';
+    }
+
 
 
     function getArtwork (id){

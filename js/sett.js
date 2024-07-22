@@ -233,7 +233,7 @@ const italian = document.getElementById("Italian");
         }
 
 
-
+        var home= document.getElementById("home");
         home.onclick=function(){ 
         table="artworks";
            deleteCookie("details");
