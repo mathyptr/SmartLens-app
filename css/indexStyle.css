@@ -509,6 +509,9 @@ a {
     margin-top: 2%;
     padding: 10%;
   }
+  #intro{
+    font-size: smaller;
+  }
 }
 
 #divGo {

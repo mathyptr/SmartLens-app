@@ -63,10 +63,15 @@ form {
   }
 
   #foot{
-   text-align: right;
+   text-align: left;
    background-color:#f1f1f1;
    padding-top: 2%;
    padding-bottom: 2%;
+  }
+
+  #sub{
+    padding-top:2%;
+    text-align: right;
   }
 
 

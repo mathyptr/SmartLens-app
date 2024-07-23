@@ -67,16 +67,16 @@
 
 <form id="myForm" action="verifica.php" method="post">
   <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required>
+    <label for="username"><b>Username</b></label>
+    <input id="n" type="text" placeholder="Enter Username" name="username" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-    <input type="submit" id="submit" value="Login">
+    <label for="password"><b>Password</b></label>
+    <input id="p" type="password" placeholder="Enter Password" name="password" required>
+    <div id="sub"><input type="submit" id="submit" value="Login"></div>
   </div>
 
   <div id="foot" class="container">
-    <a href="index.html"><span id="exit" class="material-symbols-outlined">exit_to_app</span></a>
+    <a href="index.html"><span id="exit" class="material-symbols-outlined">reply</span></a>
   </div>
 </form>
 

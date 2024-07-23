@@ -56,7 +56,7 @@ if($trovato == 1) {
 } else {
 
 /*Username e password errati, redirect alla pagina di login*/
- echo '<script language=javascript>document.location.href="index.html"</script>';
+ echo '<script language=javascript>document.location.href="login.php"</script>';
 
 }
 ?>
