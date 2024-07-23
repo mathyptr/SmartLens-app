@@ -122,11 +122,21 @@
         />
       </a>
     </ul>
-    <!--<a id="res" href="areaRiservata.html"></a>-->
-    <script>
+
+
+  <script>
+  var x = window.matchMedia("(max-width: 800px)");
+  let slideIndex = 0;
+  var slideshow = document.getElementById("slideshow");
+  showSlides();
+
+
+  if (x.matches) {
+      // If media query matches
+  } 
+  else {
       let slideIndex = 0;
       var showMore = document.getElementById("showMore");
-      var slideshow = document.getElementById("slideshow");
       showSlides();
       requestAnimationFrame(update);
       var status = 0;
@@ -149,7 +159,7 @@
         }
         requestAnimationFrame(update);
       }
-
+    }
       function showSlides() {
         let i;
         let slides = document.getElementsByClassName("mySlides");

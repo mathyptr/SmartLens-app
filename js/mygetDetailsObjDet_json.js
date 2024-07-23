@@ -292,7 +292,7 @@ function getObjects(predictions) {
 
     for (let i = 0; i < classes[0].length; i++) {
         probXview=probabilities[0][i] ;
-// if(classes[0][i]<25)
+        if(classes[0][i]<8)
         {
             let detail_confidence=detailIDs[classes[0][i]]['confidence'] ;
 // let detail_confidence=0.75 ;
@@ -301,6 +301,8 @@ function getObjects(predictions) {
                 recognisedBoxes.push(boundingBoxes[0][i])
             }
         }
+        else 
+        console.log('Error Classe Id: ' + classes[0][i]); 
     }
 
 /*   let threshold=0.4
@@ -338,7 +340,7 @@ const setIsSheetShown = (value) => {
 
 function displayInfo(results, boundingBoxes) {
 
-    let main_artwork = details[detailIDs[results[0]]['id']]['artwork-id'];
+    let main_artwork = detailIDs[results[0]]['id'];//mathi 23-07-24 details[detailIDs[results[0]]['id']]['artwork-id'];
     for (let i = 0; i < detailLinks.length; i++) {
         detailLinks[i].style.display = 'none';
     }
