@@ -32,10 +32,10 @@
 <h3 id="logTitle" >Login</h3>
 <form id="myForm" action="verifica.php" method="post">
   <div class="container">
-    <label for="username"><b>Username</b></label>
+    <label for="user"><b>Username</b></label>
     <input id="user" type="text" placeholder="Enter Username" name="username" required >
 
-    <label for="password"><b>Password</b></label>
+    <label for="pw"><b>Password</b></label>
     <input id="pw" type="password" placeholder="Enter Password" name="password" required>
     <div id="sub"><input type="submit" id="submit" value="Login"></div>
   </div>
