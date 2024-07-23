@@ -162,7 +162,7 @@ function getDescJSON(detail_id, lang, table,req) {
 function setEn (){
 //label per index.html
 btn_try="Try the interactive guide";
-intro="Try Smart Lens now! Using this interactive guide you will receive information about artwork and artwork details that you are looking at. You just need to frame it on your smartphone!";
+intro="Click on an artwork to try Smart Lens now! Using this interactive guide you will receive information about artwork and artwork details that you are looking at. You just need to frame it on your smartphone!";
 more_info="Click on details for more information";
 listen_guide="Listen the audio guide";
 btn_restart="Restart";
@@ -187,7 +187,7 @@ listen="Ascolta la guida";
 function setIt (){
     //label per index.html
     btn_try="Attiva la guida interattiva";
-    intro="Prova Smart Lens! Con questa guida potrai ricevere informazioni relative alle opere e ai loro dettagli semplicemente inquadrandoli con il tuo smartphone!";
+    intro="Clicca su un'opera per provare Smart Lens! Con questa guida potrai ricevere informazioni relative alle opere e ai loro dettagli semplicemente inquadrandoli con il tuo smartphone!";
     more_info="Clicca sui dettagli per ricevere informazioni";
     listen_guide="Ascolta la guida";
     btn_restart="Restart";

@@ -54,9 +54,9 @@ if($trovato == 1) {
    echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; 
 
 } else {
-
 /*Username e password errati, redirect alla pagina di login*/
- echo '<script language=javascript>document.location.href="login.php"</script>';
-
+$_SESSION['err']=1;
+echo '<script language=javascript>document.location.href="login.php"</script>';
 }
 ?>
+

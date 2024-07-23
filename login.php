@@ -1,41 +1,6 @@
 <?php include('./server/config.php'); ?>
-<!-- 
-<!DOCTYPE html>
-<html>
-<head>
 
-    <title>Collegati per amministrare il sito - <?php echo $sito_internet ?></title>
 
-    <link href="css/login.css" rel="stylesheet" type="text/css" />
-    <link href="css/indexStyle.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-<nav class="navbar">
-      <div class="logo-container">
-        <img
-          id="logo"
-          src="images/Reinherit-Logo(31x30).jpg"
-          alt="ReInHerit logo"
-          class="responsive-image"
-        />
-        <h2 id="title">
-          ReInHerit Smart Lens
-        </h2>
-      </div>
-    </nav>
-    <form id="login" action="verifica.php" method="post">
-        <fieldset id="inputs">
-            <input id="username" name="username" type="text" placeholder="Username" autofocus required>
-            <input id="password" name="password" type="password" placeholder="Password" required>
-            <div>
-                <input type="submit" id="submit" value="Login">
-                <a href="index.html"> <input id="back" value="Back"></a>
-            </div>
-        </fieldset>
-    </form>
-
-</body>
-</html>-->
 
 <!DOCTYPE html>
 <html>
@@ -64,14 +29,14 @@
         </h2>
       </div>
     </nav>
-
+<h3 id="logTitle" >Login</h3>
 <form id="myForm" action="verifica.php" method="post">
   <div class="container">
     <label for="username"><b>Username</b></label>
-    <input id="n" type="text" placeholder="Enter Username" name="username" required>
+    <input id="user" type="text" placeholder="Enter Username" name="username" required >
 
     <label for="password"><b>Password</b></label>
-    <input id="p" type="password" placeholder="Enter Password" name="password" required>
+    <input id="pw" type="password" placeholder="Enter Password" name="password" required>
     <div id="sub"><input type="submit" id="submit" value="Login"></div>
   </div>
 
@@ -82,3 +47,37 @@
 
 </body>
 </html>
+
+<script language=javascript>
+function notifyError(){
+    var user= document.getElementById("user");
+    var pw= document.getElementById("pw");
+    var msg= document.getElementById("logTitle");
+    user.style.backgroundColor="rgb(231, 178, 178)";
+    //user.style.backgroundColor="rgb(241, 138, 138)";
+    user.style.border="1px solid red";
+   // pw.style.backgroundColor="rgb(241, 138, 138)";
+    pw.style.backgroundColor="rgb(231, 178, 178)";
+    pw.style.border="1px solid red";
+    msg.innerText="Error: try again.";
+    setTimeout(() => {  
+            user.style.backgroundColor="white";
+            user.style.border="1px solid #ccc"; 
+            pw.style.backgroundColor="white";
+            pw.style.border="1px solid #ccc"; 
+    }, 800);
+    
+}
+</script>
+
+
+<?php 
+
+session_start();
+
+if(isset($_SESSION["err"])&&($_SESSION["err"])==1)
+  echo '<script language=javascript>notifyError();</script>';
+
+$_SESSION = array();
+session_destroy();
+?>
