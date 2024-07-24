@@ -163,7 +163,7 @@ function getPathJSON(id, lang, table,req,name) {
     fetch('artworkView_json.php?id=' + id + '&language=' + lang + '&table=' + table+'&req=' + req)
     .then((response) => response.json())
                 .then((data) => {
-                    document.getElementById(name).innerText ="> "+data[0]['title'];
+                    document.getElementById(name).innerText ="/ "+data[0]['title'];
                     }
                 );//.catch(error => backToIndex());
 }
@@ -188,7 +188,7 @@ btn_desc="Description";
 home = "Home";
 det ="Go to details";
 btn_conf="Confidence";
-listDet="> List details";
+listDet="/ List details";
 
 //label per areaRiservata.html
 txt="List of artworks";
@@ -214,7 +214,7 @@ function setIt (){
     home = "Home";
     det ="Vai ai dettagli";
     btn_conf="Confidenza";
-    listDet="> Elenco dettagli";
+    listDet="/ Elenco dettagli";
 
     //label per areaRiservata.html
     txt="Lista delle opere";
@@ -228,11 +228,16 @@ function setIt (){
 window.onload= setLabel("");
 
 function setLabel(){
-    
-    if ((getCookie("language")=="en"))//&&(language!="it"))
+    if ((getCookie("language")=="en")){
+        en.style.borderBottom="2px solid black";
+        it.style.borderBottom="2px solid transparent";
         setEn();
-    else
-     setIt();
+    }
+    else{
+        it.style.borderBottom="2px solid black";
+        en.style.borderBottom="2px solid transparent";
+        setIt();
+    }
     
      if(label_link_home!=null)
         label_link_home.innerText=path;
@@ -288,16 +293,19 @@ function setLabel(){
         else if (getCookie("details")==0)
             getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
    }
+   
 
-   var x = window.matchMedia("(max-width: 800px)");
-   if (x.matches){}// If media query matches} 
-   else{
-    if(getCookie("artwork")>0)
-        getPathJSON(getCookie("artwork"), getCookie("language"), "artworks",1,"artName");
-    if(getCookie("details")!="")
-        label_list_details.innerText=listDet;
-    if(getCookie("details")>0)
-       getPathJSON(getCookie("details"), getCookie("language"), "details",1,"detName");
+    if(label_link_home!=null){
+        var x = window.matchMedia("(max-width: 800px)");
+        if (x.matches){}// If media query matches} 
+        else{
+         if(getCookie("artwork")>0)
+             getPathJSON(getCookie("artwork"), getCookie("language"), "artworks",1,"artName");
+         if(getCookie("details")!="")
+             label_list_details.innerText=listDet;
+         if(getCookie("details")>0)
+            getPathJSON(getCookie("details"), getCookie("language"), "details",1,"detName");
+         }
     }
 
     //guardare se serve o se basta la label listen_guide

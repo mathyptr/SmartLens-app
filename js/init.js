@@ -12,6 +12,5 @@ setCookie("language","en",1);
 window.onload=function(){
     deleteCookie("details");
     deleteCookie("artwork");
-
 }
 
