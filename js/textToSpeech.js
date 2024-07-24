@@ -36,7 +36,7 @@ window.addEventListener('load', function () {
 
 audioGuide.addEventListener('click', function () {
     if (action == 1) {
-        if (document.getElementById('Italian').href == window.location.href + '#') {
+        if (getCookie("language")=="it"){//document.getElementById('Italian').href == window.location.href + '#') {
             restart.style.display = 'inline'
             ourText = "L'opera che stai guardando è "
             ourText = ourText.concat(artworkTitle.innerText)
@@ -87,7 +87,7 @@ audioGuide.addEventListener('click', function () {
 })
 
 restartButton.addEventListener('click', function () {
-    if (document.getElementById('Italian').href == window.location.href + '#') {
+    if (getCookie("language")=="it"){//(document.getElementById('Italian').href == window.location.href + '#') {
         synth.cancel()
         ourText = "L'opera che stai guardando è "
         ourText = ourText.concat(artworkTitle.innerText)

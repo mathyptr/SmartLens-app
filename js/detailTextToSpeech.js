@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     detail_audioGuide.addEventListener('click', function () {
         if (!synth.speaking) {
-            if (document.getElementById('Italian').href == window.location.href + '#') {
+            if (getCookie("language")=="it"){//(document.getElementById('Italian').href == window.location.href + '#') {
                 let ourText = "L'opera che stai guardando è "
                 ourText = ourText.concat(detail_artworkTitle.innerText)
                 ourText = ourText.concat(' di ')

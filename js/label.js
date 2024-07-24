@@ -229,13 +229,17 @@ window.onload= setLabel("");
 
 function setLabel(){
     if ((getCookie("language")=="en")){
-        en.style.borderBottom="2px solid black";
-        it.style.borderBottom="2px solid transparent";
+        if(en!=null){
+            en.style.borderBottom="2px solid black";
+            it.style.borderBottom="2px solid transparent";
+        }
         setEn();
     }
     else{
-        it.style.borderBottom="2px solid black";
-        en.style.borderBottom="2px solid transparent";
+        if(it!=null){
+            it.style.borderBottom="2px solid black";
+            en.style.borderBottom="2px solid transparent";
+        }  
         setIt();
     }
     

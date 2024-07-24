@@ -179,7 +179,7 @@ function drawBoxes(bounding_box, color) {
     let box = document.createElement('p');
     camera_box.appendChild(box)
     let x, y, width, height = undefined;
-    if (document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight) {
+  if (document.documentElement.clientWidth / document.documentElement.clientHeight > webcam.videoWidth / webcam.videoHeight) {
         let offsetY = (document.documentElement.clientWidth * webcam.videoHeight / webcam.videoWidth - document.documentElement.clientHeight) / 2
         x = bounding_box[1] * document.documentElement.clientWidth;
         y = bounding_box[0] * webcam.videoHeight * document.documentElement.clientWidth / webcam.videoWidth - offsetY;
@@ -192,6 +192,15 @@ function drawBoxes(bounding_box, color) {
         width = bounding_box[3] * webcam.videoWidth * document.documentElement.clientHeight / webcam.videoHeight - offsetX - x;
         height = bounding_box[2] * document.documentElement.clientHeight - y;
     }
+
+       /* prove const minY = bounding_box[0] * webcam.offsetHeight;//webcam.offsetHeight;
+        const minX = bounding_box[1] * webcam.offsetWidth;
+        const maxY = bounding_box[2] * webcam.offsetHeight;
+        const maxX = bounding_box[3] * webcam.offsetWidth;
+        let xx = minX;
+        let  yy= minY;
+        let wwidth = maxX - minX;
+        let hheight= maxY - minY;*/
 
     box.style.position = 'fixed'
     box.style.zIndex = '2'

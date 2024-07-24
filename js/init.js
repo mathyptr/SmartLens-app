@@ -8,7 +8,8 @@ function deleteCookie(cname) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-setCookie("language","en",1);
+if(getCookie("language")=="")
+  setCookie("language","en",1);
 window.onload=function(){
     deleteCookie("details");
     deleteCookie("artwork");
