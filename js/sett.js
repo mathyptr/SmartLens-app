@@ -10,6 +10,9 @@ var colDesc="description";
 var id;
 var english = document.getElementById("English");
 const italian = document.getElementById("Italian");
+const label_art_name = document.getElementById('artName');
+const label_det_name = document.getElementById('detName');
+
 
   function getSetInfoJSON(detail_id, lang, table,req) {
     var name=document.getElementById("modTitle");
@@ -26,12 +29,14 @@ const italian = document.getElementById("Italian");
                         name.innerText = data[0]['title'];
                         label_actual[0].innerText=data[0]['title'];
                         if(getCookie("details")==""){
+                          //  label_art_name.innerText=data[0]['title'];
                             auth.innerText = data[0]['author'];
                             label_actual[1].innerText=data[0]['author'];
                         }
                         else{
                             label_actual[1].innerText=data[0]['confidence'];
                             auth.innerText = data[0]['confidence'];
+                           // label_det_name.innerText=data[0]['title'];
                         }
                         desc.innerText = data[0]['description'];
                         label_actual[2].innerText=data[0]['description'];
@@ -241,15 +246,27 @@ const italian = document.getElementById("Italian");
         }
 
 
-        var home= document.getElementById("home");
+
+        var home= document.getElementById("linkHome");
         home.onclick=function(){ 
         table="artworks";
            deleteCookie("details");
            deleteCookie("artwork");
            window.location.href = './areaRiservata.html';
         }
-  
-
+        
+        label_art_name.onclick=function(){
+            if(getCookie("details")!=""){
+                setCookie("details","",1); 
+                window.location.href = './settings.html';
+            }
+        }
+        label_list_details.onclick=function(){
+            if(getCookie("details")>0){
+            setCookie("details",0,1);
+            window.location.href = './areaRiservata.html';
+            }
+        }
        
 
         

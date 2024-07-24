@@ -1,7 +1,7 @@
 //const default_lan="en";
 const en = document.getElementById("English");
 const it = document.getElementById("Italian");
-const title= "ReInHerit Smart Lens";
+var path= "Home";
 const n=3; //numero opere nel db
 var idDet=[];
 var id;
@@ -22,6 +22,7 @@ var btn_desc;
 var btn_conf;
 var home;
 var det;
+var listDet;
 
 //label per areaRiservata.html
 var txt;
@@ -31,7 +32,8 @@ var artworks=[];
 var listen;
 
 
-const label_title = document.getElementById('title');
+const label_link_home = document.getElementById('linkHome');
+const label_list_details = document.getElementById('listDetails');
 //const label_btn_try = document.getElementsByClassName('toCamera');
 const label_intro = document.getElementById('intro');
 const label_more_info= document.getElementById('more_info');
@@ -157,6 +159,16 @@ function getDescJSON(detail_id, lang, table,req) {
 }
 
 
+function getPathJSON(id, lang, table,req,name) {
+    fetch('artworkView_json.php?id=' + id + '&language=' + lang + '&table=' + table+'&req=' + req)
+    .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById(name).innerText ="> "+data[0]['title'];
+                    }
+                );//.catch(error => backToIndex());
+}
+
+
 
 
 function setEn (){
@@ -176,6 +188,7 @@ btn_desc="Description";
 home = "Home";
 det ="Go to details";
 btn_conf="Confidence";
+listDet="> List details";
 
 //label per areaRiservata.html
 txt="List of artworks";
@@ -201,6 +214,7 @@ function setIt (){
     home = "Home";
     det ="Vai ai dettagli";
     btn_conf="Confidenza";
+    listDet="> Elenco dettagli";
 
     //label per areaRiservata.html
     txt="Lista delle opere";
@@ -219,6 +233,9 @@ function setLabel(){
         setEn();
     else
      setIt();
+    
+     if(label_link_home!=null)
+        label_link_home.innerText=path;
 
     if(label_btn_try[0]!=null){ //label per index.html
         for(i = 0; i < 10; i++){
@@ -249,7 +266,7 @@ function setLabel(){
         }
         else{
           //  label_btn_author.innerText=btn_conf;
-            label_for_actual[1].innerText=btn_conf+": ";
+            label_for_actual[1].innerText=btn_conf+": "
            // getDetailsInfoJSON(getCookie("details"),"en", "details",2);
         }
         if(getCookie("language")=="en"){
@@ -260,7 +277,8 @@ function setLabel(){
             it.style.borderBottom="2px solid black";
             en.style.borderBottom="2px solid transparent";
         }
-            
+        //if(getCookie("details")!="")
+           // label_list_details.innerText=listDet;
     }
     var list=document.getElementById("myList");
     if(list!=null){ //label per areaRiservata.html
@@ -269,10 +287,18 @@ function setLabel(){
             getDetailsInfoJSON(1,getCookie("language"),"artworks",3);
         else if (getCookie("details")==0)
             getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
-           
    }
 
-
+   var x = window.matchMedia("(max-width: 800px)");
+   if (x.matches){}// If media query matches} 
+   else{
+    if(getCookie("artwork")>0)
+        getPathJSON(getCookie("artwork"), getCookie("language"), "artworks",1,"artName");
+    if(getCookie("details")!="")
+        label_list_details.innerText=listDet;
+    if(getCookie("details")>0)
+       getPathJSON(getCookie("details"), getCookie("language"), "details",1,"detName");
+    }
 
     //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
@@ -381,15 +407,35 @@ function setLabel(){
     
     }
 
-    if(label_home!=null){
-        label_home.style="cursor:pointer";
-        label_home.onclick=function(){ 
+    if(label_link_home!=null){
+        label_link_home.onclick=function(){ 
             table="artworks";
                deleteCookie("details");
                deleteCookie("artwork");
                window.location.href = './areaRiservata.html';
         }
     }
+     
+    var artName=document.getElementById("artName"); 
+    var list=document.getElementById("listDetails"); 
+    if(label_exit!=null){
+    artName.onclick=function(){
+        if(getCookie("details")!=""){
+            setCookie("details","",1); 
+            window.location.href = './settings.html';
+        }
+    }
+    list.onclick=function(){
+        if(getCookie("details")>0){
+            setCookie("details",0,1);
+            window.location.href = './areaRiservata.html';
+        }
+    }
+}
+
+
+
+
 
 
 

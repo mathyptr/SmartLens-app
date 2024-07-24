@@ -51,10 +51,17 @@ img {
 } */
 
 #title {
-  margin: 0;
+  margin:0%;
+  margin-left: 2%;
   /*font-family: Georgia, "Times New Roman", Times, serif;*/
 }
-
+#linkHome, #artName, #detName, #listDetails{
+  margin-top: 1%;
+  margin-right: 0.5%;
+}
+#linkHome{
+  margin-left: 1%;
+}
 /* Slideshow container */
 .slideshow-container {
   width: 70vw;
@@ -326,7 +333,7 @@ a {
 
 .navbar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 4fr 1fr;
   align-items: center;
   width: 100vw;
   position: fixed;
@@ -341,7 +348,7 @@ a {
 
 .logo-container{
     display: flex;
-    gap: 1vw;
+    width: 100%;
 }
 
 .button-outline {
@@ -511,6 +518,10 @@ a {
   }
   #intro{
     font-size: smaller;
+  }
+  #linkHome, #artName, #detName, #listDetails{
+    font-size: smaller;
+    margin-left: 1%;
   }
 }
 
