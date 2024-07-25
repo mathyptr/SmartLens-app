@@ -12,11 +12,40 @@
     <script>
       async function demo() {
         try {
-//          const model = await tf.loadGraphModel("https://raw.githubusercontent.com/mathyptr/SmartLens-app/19b037d94fa3b0b3d3a4c02e1445521348871340/networkModels/art_details_obj/reinherit_test_final_30k_b128/",{fromTFHub: true});
-const model = await tf.loadGraphModel("https://raw.githubusercontent.com/mathyptr/SmartLens-app/19b037d94fa3b0b3d3a4c02e1445521348871340/networkModels/art_details_obj/botticelliwebmodel/model.json",{fromTFHub: false});
-//       const model = await tf.loadGraphModel("https://smartlens-docker.onrender.com/SmartLens-app/networkModels/art_details_obj/botticelliwebmodel/model.json");
-//          console.log("Model summary:", model.summary());
-            console.log('TFJS version: ' + tf.version.tfjs)
+          let modelURL ='http://127.0.0.1/SmartLens-app/networkModels/art_details_obj/botticelliwebmodel/model.json';  // layers: 1: bboxes ; 0: classes ; 4: probabilities
+          const model = await tf.loadGraphModel(modelURL);
+        tensor_label= model.signature.outputs;
+        console.log('TFJS version: ' + tf.version.tfjs);
+        console.log("model.outputNodes: "+model.outputNodes);
+        console.log("model.signature: "+model.signature);
+        console.log("model.signature outputs: "+model.signature.outputs);
+        console.log("model.signature outputs: "+Object.entries(model.signature.outputs));
+
+        let bb_id=0;
+        let classes_id=0;
+        let prob_id=0;
+        let numdet_id=0;
+        let probXview=0;
+        const classes_label= "Identity_2:0";
+const boundingBox_label= "Identity_1:0";
+const probabilities_label= "Identity_4:0";
+const num_detections_label="num_detections";
+
+let i=0;
+    for (const [key, value] of Object.entries(tensor_label)) {
+        if(value['name']==classes_label)
+            classes_id = i;
+        else if(value['name']==boundingBox_label)
+            bb_id = i;
+        else if(value['name']==probabilities_label)
+            prob_id = i;
+        else if(value['name']==num_detections_label)
+            numdet_id = i;
+        console.log(value['name']+": "+i);
+        i++;
+    }
+
+
         } catch (error) {
           console.error("Error loading model:", error);
         }

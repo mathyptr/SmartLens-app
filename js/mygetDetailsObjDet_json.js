@@ -304,6 +304,9 @@ function getObjects(predictions) {
         if(classes[0][i]<8)
         {
             let detail_confidence=detailIDs[classes[0][i]]['confidence'] ;
+            if (classes[0][i]==1||classes[0][i]==2||classes[0][i]==3)
+                console.log("Venere vista");
+
 // let detail_confidence=0.75 ;
             if (probabilities[0][i] > detail_confidence && !recognisedDetails.includes(classes[0][i])) {
                 recognisedDetails.push(classes[0][i])
