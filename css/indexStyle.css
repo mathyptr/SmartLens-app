@@ -569,3 +569,39 @@ a {
   padding: 0;
   gap: 10px;
 }
+
+.remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  z-index: 2;
+  background-color: white;
+  opacity: 0.8;
+  display: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  place-items: center;
+  cursor: pointer;
+}
+
+.overflow-hidden:hover .remove {
+  display: grid;
+}
+
+.rem{
+  width: 30% !important;
+}
+
+#addArtwork{
+margin-top: 2%;
+text-align: center;
+}
+
+#uploadedImage{
+  margin: auto;
+  margin-top: 2%;
+  width: 20%;
+}

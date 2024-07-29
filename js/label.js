@@ -27,6 +27,7 @@ var listDet;
 //label per areaRiservata.html
 var txt;
 var artworks=[];
+var msg;
 
 //guardare se serve o se basta la label listen_guide
 var listen;
@@ -47,6 +48,15 @@ const label_btn_title= document.getElementById('btnTitle');
 const label_btn_author= document.getElementById('btnAuthor');
 const label_btn_desc= document.getElementById('btnDesc');
 //const label_btn_conf= document.getElementById('btnConf');
+var modalRem = [];
+
+for(i=0;i<n;i++)
+    modalRem[i]= document.getElementsByClassName("modalRem")[i];
+
+var spanRem = [];
+for(i=0;i<n;i++)
+    spanRem[i]= document.getElementsByClassName("cancel")[i];
+
 
 const label_home= document.getElementById('home');
 //const label_det=document.getElementById('settDet');
@@ -59,8 +69,16 @@ const label_artworks=[];
 for(i=0;i<n;i++)
     label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
+var label_remove=[];
+for(i=0;i<n;i++)
+    label_remove[i]= document.getElementsByClassName("remove")[i];
+
+var label_msg=[];
+for(i=0;i<n;i++)
+    label_msg[i]= document.getElementsByClassName("modRem")[i];
+
 var label_for_actual=[];
-for(i=0;i<3;i++)
+for(i=0;i<n;i++)
     label_for_actual[i]= document.getElementsByClassName("labelActual")[i];
 
 var label_btn_try=[];
@@ -192,6 +210,7 @@ listDet="/ List details";
 
 //label per areaRiservata.html
 txt="List of artworks";
+msg="Are you sure you want to delete this artwork?";
 
 //guardare se serve o se basta la label listen_guide
 listen="Ascolta la guida";
@@ -218,7 +237,7 @@ function setIt (){
 
     //label per areaRiservata.html
     txt="Lista delle opere";
-
+    msg="Vuoi davvero eliminare questa opera?";
     //guardare se serve o se basta la label listen_guide
     listen="Ascolta la guida";
 }
@@ -311,6 +330,12 @@ function setLabel(){
             getPathJSON(getCookie("details"), getCookie("language"), "details",1,"detName");
          }
     }
+    
+    if(label_msg[0]!=null){
+        for(i=0;i<n;i++)
+            label_msg[i].innerText=msg;
+    }
+   
 
     //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
@@ -417,6 +442,40 @@ function setLabel(){
             window.location.href = './settings.html';
         }
     
+        label_remove[0].onclick= function(){
+            modalRem[0].style.display = "block";
+            document.getElementsByClassName("modRem")[0].disabled=false;
+        }
+        
+        label_remove[1].onclick= function(){ 
+            modalRem[1].style.display = "block";
+            document.getElementsByClassName("modRem")[1].disabled=false;
+        }
+
+        label_remove[2].onclick= function(){ 
+            modalRem[2].style.display = "block";
+            document.getElementsByClassName("modRem")[2].disabled=false;
+        }
+
+    }
+
+    if(spanRem[0]!=null){
+        spanRem[0].onclick = function(){
+            modalRem[0].style.display = "none";
+            document.getElementsByClassName("modRem")[0].disabled=true;
+        }
+    }
+    if(spanRem[1]!=null){
+            spanRem[1].onclick = function(){
+                modalRem[1].style.display = "none";
+                document.getElementsByClassName("modRem")[1].disabled=true;
+    }
+    }
+    if(spanRem[2]!=null){
+        spanRem[2].onclick = function(){
+            modalRem[2].style.display = "none";
+            document.getElementsByClassName("modRem")[2].disabled=true;
+        }        
     }
 
     if(label_link_home!=null){
@@ -474,5 +533,16 @@ function setLabel(){
         return tmp;
     };
 
+    if(document.getElementById('readUrl')!=null) {
+        document.getElementById('readUrl').addEventListener('change', function(){
+            if (this.files[0] ) {
+              var picture = new FileReader();
+              picture.readAsDataURL(this.files[0]);
+              picture.addEventListener('load', function(event) {
+                document.getElementById('uploadedImage').setAttribute('src', event.target.result);
+                document.getElementById('uploadedImage').style.display = 'block';
+              });
+            }
+          });
+    }
 
-    
