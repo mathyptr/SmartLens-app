@@ -28,6 +28,8 @@ var listDet;
 var txt;
 var artworks=[];
 var msg;
+var addFile;
+var uploadFile;
 
 //guardare se serve o se basta la label listen_guide
 var listen;
@@ -43,6 +45,7 @@ const label_btn_restart= document.getElementById('restart');
 const label_res= document.getElementById('res');
 const label_exit= document.getElementById('exit');
 
+
 //const label_section_title= document.getElementById('sectionTitle');
 const label_btn_title= document.getElementById('btnTitle');
 const label_btn_author= document.getElementById('btnAuthor');
@@ -50,13 +53,14 @@ const label_btn_desc= document.getElementById('btnDesc');
 //const label_btn_conf= document.getElementById('btnConf');
 var modalRem = [];
 
-for(i=0;i<n;i++)
+for(i=0;i<n+1;i++)
     modalRem[i]= document.getElementsByClassName("modalRem")[i];
 
 var spanRem = [];
-for(i=0;i<n;i++)
+for(i=0;i<n+1;i++)
     spanRem[i]= document.getElementsByClassName("cancel")[i];
 
+var add= document.getElementById('btnAdd');
 
 const label_home= document.getElementById('home');
 //const label_det=document.getElementById('settDet');
@@ -119,20 +123,7 @@ function getCookie(cname) {
   }
 
 
-/*function getDetailsInfoJSON(detail_id, lang, table,req) {
-    var myimg=document.getElementsByClassName("overflow-hidden")[detail_id-1];   
-    var myfocus=document.getElementsByClassName("listItem")[detail_id-1];   
-    fetch('artworkView_json.php?id=' + detail_id + '&lang=' + lang+ '&table=' + table+'&req=' + req)
-        .then((response) => response.json())
-        .then((data) => {
-            label_artworks[detail_id-1].innerText = data[0]['title'];
-            //if(myimg!=null){
-                myimg.style.backgroundImage ="url("+data[0]['imgsrc']+")";
-                myfocus.style.backgroundImage ="url("+data[0]['imgsrc']+")";
-          //  }         
-            }
-        );
-}*/
+
 function backToIndex(){
     if(getCookie("artwork")=="")
        ;// console.log("ok");
@@ -211,6 +202,7 @@ listDet="/ List details";
 //label per areaRiservata.html
 txt="List of artworks";
 msg="Are you sure you want to delete this artwork?";
+add_file="Choose file";
 
 //guardare se serve o se basta la label listen_guide
 listen="Ascolta la guida";
@@ -238,6 +230,7 @@ function setIt (){
     //label per areaRiservata.html
     txt="Lista delle opere";
     msg="Vuoi davvero eliminare questa opera?";
+    add_file="Scegli file";
     //guardare se serve o se basta la label listen_guide
     listen="Ascolta la guida";
 }
@@ -264,7 +257,7 @@ function setLabel(){
     
      if(label_link_home!=null)
         label_link_home.innerText=path;
-
+       
     if(label_btn_try[0]!=null){ //label per index.html
         for(i = 0; i < 10; i++){
             label_btn_try[i].innerText=btn_try;
@@ -477,6 +470,19 @@ function setLabel(){
             document.getElementsByClassName("modRem")[2].disabled=true;
         }        
     }
+    if(spanRem[3]!=null){
+        spanRem[3].onclick = function(){
+            modalRem[3].style.display = "none";
+            document.getElementsByClassName("modRem")[3].disabled=true;
+        }        
+    }
+
+    if(add!=null){
+        add.onclick = function(){
+            modalRem[3].style.display = "block";
+            document.getElementsByClassName("modRem")[3].disabled=false;
+        }
+    }
 
     if(label_link_home!=null){
         label_link_home.onclick=function(){ 
@@ -486,6 +492,7 @@ function setLabel(){
                window.location.href = './areaRiservata.html';
         }
     }
+    
      
     var artName=document.getElementById("artName"); 
     var list=document.getElementById("listDetails"); 
@@ -533,16 +540,9 @@ function setLabel(){
         return tmp;
     };
 
-    if(document.getElementById('readUrl')!=null) {
-        document.getElementById('readUrl').addEventListener('change', function(){
-            if (this.files[0] ) {
-              var picture = new FileReader();
-              picture.readAsDataURL(this.files[0]);
-              picture.addEventListener('load', function(event) {
-                document.getElementById('uploadedImage').setAttribute('src', event.target.result);
-                document.getElementById('uploadedImage').style.display = 'block';
-              });
-            }
-          });
-    }
 
+
+
+          
+
+        

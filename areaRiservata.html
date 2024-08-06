@@ -70,6 +70,22 @@
       </div>
     </div>
 
+    <div class="modal modalRem">
+      <div class="modal-content rem">
+            <div class="upload modRem " disabled>
+              <form method="POST"  action="upload.php" enctype="multipart/form-data" id="imageform">
+                 <br>
+                 <input type="file" name="image" id="photoimg" >
+                 <br><br>
+                 <input type="submit" name="submit" value="Upload">
+             </form>
+          </div>      
+          <div class="ctaContainer">
+           <span class="material-symbols-outlined cancel">disabled_by_default</span>
+          </div>
+      </div>
+    </div>
+
     <div class="listContainer" id="myList">
       <div class="overflow-hidden">
         <p class="remove"><span class="material-symbols-outlined">delete</span></p>
@@ -87,11 +103,12 @@
         <p class="paintTitle"></p>
       </div>
     </div>
-
-    <div id="addArtwork">
-      <input type='file' id="readUrl">
-      <img id="uploadedImage" src="#" alt="Uploaded Image" accept="image/png, image/jpeg" style="display:none;">      
+    
+    <div id="add">
+      <span id="btnAdd" class="material-symbols-outlined">
+        add_a_photo
+      </span>
     </div>
-   
+  
   </body>
 </html>

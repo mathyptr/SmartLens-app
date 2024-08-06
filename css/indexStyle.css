@@ -526,6 +526,9 @@ a {
   #linkHome{
     margin-left: 5%;
   }
+  .rem{
+    width: 90% !important;
+  }
 }
 
 #divGo {
@@ -592,7 +595,7 @@ a {
 }
 
 .rem{
-  width: 30% !important;
+  width: 30%;
 }
 
 #addArtwork{
@@ -600,8 +603,12 @@ margin-top: 2%;
 text-align: center;
 }
 
-#uploadedImage{
-  margin: auto;
-  margin-top: 2%;
-  width: 20%;
+
+
+#add{
+text-align: right;
+margin: auto;
+margin-right: 1%;
+margin-top: 2%;
 }
+
