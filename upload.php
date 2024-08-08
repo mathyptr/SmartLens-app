@@ -34,7 +34,17 @@ function saveimage($name,$image)
         error_log("Error loading character set utf8: %s\n", $conn->error);
     }
 
-    $sql="INSERT INTO artworks (imgsrc) VALUES ('".$image."')";
+    if(!isset($_COOKIE["artwork"])){
+        $table="artworks";
+        $type="artwork";
+        $sql="INSERT INTO ".$table." (imgsrc) VALUES ('".$image."')";
+    }  
+    else{
+        $table="details";
+        $type="detail";
+        $id_art=$_COOKIE["artwork"];
+        $sql="INSERT INTO ".$table." (imgsrc, artwork) VALUES ('".$image."',$id_art)";
+    }
 
     if ($conn->query($sql) === TRUE) {
         $last_art=$conn->insert_id; ;
@@ -51,7 +61,7 @@ function saveimage($name,$image)
     }
 
 
-    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES ($last_art,$last_id,'artwork')";
+    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES ($last_art,$last_id,'".$type."')";
     if ($conn->query($sql) === TRUE) {
        // echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
     ;
@@ -67,7 +77,7 @@ function saveimage($name,$image)
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES ($last_art,$last_id,'artwork')";
+    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES ($last_art,$last_id,'".$type."')";
     if ($conn->query($sql) === TRUE) {
        echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
     ;
