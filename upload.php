@@ -15,8 +15,9 @@ if(isset($_POST['submit'])){
         $name  = addslashes($_FILES['image']['name']);
         $image = file_get_contents($image);
         $image = base64_encode($image);
-        saveimage($name,$image);
+        $imgName= "./images/" . basename($_FILES['image']['name']);
         $uploadfile = $uploaddir . basename($_FILES['image']['name']);
+        saveimage($name,$imgName);
         move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
     }
 
@@ -33,14 +34,44 @@ function saveimage($name,$image)
         error_log("Error loading character set utf8: %s\n", $conn->error);
     }
 
-    $sql= "UPDATE artworks SET imgsrc='./images/Venere_botticelli.jpg' where id=1";//SET imgsrc='$image' where id=xx"; prova
-
+    $sql="INSERT INTO artworks (id,imgsrc) VALUES (4,'".$image."')";
 
     if ($conn->query($sql) === TRUE) {
-        echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
+       // echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
     ;
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
+
+    $sql="INSERT INTO language (id,language) VALUES (21,'it')";
+    if ($conn->query($sql) === TRUE) {
+       // echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
+    ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $sql="INSERT INTO language (id,language) VALUES (22,'en')";
+    if ($conn->query($sql) === TRUE) {
+     //   echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
+    ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES (4,21,'artwork')";
+    if ($conn->query($sql) === TRUE) {
+       // echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
+    ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $sql="INSERT INTO language_mapping (external_id,data,type) VALUES (4,22,'artwork')";
+    if ($conn->query($sql) === TRUE) {
+       echo '<script language=javascript>document.location.href="areaRiservata.html"</script>'; //echo "Record updated successfully";
+    ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }

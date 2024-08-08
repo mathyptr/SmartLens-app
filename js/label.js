@@ -3,6 +3,7 @@ const en = document.getElementById("English");
 const it = document.getElementById("Italian");
 var path= "Home";
 const n=3; //numero opere nel db
+var num=0;
 var idDet=[];
 var id;
 
@@ -53,12 +54,12 @@ const label_btn_desc= document.getElementById('btnDesc');
 //const label_btn_conf= document.getElementById('btnConf');
 var modalRem = [];
 
-for(i=0;i<n+1;i++)
-    modalRem[i]= document.getElementsByClassName("modalRem")[i];
+//for(i=0;i<n+1;i++)
+//    modalRem[i]= document.getElementsByClassName("modalRem")[i];
 
 var spanRem = [];
-for(i=0;i<n+1;i++)
-    spanRem[i]= document.getElementsByClassName("cancel")[i];
+//for(i=0;i<n+1;i++)
+   // spanRem[i]= document.getElementsByClassName("cancel")[i];
 
 var add= document.getElementById('btnAdd');
 
@@ -70,16 +71,16 @@ const label_listen = document.getElementById('ascoltaGuida');
 //const label_txt= document.getElementById('mytxt');
 const label_artworks=[];
 
-for(i=0;i<n;i++)
-    label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
+//for(i=0;i<n;i++)
+  //  label_artworks[i]= document.getElementsByClassName("paintTitle")[i];
 
 var label_remove=[];
-for(i=0;i<n;i++)
-    label_remove[i]= document.getElementsByClassName("remove")[i];
+//for(i=0;i<n;i++)
+    //label_remove[i]= document.getElementsByClassName("remove")[i];
 
 var label_msg=[];
-for(i=0;i<n;i++)
-    label_msg[i]= document.getElementsByClassName("modRem")[i];
+//for(i=0;i<n;i++)
+ //   label_msg[i]= document.getElementsByClassName("modRem")[i];
 
 var label_for_actual=[];
 for(i=0;i<n;i++)
@@ -132,28 +133,114 @@ function backToIndex(){
 };
 
 
+function createPaint(){
+
+    var divModalRem = document.createElement("div");
+    divModalRem.className="modal modalRem";
+    var divRem = document.createElement("div");
+    divRem.className="modal-content rem";
+    var pRem = document.createElement("p");
+    pRem.className="modRem";
+    pRem.style.disabled;
+    var divCont = document.createElement("div");
+    divCont.className="ctaContainer";
+    var spanOk= document.createElement("span");
+    spanOk.className="material-symbols-outlined confirm";
+    spanOk.innerText="done_outline";
+    var spanRem= document.createElement("span");
+    spanRem.className="material-symbols-outlined cancel";
+    spanRem.innerText="disabled_by_default";
+    
+    divCont.appendChild(spanOk);
+    divCont.appendChild(spanRem);
+    divRem.appendChild(pRem);
+    divRem.appendChild(divCont);
+    divModalRem.appendChild(divRem);
+    document.body.appendChild(divModalRem);
+       
+
+var div = document.createElement("div");
+div.className="overflow-hidden";
+var p = document.createElement("p");
+p.className="remove";
+var span= document.createElement("span");
+span.className="material-symbols-outlined";
+span.innerText="delete";
+var listItem = document.createElement("div");
+listItem.className="listItem";
+var paint = document.createElement("p");
+paint.className="paintTitle";
+
+p.appendChild(span);
+div.appendChild(p);
+div.appendChild(listItem);
+div.appendChild(paint);
+document.getElementById("myList").appendChild(div);
+};
+
+
+
 function getDetailsInfoJSON(detail_id, lang, table,req) {
 var myimg=[];
 var myfocus=[];
-for(i=0;i<n;i++){
-myimg[i]=document.getElementsByClassName("overflow-hidden")[i];   
-myfocus[i]=document.getElementsByClassName("listItem")[i];   
-}
 fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + table+'&req=' + req)
         .then((response) => response.json())
         .then((data) => {
-           // for(i=0;i<n;i++){
-           if(label_artworks[0]!=null){
+
             for(i=0;i<data.length;i++){
-                idDet[i]=data[i]['id'];
+                var j,z;
+                z=i+1;
+                if(data.length>num)
+                    createPaint();
+                label_artworks[i]= document.getElementsByClassName("paintTitle")[i]; 
+                label_remove[i]= document.getElementsByClassName("remove")[i];
+                label_msg[z]= document.getElementsByClassName("modRem")[z];
+                label_msg[z].innerText=msg;
+                label_remove[i].id="rem"+z;
+                modalRem[z]= document.getElementsByClassName("modalRem")[z];
+                label_remove[i].addEventListener("click", function (){
+                    j=(this.getAttribute('id')).substring(3);
+                    modalRem[j].style.display = "block";
+                    label_msg[j].disabled=false;
+                });
+
+                spanRem[z]= document.getElementsByClassName("cancel")[z];
+                spanRem[z].id="span"+z;
+                spanRem[z].addEventListener("click", function (){
+                    j=(this.getAttribute('id')).substring(4);
+                    modalRem[j].style.display = "none";
+                    label_msg[j].disabled=true;
+                });
+
+                myimg[i]=document.getElementsByClassName("overflow-hidden")[i];  
+                myfocus[i]=document.getElementsByClassName("listItem")[i];   
+                if(getCookie("details")=="")
+                    label_artworks[i].id=i+1;
+                else
+                    label_artworks[i].id=data[i]['id'];
                 label_artworks[i].innerText = data[i]['title'];
+                label_artworks[i].addEventListener("click", function (){
+                    if(getCookie("details")=="")
+                        setCookie("artwork",this.getAttribute('id'),1);
+                      else{ 
+                        getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
+                        id=idDet[i];
+                        setCookie("details",this.getAttribute('id'),1); 
+                    }
+                  window.location.href = './settings.html';
+                });
                 myimg[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
                 myfocus[i].style.backgroundImage ="url("+data[i]['imgsrc']+")";
                 }
-           }
+                num=data.length;
         }
     ).catch(error => backToIndex());
+    
 }
+
+
+
+
 
 
 function getDescJSON(detail_id, lang, table,req) {
@@ -239,6 +326,13 @@ function setIt (){
 
 window.onload= setLabel("");
 
+function update(){
+    if(getCookie("details")=="")
+        getDetailsInfoJSON(1,getCookie("language"),"artworks",3);
+    else if (getCookie("details")==0)
+        getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
+}
+
 function setLabel(){
     if ((getCookie("language")=="en")){
         if(en!=null){
@@ -304,10 +398,11 @@ function setLabel(){
     var list=document.getElementById("myList");
     if(list!=null){ //label per areaRiservata.html
        // label_txt.innerText=txt;
-        if(getCookie("details")=="")
+        update();
+        /*if(getCookie("details")=="")
             getDetailsInfoJSON(1,getCookie("language"),"artworks",3);
         else if (getCookie("details")==0)
-            getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
+            getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);*/
    }
    
 
@@ -324,10 +419,10 @@ function setLabel(){
          }
     }
     
-    if(label_msg[0]!=null){
+    /*if(label_msg[0]!=null){
         for(i=0;i<n;i++)
             label_msg[i].innerText=msg;
-    }
+    }*/
    
 
     //guardare se serve o se basta la label listen_guide
@@ -399,7 +494,7 @@ function setLabel(){
     }
 
 
-    if(label_artworks[0]!=null){
+   /* if(label_artworks[0]!=null){
         label_artworks[0].onclick= function(){ 
             if(getCookie("details")=="")
                 setCookie("artwork",1,1);
@@ -450,9 +545,9 @@ function setLabel(){
             document.getElementsByClassName("modRem")[2].disabled=false;
         }
 
-    }
+    }*/
 
-    if(spanRem[0]!=null){
+    /*if(spanRem[0]!=null){
         spanRem[0].onclick = function(){
             modalRem[0].style.display = "none";
             document.getElementsByClassName("modRem")[0].disabled=true;
@@ -469,18 +564,22 @@ function setLabel(){
             modalRem[2].style.display = "none";
             document.getElementsByClassName("modRem")[2].disabled=true;
         }        
-    }
-    if(spanRem[3]!=null){
-        spanRem[3].onclick = function(){
-            modalRem[3].style.display = "none";
-            document.getElementsByClassName("modRem")[3].disabled=true;
+    }*/
+    
+    spanRem[0]= document.getElementsByClassName("cancel")[0];
+    modalRem[0]= document.getElementsByClassName("modalRem")[0];
+    if(spanRem[0]!=null){
+        spanRem[0].onclick = function(){
+            modalRem[0].style.display = "none";
+            document.getElementsByClassName("modRem")[0].disabled=true;
         }        
     }
 
     if(add!=null){
         add.onclick = function(){
-            modalRem[3].style.display = "block";
-            document.getElementsByClassName("modRem")[3].disabled=false;
+            modalRem[0].style.display = "block";
+            document.getElementsByClassName("modRem")[0].disabled=false;
+            update();
         }
     }
 
