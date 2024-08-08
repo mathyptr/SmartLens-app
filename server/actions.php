@@ -50,6 +50,10 @@ switch ($action) {
         updateDetails($data,$id,$table, $col,$language);
        break;
 
+    case "removeElement": //mathy
+        removeElement($table,$id);
+       break;
+
     /*case "getArtwork": //mathy
         getArtwork($id);
     break;*/
@@ -248,7 +252,7 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
 }
 
 
-/*function getArtwork($id)
+function removeElement($table, $id,) //mathy
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -256,18 +260,21 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
     if (!$conn) {
         echo 'Connection error: ' . mysqli_connect_error();
     }
+    
+    if ($table=='details')
+        $type='detail';
+    else 
+        $type='artwork';
 
-    $sql = "SELECT * FROM artworks where id='".$id."'";
-    $result = mysqli_query($conn, $sql);
-    // loop over results
-    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-        $title = $row['title'];
-        $author = $row['author'];
-        $description = $row['description'];
-        $artwork=('title' => $title,'author' => $author,'description' => $description);
+    $sql ="delete language_mapping, language,".$table." from language_mapping JOIN language on language.id=language_mapping.data JOIN ".$table." on ".$table.".id=language_mapping.external_id where ".$table.".id='".$id."' and language_mapping.type='".$type."'";
+    
+    echo $sql;
+    if ($conn->query($sql) === TRUE) {
+        echo "Record removed successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    echo json_encode($artwork);
-    mysqli_close($conn);
-}*/
+    $conn->close();
+}
 ?>

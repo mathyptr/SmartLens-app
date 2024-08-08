@@ -57,6 +57,7 @@ var modalRem = [];
 //for(i=0;i<n+1;i++)
 //    modalRem[i]= document.getElementsByClassName("modalRem")[i];
 
+var confirm = [];
 var spanRem = [];
 //for(i=0;i<n+1;i++)
    // spanRem[i]= document.getElementsByClassName("cancel")[i];
@@ -178,7 +179,19 @@ div.appendChild(paint);
 document.getElementById("myList").appendChild(div);
 };
 
-
+function removeEl(table,id){
+    var request_type = "removeElement";
+    $.ajax({
+        type: "POST",
+        url: "server/actions.php",
+        data: {
+            "action": request_type,
+            "id": id,
+            "table": table,
+        },
+        async: false
+        });
+}
 
 function getDetailsInfoJSON(detail_id, lang, table,req) {
 var myimg=[];
@@ -212,12 +225,27 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
                     label_msg[j].disabled=true;
                 });
 
+                confirm[i]= document.getElementsByClassName("confirm")[i];
+                if (getCookie("details")=="")
+                    confirm[i].id="art"+data[i]['id'];
+                else
+                    confirm[i].id="det"+data[i]['id'];
+                confirm[i].addEventListener("click", function (){
+                   j=(this.getAttribute('id')).substring(3);
+                   if (getCookie("details")=="")
+                        removeEl("artworks",j)
+                   else
+                        removeEl("details",j)
+                    window.location.href = './areaRiservata.html';
+                });
+
                 myimg[i]=document.getElementsByClassName("overflow-hidden")[i];  
                 myfocus[i]=document.getElementsByClassName("listItem")[i];   
-                if(getCookie("details")=="")
-                    label_artworks[i].id=i+1;
-                else
-                    label_artworks[i].id=data[i]['id'];
+              //  if(getCookie("details")=="")
+                 //   label_artworks[i].id=i+1;
+                //else
+                    //label_artworks[i].id=data[i]['id'];
+                label_artworks[i].id=data[i]['id'];
                 label_artworks[i].innerText = data[i]['title'];
                 label_artworks[i].addEventListener("click", function (){
                     if(getCookie("details")=="")
