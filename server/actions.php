@@ -261,12 +261,21 @@ function removeElement($table, $id,) //mathy
         echo 'Connection error: ' . mysqli_connect_error();
     }
     
-    if ($table=='details')
-        $type='detail';
+    if ($table=='artworks'){
+       $type='artwork';
+       // $sql ="delete language_mapping, language,".$table." from language_mapping JOIN language on language.id=language_mapping.data JOIN ".$table." on ".$table.".id=language_mapping.external_id where ".$table.".id='".$id."' and language_mapping.type='".$type."'";
+        $sql ="delete language_mapping, language from language_mapping JOIN language on language.id=language_mapping.data JOIN details on details.id=language_mapping.external_id where details.artwork='".$id."' and language_mapping.type='detail'";
+        if ($conn->query($sql) === TRUE) {
+            echo "Record removed successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
     else 
-        $type='artwork';
+       $type='detail';
 
     $sql ="delete language_mapping, language,".$table." from language_mapping JOIN language on language.id=language_mapping.data JOIN ".$table." on ".$table.".id=language_mapping.external_id where ".$table.".id='".$id."' and language_mapping.type='".$type."'";
+  //  $sql ="delete language_mapping, language,artworks from language_mapping JOIN language on language.id=language_mapping.data JOIN artworks on artworks.id=language_mapping.external_id where artworks.id='".$id."' and language_mapping.type='artworks'";
     
     echo $sql;
     if ($conn->query($sql) === TRUE) {
