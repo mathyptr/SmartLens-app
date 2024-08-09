@@ -252,6 +252,7 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
 }
 
 
+
 function removeElement($table, $id,) //mathy
 {
     error_reporting(E_ALL);
@@ -260,10 +261,28 @@ function removeElement($table, $id,) //mathy
     if (!$conn) {
         echo 'Connection error: ' . mysqli_connect_error();
     }
-    
+
+    $srcImg="";
+    $parent_dir =dirname(__DIR__);
+
+    $sql ="SELECT imgsrc from ".$table." where id='".$id."'";
+    $result = mysqli_query($conn, $sql);
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $srcImg =$parent_dir . substr($row['imgsrc'], 1);
+        unlink($srcImg);
+    }
+
+
     if ($table=='artworks'){
-       $type='artwork';
-       // $sql ="delete language_mapping, language,".$table." from language_mapping JOIN language on language.id=language_mapping.data JOIN ".$table." on ".$table.".id=language_mapping.external_id where ".$table.".id='".$id."' and language_mapping.type='".$type."'";
+        $type='artwork';
+
+        $sql ="SELECT imgsrc from details where artwork='".$id."'";
+        $result = mysqli_query($conn, $sql);
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $srcImg =$parent_dir . substr($row['imgsrc'], 1);
+            unlink($srcImg);
+        } 
+
         $sql ="delete language_mapping, language from language_mapping JOIN language on language.id=language_mapping.data JOIN details on details.id=language_mapping.external_id where details.artwork='".$id."' and language_mapping.type='detail'";
         if ($conn->query($sql) === TRUE) {
             echo "Record removed successfully";
@@ -271,12 +290,20 @@ function removeElement($table, $id,) //mathy
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
-    else 
-       $type='detail';
+
+    else{
+        $sql ="SELECT imgsrc from details where id=$id";
+        $result = mysqli_query($conn, $sql);
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $srcImg =$parent_dir .substr( $row['imgsrc'],1);
+            unlink($srcImg);
+        } 
+        $type='detail';
+    }
+       
 
     $sql ="delete language_mapping, language,".$table." from language_mapping JOIN language on language.id=language_mapping.data JOIN ".$table." on ".$table.".id=language_mapping.external_id where ".$table.".id='".$id."' and language_mapping.type='".$type."'";
-  //  $sql ="delete language_mapping, language,artworks from language_mapping JOIN language on language.id=language_mapping.data JOIN artworks on artworks.id=language_mapping.external_id where artworks.id='".$id."' and language_mapping.type='artworks'";
-    
+  
     echo $sql;
     if ($conn->query($sql) === TRUE) {
         echo "Record removed successfully";
@@ -285,5 +312,6 @@ function removeElement($table, $id,) //mathy
     }
 
     $conn->close();
+   
 }
 ?>
