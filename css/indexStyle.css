@@ -176,6 +176,17 @@ img {
   cursor: pointer;
 }
 
+.listContainer#myBtn{
+    margin: 2vh auto;
+    grid-template-columns: none;
+    height: 6vh;
+    width: 70%;
+}
+
+.listContainer#myBtn .listItem{
+  display: none;
+}
+
 .paintTitle {
   position: absolute;
   bottom: 0;
@@ -308,14 +319,13 @@ textarea {
 }
 
 #divDetail{
-    margin-top: 10vh;
-    cursor:pointer;
+ margin-top: 10vh;
+ cursor:pointer;
 }
 
-#divDetail,
-.mySlides {
-  text-align: center;
-  display: block;
+#divDetail, .mySlides {
+ text-align: center;
+ display: block;
 }
 
 #imgDetail{
@@ -424,7 +434,7 @@ a {
 .marqueebutton-outline span {
 	text-align: center;
 	white-space: nowrap;
-	padding: .4em 0.3em;
+	padding: .0 0.3em;
 }
 
 @keyframes marqueebutton {
@@ -603,8 +613,6 @@ margin-top: 2%;
 text-align: center;
 }
 
-
-
 #add{
 text-align: right;
 margin: auto;
@@ -612,3 +620,9 @@ margin-right: 1%;
 margin-top: 2%;
 }
 
+#crop{
+  text-align: right;
+  margin: 0 auto;
+  width: 100%;
+}
+  

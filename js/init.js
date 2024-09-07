@@ -13,5 +13,6 @@ if(getCookie("language")=="")
 window.onload=function(){
     deleteCookie("details");
     deleteCookie("artwork");
+    deleteCookie("dragStatus");
 }
 

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/label.js" defer></script>
     <script type="text/javascript" src="js/sett.js" defer></script>
+    <script type="text/javascript" src="js/dragdrop.js" defer></script>
 </head>
 <body >
 </div>
@@ -137,34 +138,36 @@
     </div>
 
     <script>
+    //   var status = 0;
+    //   var x = window.matchMedia("(max-width: 800px)");
+    //   if (x.matches) {} // If media query matches
+    //   else {
+    //       var showMore = document.getElementById("showMore");
+    //       var slideshow = document.getElementById("focusImg");
 
-    var x = window.matchMedia("(max-width: 800px)");
-  if (x.matches) {} // If media query matches
-  else {
-      var showMore = document.getElementById("showMore");
-      var slideshow = document.getElementById("focusImg");
-      requestAnimationFrame(update);
-      var status = 0;
+    //       requestAnimationFrame(update);
+       
+         
+    //         function update() {
+    //             if (status == 0) {
+    //                 slideshow.addEventListener("mousemove", function (e) {
+    //                     let left = e.pageX + 20 + "px";
+    //                     let top = e.pageY - 30 + "px";
+    //                     status = 1;
+    //                     showMore.style.visibility = "visible";
+    //                     showMore.style.left = left;
+    //                     showMore.style.top = top;
+    //                 });
+    //             } else {
+    //                 slideshow.addEventListener("mouseout", function (e) {
+    //                     showMore.style.visibility = "hidden";
+    //                     status = 0;
+    //                 });
+    //             }
+    //             requestAnimationFrame(update);
+    //         }
+    //     }
 
-        function update() {
-            if (status == 0) {
-                slideshow.addEventListener("mousemove", function (e) {
-                    let left = e.pageX + 20 + "px";
-                    let top = e.pageY - 30 + "px";
-                    status = 1;
-                    showMore.style.visibility = "visible";
-                    showMore.style.left = left;
-                    showMore.style.top = top;
-                });
-            } else {
-                slideshow.addEventListener("mouseout", function (e) {
-                    showMore.style.visibility = "hidden";
-                    status = 0;
-                });
-            }
-            requestAnimationFrame(update);
-        }
-    }
-    </script>
+        </script>
 </body>
 </html>

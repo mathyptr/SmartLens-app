@@ -133,6 +133,21 @@ function backToIndex(){
         window.location.href = './index.html';
 };
 
+function createCropSection(){
+    var divCrop = document.createElement("div");
+    divCrop.id="crop";
+
+    var spanCrop= document.createElement("span");
+    spanCrop.className="material-symbols-outlined";
+    spanCrop.id="btnCrop";
+    spanCrop.innerText="crop_free";
+
+    divCrop.appendChild(spanCrop);
+
+    // document.getElementById("focusImg").appendChild(divCrop);
+    // document.body.appendChild(divCrop);
+    document.getElementById("myBtn").appendChild(divCrop)
+};
 
 function createPaint(){
 
@@ -310,7 +325,7 @@ btn_title="Title";
 btn_author="Author";
 btn_desc="Description";
 home = "Home";
-det ="Go to details";
+det ="Go to details ";
 btn_conf="Confidence";
 listDet="/ List details";
 
@@ -406,6 +421,7 @@ function setLabel(){
         if(getCookie("details")==""){
           //  label_btn_author.innerText=btn_author;
             label_for_actual[1].innerText=btn_author+": ";
+            createCropSection();
         }
         else{
           //  label_btn_author.innerText=btn_conf;
@@ -420,17 +436,10 @@ function setLabel(){
             it.style.borderBottom="2px solid black";
             en.style.borderBottom="2px solid transparent";
         }
-        //if(getCookie("details")!="")
-           // label_list_details.innerText=listDet;
     }
     var list=document.getElementById("myList");
     if(list!=null){ //label per areaRiservata.html
-       // label_txt.innerText=txt;
         update();
-        /*if(getCookie("details")=="")
-            getDetailsInfoJSON(1,getCookie("language"),"artworks",3);
-        else if (getCookie("details")==0)
-            getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);*/
    }
    
 
@@ -447,11 +456,6 @@ function setLabel(){
          }
     }
     
-    /*if(label_msg[0]!=null){
-        for(i=0;i<n;i++)
-            label_msg[i].innerText=msg;
-    }*/
-   
 
     //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
@@ -496,103 +500,24 @@ function setLabel(){
             setCookie("details",0,1);
         else if(getCookie("details")>0)
             setCookie("details",0,1);
-            
-        window.location.href = './areaRiservata.html';
+        
+        if(getCookie("dragStatus") == "")
+            window.location.href = './areaRiservata.html';
     }
    }
 
    if(label_res!=null){
         label_res.onclick=function(){
-       // window.location.href = './areaRiservata.html';
        window.location.href = './login.php'
         }
     }
-
-  /* if(label_res!=null){
-        label_res.onclick=function(){
-        window.location.href = './areaRiservata.html';
-        }
-    }*/
     
     if(label_exit!=null){
         label_exit.onclick=function(){
-        //window.location.href = './index.html';
         window.location.href = './logout.php'
         }
     }
 
-
-   /* if(label_artworks[0]!=null){
-        label_artworks[0].onclick= function(){ 
-            if(getCookie("details")=="")
-                setCookie("artwork",1,1);
-            else{ 
-               getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
-                //getDetailsInfoJSON(idDet[0],"en", "details",1);
-                id=idDet[0];
-                setCookie("details",id,1);
-            }
-            window.location.href = './settings.html';
-        }
-
-        label_artworks[1].onclick= function(){ 
-            if(getCookie("details")=="")
-                setCookie("artwork",2,1);
-            else{ 
-                getDetailsInfoJSON(getCookie("artwork"),getCookie("language"), "details",2);
-                id=idDet[1];
-                //getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
-                setCookie("details",id,1);
-            }
-            window.location.href = './settings.html';
-        }
-
-        label_artworks[2].onclick= function(){ 
-            if(getCookie("details")=="")
-                setCookie("artwork",3,1);
-            else{ 
-                getDetailsInfoJSON(getCookie("artwork"),"en", "details",2);
-                id=idDet[2];
-                setCookie("details",id,1);
-            }
-            window.location.href = './settings.html';
-        }
-    
-        label_remove[0].onclick= function(){
-            modalRem[0].style.display = "block";
-            document.getElementsByClassName("modRem")[0].disabled=false;
-        }
-        
-        label_remove[1].onclick= function(){ 
-            modalRem[1].style.display = "block";
-            document.getElementsByClassName("modRem")[1].disabled=false;
-        }
-
-        label_remove[2].onclick= function(){ 
-            modalRem[2].style.display = "block";
-            document.getElementsByClassName("modRem")[2].disabled=false;
-        }
-
-    }*/
-
-    /*if(spanRem[0]!=null){
-        spanRem[0].onclick = function(){
-            modalRem[0].style.display = "none";
-            document.getElementsByClassName("modRem")[0].disabled=true;
-        }
-    }
-    if(spanRem[1]!=null){
-            spanRem[1].onclick = function(){
-                modalRem[1].style.display = "none";
-                document.getElementsByClassName("modRem")[1].disabled=true;
-    }
-    }
-    if(spanRem[2]!=null){
-        spanRem[2].onclick = function(){
-            modalRem[2].style.display = "none";
-            document.getElementsByClassName("modRem")[2].disabled=true;
-        }        
-    }*/
     
     spanRem[0]= document.getElementsByClassName("cancel")[0];
     modalRem[0]= document.getElementsByClassName("modalRem")[0];
