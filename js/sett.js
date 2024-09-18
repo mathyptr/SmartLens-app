@@ -101,17 +101,21 @@ const label_det_name = document.getElementById('detName');
 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
-            document.getElementById("modTitle").disabled=false;
+//            document.getElementById("modTitle").style.disabled = "false";
+           document.getElementsByClassName("listItem")[0].style.display = "block";
+           document.getElementById("modTitle").disabled=false;
         }
 
         btnAuthor.onclick = function () {
             modalAuthor.style.display = "block";
+            document.getElementsByClassName("listItem")[1].style.display = "block";
             document.getElementById("modAuthor").disabled=false;
         }
 
 
         btnDesc.onclick = function () {
             modalDesc.style.display = "block";
+            document.getElementsByClassName("listItem")[2].style.display = "block";
             document.getElementById("modDesc").disabled=false;
         }
 
@@ -125,42 +129,37 @@ const label_det_name = document.getElementById('detName');
         spanTitle.onclick = function(){
             modalTitle.style.display = "none";
             document.getElementById("modTitle").disabled=true;
+            document.getElementsByClassName("listItem")[0].style.display = "none";
         }
 
         spanAuthor.onclick = function(){
-                console.log(modAuthor);
-                modalAuthor.style.display = "none";
-                document.getElementById("modAuthor").disabled=true;
+               modalAuthor.style.display = "none";
+               document.getElementsByClassName("listItem")[1].style.display = "none";
+               document.getElementById("modAuthor").disabled=true;
             }
 
         spanDesc.onclick = function(){
             modalDesc.style.display = "none";
+            document.getElementsByClassName("listItem")[2].style.display = "none";
             document.getElementById("modDesc").disabled=true;
         }
-       /* modTitle.onclick = function(){
-            document.getElementById("modTitle").disabled=false;
-        }
 
-        modAuthor.onclick = function(){
-                document.getElementById("modAuthor").disabled=false;
-        }
-        
-        modDesc.onclick = function(){
-            document.getElementById("modDesc").disabled=false;
-        }*/
       
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
           if (event.target == modalTitle) {
             modalTitle.style.display = "none";
+            document.getElementsByClassName("listItem")[0].style.display = "none";
             document.getElementById("modTitle").disabled=true;
           }
           else if (event.target == modalAuthor) {
             modalAuthor.style.display = "none";
+            document.getElementsByClassName("listItem")[1].style.display = "none";
             document.getElementById("modAuthor").disabled=true;
           }
           else if (event.target == modalDesc) {
             modalDesc.style.display = "none";
+            document.getElementsByClassName("listItem")[2].style.display = "none";
             document.getElementById("modDesc").disabled=true;
           }
         }
