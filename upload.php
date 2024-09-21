@@ -13,17 +13,21 @@ if(isset($_POST['submit'])){
         $uploaddir = $parent_dir."/SmartLens-app/images/"; 
         $image = addslashes($_FILES['image']['tmp_name']);
         $name  = addslashes($_FILES['image']['name']);
+
+        list($width, $height, $type, $attr) = getimagesize($image);
+        //echo ( "Larghezza: " .$width." Altezza: " .$height);
+
         $image = file_get_contents($image);
         $image = base64_encode($image);
         $imgName= "./images/" . basename($_FILES['image']['name']);
         $uploadfile = $uploaddir . basename($_FILES['image']['name']);
-        saveimage($name,$imgName);
+        saveimage($name,$imgName,$width, $height);
         move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
     }
 
 }
 
-function saveimage($name,$image)
+function saveimage($name,$image,$width, $height)
 {
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
     if (!$conn) {
@@ -37,7 +41,7 @@ function saveimage($name,$image)
     if(!isset($_COOKIE["artwork"])){
         $table="artworks";
         $type="artwork";
-        $sql="INSERT INTO ".$table." (imgsrc) VALUES ('".$image."')";
+        $sql="INSERT INTO ".$table." (imgsrc,width,height) VALUES ('".$image."',$width,$height)";
     }  
     else{
         $table="details";

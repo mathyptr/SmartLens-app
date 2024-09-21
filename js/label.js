@@ -214,7 +214,7 @@ var myfocus=[];
 fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + table+'&req=' + req)
         .then((response) => response.json())
         .then((data) => {
-
+         
             for(i=0;i<data.length;i++){
                 var j,z;
                 z=i+1;
@@ -278,7 +278,6 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
                 num=data.length;
         }
     ).catch(error => backToIndex());
-    
 }
 
 
@@ -563,9 +562,30 @@ function setLabel(){
     }
 }
 
-
-
-
+    var tr=document.getElementById("training"); 
+    if(tr!=null){
+        tr.onclick=function(){
+             var request_type = "startAugmentation";
+             var tmp = null;
+            $.ajax({
+            type: "POST",
+            url: "server/actions.php",
+            async: true,
+            data: {
+                "action": request_type,
+            },
+            dataType: "json",
+            //headers: {"Content-type" :"application/x-www-form-urlencoded"},
+            success: function (data) {
+                tmp = data;
+                return data;
+            },
+            });
+        //if (tmp == null)
+            //alert('Can not connect to Smart Lens database!')
+       // return tmp;
+    };
+    }
 
 
 

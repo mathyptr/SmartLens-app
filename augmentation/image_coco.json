@@ -1,0 +1,120 @@
+{
+    "categories": {
+        "1": {
+            "id": "1",
+            "name": "Venere"
+        },
+        "2": {
+            "id": "2",
+            "name": "Zefiro"
+        },
+        "3": {
+            "id": "3",
+            "name": "Ora"
+        },
+        "4": {
+            "id": "4",
+            "name": "Battista Sforza"
+        },
+        "5": {
+            "id": "5",
+            "name": "Federico da Montefeltro"
+        },
+        "6": {
+            "id": "6",
+            "name": "Arcangelo Gabriele"
+        },
+        "7": {
+            "id": "7",
+            "name": "Maria"
+        }
+    },
+    "images": {
+        "1": {
+            "id": "1",
+            "file_name": "VenereDet.jpg",
+            "width": "2000",
+            "height": "1248"
+        },
+        "2": {
+            "id": "2",
+            "file_name": "ZefiroDet.jpg",
+            "width": "2000",
+            "height": "1248"
+        },
+        "3": {
+            "id": "3",
+            "file_name": "OraDet.jpg",
+            "width": "2000",
+            "height": "1248"
+        },
+        "4": {
+            "id": "4",
+            "file_name": "Battista.jpg",
+            "width": "2000",
+            "height": "1527"
+        },
+        "5": {
+            "id": "5",
+            "file_name": "daMontefeltro.jpg",
+            "width": "2000",
+            "height": "1527"
+        },
+        "6": {
+            "id": "6",
+            "file_name": "Arcangelo.jpg",
+            "width": "1755",
+            "height": "909"
+        },
+        "7": {
+            "id": "7",
+            "file_name": "Maria.jpg",
+            "width": "1755",
+            "height": "909"
+        }
+    },
+    "annotations": {
+        "1": {
+            "id": "1",
+            "image_id": "1",
+            "category_id": "1",
+            "bbox": "[1046,658,0,0]"
+        },
+        "2": {
+            "id": "2",
+            "image_id": "2",
+            "category_id": "2",
+            "bbox": "[1040,659,0,0]"
+        },
+        "3": {
+            "id": "3",
+            "image_id": "3",
+            "category_id": "3",
+            "bbox": "[1047,659,0,0]"
+        },
+        "4": {
+            "id": "4",
+            "image_id": "4",
+            "category_id": "4",
+            "bbox": "[1044,781,0,0]"
+        },
+        "5": {
+            "id": "5",
+            "image_id": "5",
+            "category_id": "5",
+            "bbox": "[0,0,0,0]"
+        },
+        "6": {
+            "id": "6",
+            "image_id": "6",
+            "category_id": "6",
+            "bbox": "[1043,568,0,0]"
+        },
+        "7": {
+            "id": "7",
+            "image_id": "7",
+            "category_id": "7",
+            "bbox": "[0,0,0,0]"
+        }
+    }
+}

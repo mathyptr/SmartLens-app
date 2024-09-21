@@ -29,6 +29,25 @@ if(isset($_POST['col']))
 if(isset($_POST['language']))
     $language = $_POST['language'];
 
+
+if(isset($_POST['clk']))
+    $clk = $_POST['clk'];
+
+if(isset($_POST['idArt']))
+    $idArt = $_POST['idArt'];
+
+if(isset($_POST['left']))
+    $left = $_POST['left'];   
+
+if(isset($_POST['top']))
+    $top = $_POST['top'];
+
+if(isset($_POST['width']))
+    $width = $_POST['width'];
+
+if(isset($_POST['height']))
+    $height = $_POST['height'];   
+
 /* contains the DB query string */
 $query_string = "";
 
@@ -54,10 +73,13 @@ switch ($action) {
         removeElement($table,$id);
        break;
 
-    /*case "getArtwork": //mathy
-        getArtwork($id);
-    break;*/
-       
+    case "saveBbox": //mathy
+        saveBbox ($clk, $idArt, $left, $top, $width, $height);
+    break;
+
+    case "startAugmentation": //mathy
+    startAugmentation();
+    break;
 }
 
 
@@ -251,6 +273,32 @@ function updateDetails($data, $id, $table, $col,$language) //mathy
   $conn->close();
 }
 
+function saveBbox ($clk, $idArt, $left, $top, $width, $height){
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+    if (!$conn) {
+        echo 'Connection error: ' . mysqli_connect_error();
+    }
+
+    $sql ="SELECT details.id as idDet FROM details join artworks on details.artwork=artworks.id WHERE artworks.id='".$idArt."' LIMIT 1";
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $idDet =$row['idDet'];
+        $idDet=$idDet+$clk;
+    }
+
+    $sql = "UPDATE details SET lft=".$left.", top=".$top.", width=".$width.", height=".$height."  where id='".$idDet."'";
+    echo $sql;
+    if ($conn->query($sql) === TRUE) {
+        echo "Record removed successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
 
 
 function removeElement($table, $id,) //mathy
@@ -314,4 +362,142 @@ function removeElement($table, $id,) //mathy
     $conn->close();
    
 }
+
+
+
+
+
+
+function startAugmentation()
+{
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+    if (!$conn) {
+        error_log('Connection error: ' . mysqli_connect_error());
+    }
+    /* change character set to utf8 | Object Oriented*/
+    if (!$conn->set_charset("utf8")) {
+        error_log("Error loading character set utf8: %s\n", $conn->error);
+    }
+
+
+    $sql = " select id,title from details";
+    $result = mysqli_query($conn, $sql);
+    error_log('SQL query: ' . $sql); // debugging
+
+    $classes= array();
+    // loop over CLASSES results
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $id = $row['id'];
+        $name = $row['title'];
+
+        $classes[$id] = array('id' => $id, 'name' => $name);
+
+        foreach ($classes[$id] as $key => $value) {
+            error_log($key . ":" . $value);
+        }
+    }
+    error_log('classes num rows: ' . count($classes));
+
+
+    $sql = " select details.id,details.imgsrc,artworks.width,artworks.height from details join artworks on details.artwork=artworks.id";
+    $result = mysqli_query($conn, $sql);
+    error_log('SQL query: ' . $sql); // debugging
+
+    $imagesData= array();
+    // loop over IMAGES results
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $id = $row['id'];
+        $file_name = substr( $row['imgsrc'],9);
+        $width = $row['width'];
+        $height = $row['height'];
+
+        $imagesData[$id] = array('id' => $id, 'file_name' => $file_name,'width' => $width,'height' => $height);
+
+        foreach ($imagesData[$id] as $key => $value) {
+            error_log($key . ":" . $value);
+        }
+    }
+    error_log('images num rows: ' . count($imagesData));
+
+
+
+
+    //$sql = " select id,image_id,category_id,bbox";
+    $sql = " select id,lft,top,width,height from details";
+    $result = mysqli_query($conn, $sql);
+    error_log('SQL query: ' . $sql); // debugging
+
+    $annotationsData = array();
+    // loop over ANNOTATION DATA results
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        $id = $row['id'];
+       // $image_id = $row['image_id'];
+       // $category_id = $row['category_id'];
+        $image_id = $row['id'];
+        $category_id = $row['id'];
+        $lft = $row['lft'];
+        $top = $row['top'];
+        $width = $row['width'];
+        $height = $row['height'];
+        $bbox = "[".$lft.",".$top.",".$width.",".$height."]";
+       // $bbox = $row['bbox'];
+
+        $annotationsData[$id] = array('id' => $id, 'image_id' => $image_id, 'category_id' => $category_id, 'bbox' => $bbox);
+
+        foreach ($annotationsData[$id] as $key => $value) {
+            error_log($key . ":" . $value);
+        }
+    }
+    error_log('details num rows: ' . count($annotationsData));
+
+    $json_results = array();
+    $json_results['categories'] = $classes;
+    $json_results['images'] = $imagesData;
+    $json_results['annotations'] = $annotationsData;
+
+
+    error_log('JSON COCO annotation: ' . json_encode($annotationsData, JSON_PARTIAL_OUTPUT_ON_ERROR));
+    echo json_encode($json_results);
+  //  mysqli_close($conn);
+
+
+
+//   write json to file:
+    $jsonString=json_encode($json_results,JSON_PRETTY_PRINT);
+    $parent_dir = dirname(__DIR__);
+    $path=$parent_dir."/augmentation/image_coco.json";
+    $fp=fopen($path,'w');
+    fwrite($fp,$jsonString);
+    fclose($fp);
+
+
+    $sql ="SELECT artworks.imgsrc as img, details.imgsrc as det from artworks join details on artworks.id=details.artwork";
+    $result = mysqli_query($conn, $sql);
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+       // $srcImg =$parent_dir .substr( $row['imgsrc'],1);
+
+        //$source = $parent_dir."/images/Venere_botticelli.jpg";
+       // $dest = $parent_dir."/augmentation/Venere_botticelli.jpg";
+
+        $source = $parent_dir.substr( $row['img'],1);
+        $dest = $parent_dir."/augmentation/".substr( $row['det'],9);
+        if (copy($source, $dest) === false) {
+        echo "WARNING: impossibile copiare l'immagine";
+        }
+    } 
+
+    $conn->close();
+
+
+
+
+// Start augmentation: poi leva commento
+  // $resp=file_get_contents("http://".DB_AUGMENTATION."/cgi-bin/startcmd.py");
+   //error_log('Augmentation server response: ' .$resp);
+
+}
+
+
 ?>

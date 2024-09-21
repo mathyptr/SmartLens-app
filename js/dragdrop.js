@@ -157,10 +157,12 @@ var isEventSupported = (function(){
         var dragPositionYEnd
         var colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
 
+        var x, y, width, height = undefined;
+
         function drawB(bounding_box, color) {
             let box = document.createElement('p');
             camera_box.appendChild(box)
-            let x, y, width, height = undefined;
+           // let x, y, width, height = undefined;
             
             if(bounding_box[0]<bounding_box[2]){
                 x=bounding_box[0]
@@ -193,9 +195,9 @@ var isEventSupported = (function(){
             box.style.margin = '0';
             box.classList.add('bounding-box');
             }  
-
+ var nClk=0;
 function startDrag(){ 
-    console.log('clicked')
+    console.log('clicked '+nClk)
     dragdrop.innerText="done_outline";
 
 // disable and enable hover banner
@@ -203,7 +205,6 @@ if(visible){
     visible = false;
     setCookie("dragStatus", 0, 1);
 }
-
 
 
 if (isEventSupported("onpointerdown")) {
@@ -247,9 +248,13 @@ function stopDrag(){
     window.removeEventListener("mouseup", onDragEnd)
     window.removeEventListener("touchend", onDragEnd)
     visible = true;
-    console.log('pippo')
+    console.log('pippo');
+    console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
+    //insert nel db dei bbox primo id dettaglio relativo all'opera nel coockie + nClick
+    saveBbox(nClk, getCookie("artwork"),String(x), String(y),String(width),String(height));
     requestAnimationFrame(update);
-    document.getElementsByClassName("bounding-box")[0].style.display = "none"
+    //document.getElementsByClassName("bounding-box")[0].style.display = "none";
+    nClk++;
 }
 
 
@@ -267,4 +272,21 @@ if(dragdrop!=null){
 
 
 
-
+function saveBbox (clk, idArt, left, top, width,height){
+    var request_type = "saveBbox";
+    $.ajax({
+        type: "POST",
+        url: "server/actions.php",
+        data: {
+            "action": request_type,
+            "clk":clk,
+            "idArt":idArt,
+            "left": left,
+            "top": top,
+            "width": width,
+            "height": height
+        },
+        async: false
+        });
+   
+}
