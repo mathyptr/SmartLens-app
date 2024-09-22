@@ -1,7 +1,5 @@
 let version = 3;  // Object detection mode
-//Caricamento dei dati da database e del modello
-//let detailIDs = undefined;
-//let details = undefined;
+
 let objectDetector = undefined;
 let tensor_label=[];
 
@@ -19,10 +17,6 @@ const num_detections_label="num_detections";
 
 
 
-
-// Set constraints for the video stream
-//MATHY const constraints = {video: {facingMode: "environment"}, audio: false, zoom: true};
-//const constraints = {video: {facingMode: "environment"}, audio: false};
 const constraints = {video: {facingMode: "environment"}, audio: false};
 // Define constants
 const cameraView = document.querySelector("#camera--view")
@@ -36,24 +30,7 @@ else if (window.location.href.includes('/gr'))
     modelURL = window.location.href.replace('/gr', "");
 else if (window.location.href.includes('/de'))
     modelURL = window.location.href.replace('/de', "");
-//modelURL = modelURL.replace('camera-view_json.html', "") + 'networkModels/art_details_obj/reinherit_test_final_30k_b128';  // layers: 6: bboxes ; 7: classes ; 0: probabilities
-modelURL = modelURL.replace('mycamera-view_json.html', "") + 'networkModels/art_details_obj/botticelliwebmodel/model.json';  // layers: 1: bboxes ; 0: classes ; 4: probabilities
-//modelURL ='http://localhost:4444/model.json';
-
-/*
-try {
-//MATHY    console.log('TFJS version: ' + tf.version.tfjs)
-    console.log('Loading Object Detector...');
-//MATHY    objectDetector = await tf.loadGraphModel(modelURL,{fromTFHub: true});
-    objectDetector = await tf.loadGraphModel(modelURL,{fromTFHub: false});
-
-
-    console.log('Object Detector loaded successfully!');
-} catch (error) {
-    console.log(error)
-    alert('Internet connection is too slow!')
-}
-*/
+modelURL = modelURL.replace('mycamera-view_json.html', "") + 'networkModels/art_details_obj/botticelliwebmodel/model.json';  
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -82,12 +59,8 @@ function getCookie(cname) {
 
 
 async function load_model() {
-    // It's possible to load the model locally or from a repo
-    // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
-    //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-//    const model = await tf.loadGraphModel(modelURL,{fromTFHub: false});
+
     const model = await tf.loadGraphModel(modelURL);
-    //tensor_label= model.outputNodes;
     tensor_label= model.signature.outputs;
     console.log('TFJS version: ' + tf.version.tfjs);
     console.log("model.outputNodes: "+model.outputNodes);
@@ -104,31 +77,7 @@ function cameraStart() {
         .then(function (stream) {
             window.stream = stream;
             cameraView.srcObject = stream;            
-/*            track = stream.getTracks()[0];
-            cameraView.srcObject = stream;
 
-            const capabilities = track.getCapabilities();
-            const settings = track.getSettings();
-
-            const input = document.querySelector("#zoom");
-
-            // Check whether zoom is supported or not.
-            if (!('zoom' in settings)) {
-                input.style.display = "None";
-                return;
-            }
-
-            // Map zoom to a slider element.
-            input.min = capabilities.zoom.min;
-            input.max = capabilities.zoom.max;
-            input.step = capabilities.zoom.step;
-            input.value = settings.zoom;
-
-            input.oninput = function (event) {
-                track.applyConstraints({advanced: [{zoom: event.target.value}]});
-            }
-            input.hidden = false;
-*/
 
 
             return new Promise((resolve, reject) => {
@@ -193,14 +142,6 @@ function drawBoxes(bounding_box, color) {
         height = bounding_box[2] * document.documentElement.clientHeight - y;
     }
 
-       /* prove const minY = bounding_box[0] * webcam.offsetHeight;//webcam.offsetHeight;
-        const minX = bounding_box[1] * webcam.offsetWidth;
-        const maxY = bounding_box[2] * webcam.offsetHeight;
-        const maxX = bounding_box[3] * webcam.offsetWidth;
-        let xx = minX;
-        let  yy= minY;
-        let wwidth = maxX - minX;
-        let hheight= maxY - minY;*/
 
     box.style.position = 'fixed'
     box.style.zIndex = '2'
@@ -215,18 +156,14 @@ function drawBoxes(bounding_box, color) {
 
 
 async function detectObjects(webcam) {
-//MATHY    const videoFrameAsTensor = tf.browser.fromPixels(webcam);
-//MATHY    const normalizedTensorFrame = videoFrameAsTensor.reshape([1, webcam.videoHeight, webcam.videoWidth, 3])
+
 
     let num_tensors_det = tf.memory().numTensors;
     console.log('Number of tensors before detection: ' + num_tensors_det);
 
-//    const predictions = await objectDetector.executeAsync(normalizedTensorFrame);
+
     const predictions = await objectDetector.executeAsync(process_input(webcam));
-    
-    // Dispose of the intermediate tensors
-//MATHY    videoFrameAsTensor.dispose();
-//MATHY    normalizedTensorFrame.dispose();
+
 
 
     num_tensors_det = tf.memory().numTensors;
@@ -248,18 +185,7 @@ function getObjects(predictions) {
     let probabilities = undefined;
     let numdet = undefined;
     let prd = [];
-/*
-    for(let i = 0; i < tensor_label.length; i++) {
-        if(tensor_label[i]['name']==classes_label)
-            classes_id = i;
-        else if(tensor_label[i]['name']==boundingBox_label)
-            bb_id = i;
-        else if(tensor_label[i]['name']==probabilities_label)
-            prob_id = i;
-        else if(tensor_label[i]['name']==num_detections_label)
-            numdet_id = i;
-    }
-*/
+
     let i=0;
     for (const [key, value] of Object.entries(tensor_label)) {
         if(value['name']==classes_label)
@@ -277,24 +203,6 @@ function getObjects(predictions) {
     classes = predictions[classes_id].arraySync();
     probabilities = predictions[prob_id].arraySync();
     numdet = predictions[numdet_id].arraySync();
-/*
-    for(let i = 0; i < predictions.length; i++) {
-        prd[i] = predictions[i].arraySync();
-        if(prd[i][0][0] != undefined) {
-   if (!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length != 4) {
-      prob_id = i;
-               probabilities = prd[i];//.arraySync();
-            }else if(!Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0].length != 26 && prd[i][0][0].length == 4){
-                bb_id = i;
-                boundingBoxes = prd[i];//.arraySync();
-            }else if(Number.isInteger(prd[i][0][0]) && prd[i][0].length == 100 && prd[i][0][0]<1000){
-                classes_id = i;
-                classes = prd[i];//.arraySync();
-            }
-        }
-    }
-*/
-//    console.log('Classe Id: ' + classes_id +' BoundingBoxes Id: ' + bb_id + ' Probabilities Id: ' + prob_id);
 
     let recognisedDetails = []
     let recognisedBoxes = []
@@ -307,7 +215,6 @@ function getObjects(predictions) {
             if (classes[0][i]==1||classes[0][i]==2||classes[0][i]==3)
                 console.log("Venere vista");
 
-// let detail_confidence=0.75 ;
             if (probabilities[0][i] > detail_confidence && !recognisedDetails.includes(classes[0][i])) {
                 recognisedDetails.push(classes[0][i])
                 recognisedBoxes.push(boundingBoxes[0][i])
@@ -317,17 +224,6 @@ function getObjects(predictions) {
         console.log('Error Classe Id: ' + classes[0][i]); 
     }
 
-/*   let threshold=0.4
-   probabilities[0].forEach((probabilities, i) => {
-if(classes[0][i]==1 || classes[0][i]==2)
-probXview=probabilities ;
-      if (probabilities > threshold) {
-recognisedDetails.push(classes[0][i])
-recognisedBoxes.push(boundingBoxes[0][i])
-      }
-    })
-
-*/
 
     return [recognisedDetails, recognisedBoxes]
 }
@@ -352,7 +248,7 @@ const setIsSheetShown = (value) => {
 
 function displayInfo(results, boundingBoxes) {
 
-    let main_artwork = detailIDs[results[0]]['id'];//mathi 23-07-24 details[detailIDs[results[0]]['id']]['artwork-id'];
+    let main_artwork = detailIDs[results[0]]['id'];
     for (let i = 0; i < detailLinks.length; i++) {
         detailLinks[i].style.display = 'none';
     }
@@ -361,8 +257,8 @@ function displayInfo(results, boundingBoxes) {
     artworkTitle.innerText = details[main_artwork]['artwork'];
     author.innerText = details[main_artwork]['author'];
     detailName.innerText = details[main_artwork]['detail-name'];
-    detailImage.src = details[main_artwork]['image-art'];//details[main_artwork]['image'];
-    description.innerText = details[main_artwork]['desc-art'];//details[main_artwork]['description'];
+    detailImage.src = details[main_artwork]['image-art'];
+    description.innerText = details[main_artwork]['desc-art'];
     if (details[main_artwork]['audio-guide'] != "" && details[main_artwork]['audio-guide'] != null) {
         document.getElementById('audio').style.display = 'block';
         document.getElementById('audio').src = details[main_artwork]['audio-guide'];
@@ -393,15 +289,9 @@ function displayInfo(results, boundingBoxes) {
             detailImg[i].src = details[detailIDs[results[i]]['id']]['detail-icon'];
             detailImg[i].style.borderColor = colors[parseInt(results[i]) % colors.length];
             detailLabels[i].innerText = details[detailIDs[results[i]]['id']]['detail-name'];
-            // detailLinks[i].href = 'detailView.php?id=' + detailIDs[results[i]]['id'];
             detailLinks[i].setAttribute('data-id', detailIDs[results[i]]['id']);
             detailLinks[i].addEventListener('click', function () {
                 let id = this.getAttribute('data-id');
-                /*let lang = 'en';
-                if (document.getElementById('English').href == window.location.href + '#')
-                    lang = 'en';
-                if (document.getElementById('Italian').href == window.location.href + '#')
-                    lang = 'it';*/
                 getDetailsInfoJSON(id, getCookie("language"));
                 return false;
             });
@@ -417,13 +307,13 @@ function getDetailsInfoJSON(detail_id, lang) {
     fetch('detailView_json.php?id=' + detail_id + '&language=' + lang)
         .then((response) => response.json())
         .then((data) => {
-                const name =data[0]['title']; // data[0]['detail-name'];
+                const name =data[0]['title']; 
                 const artwork = data[0]['titleArtwork'];
                 const author = data[0]['author'];
                 const description = data[0]['description'];
-                const image = data[0]['imgsrc']; //data[0]['image'];
-                const audio_guide = null;//data[0]['audio-guide'];
-                const video =null; //data[0]['video'];
+                const image = data[0]['imgsrc']; 
+                const audio_guide = null;
+                const video =null;
 
                 detail_detailName.innerText = name;
                 detail_artworkTitle.innerText = artwork;
@@ -463,22 +353,20 @@ function hideInfoSheet() {
 
 const infoDisplayLatency = 5;
 let displayCounter = 0;
-//async function predictLoop() {
+
 function renderPredictions(predictions, video) {
-//    console.log('Recognition Started!')
- 
-//if (webcam.readyState >= 2 && objectDetector != undefined) {
+
     let element=document.getElementById("loader-wrapper");
     if(element!=null)
         element.remove();
-//}
+
 
 
    let bounding_boxes = document.getElementsByClassName('bounding-box')
     for (let i = bounding_boxes.length - 1; i >= 0; i--) {
         bounding_boxes[i].remove();
     }
-//    let imageObjects = await detectObjects(webcam);
+
     let predict = getObjects(predictions);
     document.getElementById('prob_view').innerText=probXview;
     let results = predict[0];
@@ -513,7 +401,6 @@ function startPredictLoop() {
 }
 
 
-//const webcam = document.getElementById('camera--view');
 const camera_box = document.getElementById('camera');
 const detailContainer = document.getElementById('detailContainer');
 const sheetContents = sheet.querySelector(".contents");
@@ -542,8 +429,6 @@ detail_view_close_button.addEventListener('click', function () {
 
 
 setSheetHeight(Math.min(16, 720 / window.innerHeight * 100));
-//startPredictLoop();
-// Take a picture when cameraTrigger is tapped
 
 // Start the video stream when the window loads
 window.addEventListener("load", cameraStart, false);

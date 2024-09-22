@@ -1,15 +1,10 @@
 <?php
 session_start(); //inizio la sessione
 //includo i file necessari a collegarmi al db con relativo script di accesso
-//include("connessione_db.php");
+
 include("./server/config.php"); 
 $connessione = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-//mi collego
-//mysql_select_db("$db_name",$connessione); 
 
-//variabili POST con anti sql Injection CONTROLLARE PERCHE NON FA
-//$username=mysql_real_escape_string($_POST['username']); //faccio l'escape dei caratteri dannosi
-//$password=mysql_real_escape_string(sha1($_POST['password'])); //sha1 cifra la password anche qui in questo modo corrisponde con quella del db
 $username=$_POST['username'];
 $password=sha1($_POST['password']);
 //$password=($_POST['password']);
@@ -28,12 +23,6 @@ $result = mysqli_query($connessione, $sql);
 
 
 
-/*
- $ris = mysql_query($query, $connessione) or die (mysql_error());
- $riga=mysql_fetch_array($ris);  */
-
-/*Prelevo l'identificativo dell'utente */
-//$cod=$riga['username'];
 
 /* Effettuo il controllo */
 if ($cod == NULL) $trovato = 0 ;

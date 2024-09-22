@@ -16,17 +16,9 @@ if (!$conn->set_charset("utf8")) {
 }
 $id = $conn->escape_string($id);
 
-/*$sql =  "SELECT * FROM details join 
-(select artworks.id as idArtwork, artworks.title as titleArtwork, author from artworks)
- art on art.idArtwork=artwork WHERE id='$id'";*/
+
 
  $sql = "select language.data as description, details.title,details.confidence, details.imgsrc, art.idArtwork, art.titleArtwork, art.author from language join language_mapping on language_mapping.data=language.id join details on details.id=language_mapping.external_id join (select artworks.id as idArtwork, artworks.title as titleArtwork, author from artworks) art on art.idArtwork=artwork where type='detail' and language.language='".$language."' and details.id=$id";
-
-/*$sql =  "select * from language join language_mapping on language_mapping.data=language.id 
-join details on details.id=language_mapping.external_id join 
-(select artworks.id as idArtwork, artworks.title as titleArtwork, author from artworks)
-art on art.idArtwork=artwork
-where type='detail' and language.language='".$language."' and details.id=$id";*/
 
 
 

@@ -29,14 +29,12 @@ const label_det_name = document.getElementById('detName');
                         name.innerText = data[0]['title'];
                         label_actual[0].innerText=data[0]['title'];
                         if(getCookie("details")==""){
-                          //  label_art_name.innerText=data[0]['title'];
                             auth.innerText = data[0]['author'];
                             label_actual[1].innerText=data[0]['author'];
                         }
                         else{
                             label_actual[1].innerText=data[0]['confidence'];
                             auth.innerText = data[0]['confidence'];
-                           // label_det_name.innerText=data[0]['title'];
                         }
                         desc.innerText = data[0]['description'];
                         label_actual[2].innerText=data[0]['description'];
@@ -101,7 +99,6 @@ const label_det_name = document.getElementById('detName');
 
         btnTitle.onclick = function () {
             modalTitle.style.display = "block";
-//            document.getElementById("modTitle").style.disabled = "false";
            document.getElementsByClassName("listItem")[0].style.display = "block";
            document.getElementById("modTitle").disabled=false;
         }

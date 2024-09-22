@@ -3,6 +3,8 @@ const camera_box = document.getElementById('focusImg');
 
 let dragdrop=document.getElementById("btnCrop");
 
+var x, y, width, height = undefined;
+
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -157,8 +159,6 @@ var isEventSupported = (function(){
         var dragPositionYEnd
         var colors = ['#2E92A9', '#F4F4F4', '#EF7365', '#FBD26C']
 
-        var x, y, width, height = undefined;
-
         function drawB(bounding_box, color) {
             let box = document.createElement('p');
             camera_box.appendChild(box)
@@ -183,7 +183,7 @@ var isEventSupported = (function(){
             }
             
             
-            // console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
+            console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
             
             box.style.position = 'fixed'
             box.style.zIndex = '2'
@@ -226,8 +226,6 @@ domElement.addEventListener("mouseup", onPointerUp, false);
 
 window.addEventListener("pointerdown", onDragStart, false);
 
-//draggableArea.addEventListener("mousedown", onDragStart)
-//draggableArea.addEventListener("touchstart", onDragStart)
 
 window.addEventListener("mousemove", onDragMove)
 window.addEventListener("touchmove", onDragMove)
@@ -240,7 +238,6 @@ window.addEventListener("touchend", onDragEnd)
 
 function stopDrag(){ 
     dragdrop.innerText="crop_free";
-    // window.removeEventListener("pointerdown", onDragStart, false);
     window.removeEventListener("touchstart", onDragStart, false);
     window.removeEventListener("mousedown", onDragStart, false);
     window.removeEventListener("mousemove", onDragMove)
@@ -250,7 +247,7 @@ function stopDrag(){
     visible = true;
     console.log('pippo');
     console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
-    //insert nel db dei bbox primo id dettaglio relativo all'opera nel coockie + nClick
+    //insert nel db dei bbox primo id dettaglio relativo all'opera nel cookie + nClick
     saveBbox(nClk, getCookie("artwork"),String(x), String(y),String(width),String(height));
     requestAnimationFrame(update);
     //document.getElementsByClassName("bounding-box")[0].style.display = "none";

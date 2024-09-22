@@ -87,9 +87,7 @@ function notifyError(){
     var user= document.getElementById("user");
     var pw= document.getElementById("pw");
     user.style.backgroundColor="rgb(231, 178, 178)";
-    //user.style.backgroundColor="rgb(241, 138, 138)";
     user.style.border="1px solid red";
-   // pw.style.backgroundColor="rgb(241, 138, 138)";
     pw.style.backgroundColor="rgb(231, 178, 178)";
     pw.style.border="1px solid red";
     setMsg();

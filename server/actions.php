@@ -53,9 +53,7 @@ $query_string = "";
 
 /* handle different query types */
 switch ($action) {
-      /*case "getFeatures" :
-        getFeatures($version);
-        break;*/
+
 
     case "getDetails" :
         getDetails($version, $language);
@@ -65,56 +63,23 @@ switch ($action) {
         getDetailIDs($version);
         break;
 
-    case "updateDetails": //mathy
+    case "updateDetails": 
         updateDetails($data,$id,$table, $col,$language);
        break;
 
-    case "removeElement": //mathy
+    case "removeElement": 
         removeElement($table,$id);
        break;
 
-    case "saveBbox": //mathy
+    case "saveBbox": 
         saveBbox ($clk, $idArt, $left, $top, $width, $height);
     break;
 
-    case "startAugmentation": //mathy
-    startAugmentation();
+    case "startAugmentation":
     break;
 }
 
 
-/*function getFeatures($version)
-{
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
-    if (!$conn) {
-        echo 'Connection error: ' . mysqli_connect_error();
-    }
-
-    if ($version == 1) {
-        $sql = 'SELECT * FROM pythonfeatures';
-    } else {
-        $sql = 'SELECT * FROM features5descriptors';
-    }
-
-    $result = mysqli_query($conn, $sql);
-    $features = array();
-
-    // loop over results
-    while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-
-        $artwork = $row['artwork'];
-        $detail_features = $row['features'];
-        $distance = $row['distance'];
-
-        $feature = array('artwork' => $artwork, 'features' => $detail_features, 'distance' => $distance);
-        array_push($features, $feature);
-    }
-
-    echo json_encode($features);
-    mysqli_close($conn);
-}*/
 
 function getDetails($version,$language)
 {
@@ -129,31 +94,6 @@ function getDetails($version,$language)
         error_log("Error loading character set utf8: %s\n", $conn->error);
     }
 
-    /*if (isset($_POST['language'])) {
-        $language = $_POST['language'];
-    } else {
-        echo "lang not set error";
-        error_log("lang not set");
-        return;
-    }*/
-    /*if ($version == 2) {
-        if ($lang == 'it') {
-            $sql = "SELECT * FROM details5descriptors_it";
-        } else if ($lang == 'en') {
-            $sql = "SELECT * FROM details5descriptors_en";
-        }
-    } else {
-        if ($lang == 'it') {
-            $sql = "SELECT * FROM details_it";
-        } else if ($lang == 'en') {
-            $sql = "SELECT * FROM details_en";
-        }
-    }*/
-
-    /*$sql = "SELECT id, title as detailName, confidence, imgsrc, description,
-    artworkTitle,author,artworkId, imgArt,descArt FROM details join 
-    (select imgsrc as imgArt, description as descArt, artworks.id as artworkId, 
-    artworks.title as artworkTitle, author from artworks) art on art.artworkId=artwork";*/
 
 
 $sql = " select * from (select artwork, details.id,details.title as detailName, details.confidence, details.imgsrc, 
@@ -178,16 +118,12 @@ on art.artworkId=det.artwork";
         $artwork = $row['artworkTitle'];
         $author = $row['author'];
         $image = $row['imgsrc'];
-       // $detail_icon = $row['detail-icon'];
         $description = $row['description'];
-       // $audio_guide = $row['audio-guide'];
-       // $video = $row['video'];
         $artwork_id = $row['artworkId'];
         $detail_icon = $row['imgsrc'];
         $audio_guide = "";
         $video ="";
         $image_art = $row['imgArt'];
-       // $detail_icon = $row['detail-icon'];
         $desc_art = $row['descArt'];
 
         $details[$id] = array('detail-name' => $detail_name, 'artwork' => $artwork, 'author' => $author, 'image' => $image,
@@ -213,11 +149,6 @@ function getDetailIDs($version)
         echo 'Connection error: ' . mysqli_connect_error();
     }
 
-    /*if ($version == 3) {
-        $sql = 'SELECT * FROM id_objdet_mapping';
-    } else {
-        $sql = 'SELECT * FROM id_class_mapping';
-    }*/
     $sql = 'SELECT * FROM net_details';
 
     $result = mysqli_query($conn, $sql);
@@ -236,7 +167,7 @@ function getDetailIDs($version)
     mysqli_close($conn);
 }
 
-function updateDetails($data, $id, $table, $col,$language) //mathy
+function updateDetails($data, $id, $table, $col,$language)
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -301,7 +232,7 @@ function saveBbox ($clk, $idArt, $left, $top, $width, $height){
 }
 
 
-function removeElement($table, $id,) //mathy
+function removeElement($table, $id,) 
 {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -424,7 +355,6 @@ function startAugmentation()
 
 
 
-    //$sql = " select id,image_id,category_id,bbox";
     $sql = " select id,lft,top,width,height from details";
     $result = mysqli_query($conn, $sql);
     error_log('SQL query: ' . $sql); // debugging
@@ -433,8 +363,6 @@ function startAugmentation()
     // loop over ANNOTATION DATA results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $id = $row['id'];
-       // $image_id = $row['image_id'];
-       // $category_id = $row['category_id'];
         $image_id = $row['id'];
         $category_id = $row['id'];
         $lft = $row['lft'];
@@ -442,7 +370,6 @@ function startAugmentation()
         $width = $row['width'];
         $height = $row['height'];
         $bbox = "[".$lft.",".$top.",".$width.",".$height."]";
-       // $bbox = $row['bbox'];
 
         $annotationsData[$id] = array('id' => $id, 'image_id' => $image_id, 'category_id' => $category_id, 'bbox' => $bbox);
 
@@ -460,8 +387,6 @@ function startAugmentation()
 
     error_log('JSON COCO annotation: ' . json_encode($annotationsData, JSON_PARTIAL_OUTPUT_ON_ERROR));
     echo json_encode($json_results);
-  //  mysqli_close($conn);
-
 
 
 //   write json to file:
@@ -476,11 +401,6 @@ function startAugmentation()
     $sql ="SELECT artworks.imgsrc as img, details.imgsrc as det from artworks join details on artworks.id=details.artwork";
     $result = mysqli_query($conn, $sql);
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-       // $srcImg =$parent_dir .substr( $row['imgsrc'],1);
-
-        //$source = $parent_dir."/images/Venere_botticelli.jpg";
-       // $dest = $parent_dir."/augmentation/Venere_botticelli.jpg";
-
         $source = $parent_dir.substr( $row['img'],1);
         $dest = $parent_dir."/augmentation/".substr( $row['det'],9);
         if (copy($source, $dest) === false) {

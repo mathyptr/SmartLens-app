@@ -134,19 +134,16 @@ function backToIndex(){
 };
 
 function createCropSection(){
-    var divCrop = document.createElement("div");
-    divCrop.id="crop";
-
-    var spanCrop= document.createElement("span");
-    spanCrop.className="material-symbols-outlined";
-    spanCrop.id="btnCrop";
-    spanCrop.innerText="crop_free";
-
-    divCrop.appendChild(spanCrop);
-
-    // document.getElementById("focusImg").appendChild(divCrop);
-    // document.body.appendChild(divCrop);
-    document.getElementById("myBtn").appendChild(divCrop)
+    if(document.getElementById("btnCrop")==null){
+        var divCrop = document.createElement("div");
+        divCrop.id="crop";
+        var spanCrop= document.createElement("span");
+        spanCrop.className="material-symbols-outlined";
+        spanCrop.id="btnCrop";
+        spanCrop.innerText="crop_free";
+        divCrop.appendChild(spanCrop);
+        document.getElementById("myBtn").appendChild(divCrop)
+    }
 };
 
 function createPaint(){
@@ -256,10 +253,6 @@ fetch('artworkView_json.php?id=' + detail_id + '&language=' + lang+ '&table=' + 
 
                 myimg[i]=document.getElementsByClassName("overflow-hidden")[i];  
                 myfocus[i]=document.getElementsByClassName("listItem")[i];   
-              //  if(getCookie("details")=="")
-                 //   label_artworks[i].id=i+1;
-                //else
-                    //label_artworks[i].id=data[i]['id'];
                 label_artworks[i].id=data[i]['id'];
                 label_artworks[i].innerText = data[i]['title'];
                 label_artworks[i].addEventListener("click", function (){
@@ -399,7 +392,6 @@ function setLabel(){
             label_btn_try[i].innerText=btn_try;
         }
         label_intro.innerText=intro;
-       // label_res.innerText=res;
     }
 
     if(label_more_info!=null){ //label per mycamera-view_json.html
@@ -409,23 +401,16 @@ function setLabel(){
     }
     
     if( label_for_actual[0]!=null){ //label per settings.html
-       // label_section_title.innerText=section_title;
-        //label_btn_title.innerText=btn_title;
-       // label_btn_desc.innerText=btn_desc;
         label_for_actual[0].innerText=btn_title+": ";
         label_for_actual[2].innerText=btn_desc+": ";
-        //label_home.innerText=home;
         for(i = 0; i < 10; i++)
             label_det[i].innerText=det;
         if(getCookie("details")==""){
-          //  label_btn_author.innerText=btn_author;
             label_for_actual[1].innerText=btn_author+": ";
             createCropSection();
         }
         else{
-          //  label_btn_author.innerText=btn_conf;
             label_for_actual[1].innerText=btn_conf+": "
-           // getDetailsInfoJSON(getCookie("details"),"en", "details",2);
         }
         if(getCookie("language")=="en"){
             en.style.borderBottom="2px solid black";
@@ -456,7 +441,6 @@ function setLabel(){
     }
     
 
-    //guardare se serve o se basta la label listen_guide
     if(label_listen!=null){
         label_listen.innerText=listen;
     }
@@ -575,7 +559,6 @@ function setLabel(){
                 "action": request_type,
             },
             dataType: "json",
-            //headers: {"Content-type" :"application/x-www-form-urlencoded"},
             success: function (data) {
                 tmp = data;
                 return data;
@@ -601,7 +584,6 @@ function setLabel(){
                 "id": id
             },
             dataType: "json",
-            //headers: {"Content-type" :"application/x-www-form-urlencoded"},
             success: function (data) {
                 tmp = data;
                 return data;
