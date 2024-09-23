@@ -1,120 +1,155 @@
 {
-    "categories": {
-        "1": {
-            "id": "1",
+    "categories": [
+        {
+            "id": 1,
             "name": "Venere"
         },
-        "2": {
-            "id": "2",
+        {
+            "id": 2,
             "name": "Zefiro"
         },
-        "3": {
-            "id": "3",
+        {
+            "id": 3,
             "name": "Ora"
         },
-        "4": {
-            "id": "4",
+        {
+            "id": 4,
             "name": "Battista Sforza"
         },
-        "5": {
-            "id": "5",
+        {
+            "id": 5,
             "name": "Federico da Montefeltro"
         },
-        "6": {
-            "id": "6",
+        {
+            "id": 6,
             "name": "Arcangelo Gabriele"
         },
-        "7": {
-            "id": "7",
+        {
+            "id": 7,
             "name": "Maria"
         }
-    },
-    "images": {
-        "1": {
-            "id": "1",
+    ],
+    "images": [
+        {
+            "id": 1,
             "file_name": "VenereDet.jpg",
-            "width": "2000",
-            "height": "1248"
+            "width": 2000,
+            "height": 1248
         },
-        "2": {
-            "id": "2",
+        {
+            "id": 2,
             "file_name": "ZefiroDet.jpg",
-            "width": "2000",
-            "height": "1248"
+            "width": 2000,
+            "height": 1248
         },
-        "3": {
-            "id": "3",
+        {
+            "id": 3,
             "file_name": "OraDet.jpg",
-            "width": "2000",
-            "height": "1248"
+            "width": 2000,
+            "height": 1248
         },
-        "4": {
-            "id": "4",
+        {
+            "id": 4,
             "file_name": "Battista.jpg",
-            "width": "2000",
-            "height": "1527"
+            "width": 2000,
+            "height": 1527
         },
-        "5": {
-            "id": "5",
+        {
+            "id": 5,
             "file_name": "daMontefeltro.jpg",
-            "width": "2000",
-            "height": "1527"
+            "width": 2000,
+            "height": 1527
         },
-        "6": {
-            "id": "6",
+        {
+            "id": 6,
             "file_name": "Arcangelo.jpg",
-            "width": "1755",
-            "height": "909"
+            "width": 1755,
+            "height": 909
         },
-        "7": {
-            "id": "7",
+        {
+            "id": 7,
             "file_name": "Maria.jpg",
-            "width": "1755",
-            "height": "909"
+            "width": 1755,
+            "height": 909
         }
-    },
-    "annotations": {
-        "1": {
-            "id": "1",
-            "image_id": "1",
-            "category_id": "1",
-            "bbox": "[959,601,0,0]"
+    ],
+    "annotations": [
+        {
+            "id": 1,
+            "image_id": 1,
+            "category_id": 1,
+            "bbox": [
+                349,
+                145,
+                145,
+                326
+            ]
         },
-        "2": {
-            "id": "2",
-            "image_id": "2",
-            "category_id": "2",
-            "bbox": "[786,546,271,305]"
+        {
+            "id": 2,
+            "image_id": 2,
+            "category_id": 2,
+            "bbox": [
+                129,
+                247,
+                247,
+                277
+            ]
         },
-        "3": {
-            "id": "3",
-            "image_id": "3",
-            "category_id": "3",
-            "bbox": "[779,547,255,364]"
+        {
+            "id": 3,
+            "image_id": 3,
+            "category_id": 3,
+            "bbox": [
+                475,
+                231,
+                231,
+                328
+            ]
         },
-        "4": {
-            "id": "4",
-            "image_id": "4",
-            "category_id": "4",
-            "bbox": "[782,636,178,278]"
+        {
+            "id": 4,
+            "image_id": 4,
+            "category_id": 4,
+            "bbox": [
+                220,
+                136,
+                136,
+                214
+            ]
         },
-        "5": {
-            "id": "5",
-            "image_id": "5",
-            "category_id": "5",
-            "bbox": "[775,642,169,286]"
+        {
+            "id": 5,
+            "image_id": 5,
+            "category_id": 5,
+            "bbox": [
+                458,
+                153,
+                153,
+                256
+            ]
         },
-        "6": {
-            "id": "6",
-            "image_id": "6",
-            "category_id": "6",
-            "bbox": "[782,485,270,265]"
+        {
+            "id": 6,
+            "image_id": 6,
+            "category_id": 6,
+            "bbox": [
+                142,
+                253,
+                253,
+                243
+            ]
         },
-        "7": {
-            "id": "7",
-            "image_id": "7",
-            "category_id": "7",
-            "bbox": "[775,479,171,290]"
+        {
+            "id": 7,
+            "image_id": 7,
+            "category_id": 7,
+            "bbox": [
+                502,
+                204,
+                204,
+                270
+            ]
         }
-    }
+    ]
 }

@@ -76,6 +76,7 @@ switch ($action) {
     break;
 
     case "startAugmentation":
+        startAugmentation();
     break;
 }
 
@@ -320,14 +321,11 @@ function startAugmentation()
     $classes= array();
     // loop over CLASSES results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-        $id = $row['id'];
+        $id = intval($row['id']);
         $name = $row['title'];
 
-        $classes[$id] = array('id' => $id, 'name' => $name);
+        $classes[] = array('id' => $id, 'name' => $name);
 
-        foreach ($classes[$id] as $key => $value) {
-            error_log($key . ":" . $value);
-        }
     }
     error_log('classes num rows: ' . count($classes));
 
@@ -339,45 +337,43 @@ function startAugmentation()
     $imagesData= array();
     // loop over IMAGES results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-        $id = $row['id'];
+        $id = intval($row['id']);
         $file_name = substr( $row['imgsrc'],9);
-        $width = $row['width'];
-        $height = $row['height'];
+        $width = intval($row['width']);
+        $height = intval($row['height']);
 
-        $imagesData[$id] = array('id' => $id, 'file_name' => $file_name,'width' => $width,'height' => $height);
+        $imagesData[] = array('id' => $id, 'file_name' => $file_name,'width' => $width,'height' => $height);
 
-        foreach ($imagesData[$id] as $key => $value) {
-            error_log($key . ":" . $value);
-        }
     }
     error_log('images num rows: ' . count($imagesData));
 
 
-
-
+  
     $sql = " select id,lft,top,width,height from details";
     $result = mysqli_query($conn, $sql);
     error_log('SQL query: ' . $sql); // debugging
 
     $annotationsData = array();
+    $bbox = array();
     // loop over ANNOTATION DATA results
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-        $id = $row['id'];
-        $image_id = $row['id'];
-        $category_id = $row['id'];
-        $lft = $row['lft'];
-        $top = $row['top'];
-        $width = $row['width'];
-        $height = $row['height'];
-        $bbox = "[".$lft.",".$top.",".$width.",".$height."]";
+        $id = intval($row['id']);
+        $image_id = intval($row['id']);
+        $category_id = intval($row['id']);
+        $lft = intval($row['lft']);
+        $top = intval($row['top']);
+        $width = intval($row['width']);
+        $height = intval($row['height']);
+        $bbox[0] = intval($lft);
+        $bbox[1] = intval($width);
+        $bbox[2] = intval($width);
+        $bbox[3] = intval($height);
 
-        $annotationsData[$id] = array('id' => $id, 'image_id' => $image_id, 'category_id' => $category_id, 'bbox' => $bbox);
+        $annotationsData[] = array('id' => $id, 'image_id' => $image_id, 'category_id' => $category_id, 'bbox' => $bbox);
 
-        foreach ($annotationsData[$id] as $key => $value) {
-            error_log($key . ":" . $value);
-        }
     }
     error_log('details num rows: ' . count($annotationsData));
+
 
     $json_results = array();
     $json_results['categories'] = $classes;
@@ -396,7 +392,6 @@ function startAugmentation()
     $fp=fopen($path,'w');
     fwrite($fp,$jsonString);
     fclose($fp);
-
 
     $sql ="SELECT artworks.imgsrc as img, details.imgsrc as det from artworks join details on artworks.id=details.artwork";
     $result = mysqli_query($conn, $sql);

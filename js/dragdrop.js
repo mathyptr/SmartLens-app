@@ -1,5 +1,6 @@
-const draggableArea = document.getElementById('divDetail')
-const camera_box = document.getElementById('focusImg');
+//onst draggableArea = document.getElementById('divDetail')
+//const camera_box = document.getElementById('focusImg');
+const camera_box = document.getElementById('divDetail')
 
 let dragdrop=document.getElementById("btnCrop");
 
@@ -98,7 +99,8 @@ var isEventSupported = (function(){
     dragPosition = touchPosition(event).pageY
     dragPositionXStart = touchPosition(event).pageX
     dragPositionYStart = dragPosition
-    draggableArea.style.cursor = document.body.style.cursor = "grabbing"
+    //draggableArea.style.cursor = document.body.style.cursor = "grabbing"
+    camera_box.style.cursor = document.body.style.cursor = "grabbing"
     
     var bounding_boxes = document.getElementsByClassName('bounding-box')
     for (var i = bounding_boxes.length - 1; i >= 0; i--) {
@@ -129,8 +131,8 @@ var isEventSupported = (function(){
     drawB(bb, colors[0]);
     
     //    sheetContents.classList.remove("not-selectable")
-    draggableArea.style.cursor = document.body.style.cursor = ""
-    
+   // draggableArea.style.cursor = document.body.style.cursor = ""
+    camera_box.style.cursor = document.body.style.cursor = ""
     
     }
     
@@ -145,8 +147,12 @@ var isEventSupported = (function(){
     drawB(bb, colors[0]);
     dragPosition = undefined
     //    sheetContents.classList.remove("not-selectable")
-    draggableArea.style.cursor = document.body.style.cursor = ""
-    
+   // draggableArea.style.cursor = document.body.style.cursor = ""
+     camera_box.style.cursor = document.body.style.cursor = ""
+     if(width>5&&height>5){
+        console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
+        saveBbox(nClk, getCookie("artwork"),String(x), String(y),String(width),String(height));
+     }
     }
 
     const touchPosition = (event) =>
@@ -183,7 +189,7 @@ var isEventSupported = (function(){
             }
             
             
-            console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
+            //console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
             
             box.style.position = 'fixed'
             box.style.zIndex = '2'
@@ -191,7 +197,10 @@ var isEventSupported = (function(){
             box.style.top = String(y) + 'px';
             box.style.width = String(width) + 'px';
             box.style.height = String(height) + 'px';
-            box.style.border = '4px solid ' + color;
+            if(width>5&&height>5)
+                box.style.border = '4px solid ' + color;
+            else
+                box.style.border = '0px solid ' + color;
             box.style.margin = '0';
             box.classList.add('bounding-box');
             }  
@@ -245,14 +254,14 @@ function stopDrag(){
     window.removeEventListener("mouseup", onDragEnd)
     window.removeEventListener("touchend", onDragEnd)
     visible = true;
-    console.log('pippo');
-    console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
+    //console.log('left='+ String(x)+' top='+ String(y)+' width='+String(width) + ' height='+String(height));
     //insert nel db dei bbox primo id dettaglio relativo all'opera nel cookie + nClick
-    saveBbox(nClk, getCookie("artwork"),String(x), String(y),String(width),String(height));
+    //saveBbox(nClk, getCookie("artwork"),String(x), String(y),String(width),String(height));
     requestAnimationFrame(update);
     //document.getElementsByClassName("bounding-box")[0].style.display = "none";
     nClk++;
 }
+
 
 
 if(dragdrop!=null){
@@ -287,3 +296,6 @@ function saveBbox (clk, idArt, left, top, width,height){
         });
    
 }
+
+
+
