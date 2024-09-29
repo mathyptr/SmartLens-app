@@ -159,9 +159,9 @@ function getDetailIDs($version)
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
         $id = $row['id'];
-        $id_net = $row['id_net'];
+        $id_det = $row['id_det'];
         $confidence = $row['confidence'];
-        $detailIDs[$id_net] = array('id' => $id, 'confidence' => $confidence);
+        $detailIDs[$id_det] = array('id' => $id, 'confidence' => $confidence);
     }
 
     echo json_encode($detailIDs);
