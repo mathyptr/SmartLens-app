@@ -6,34 +6,29 @@ This application is part of the **ReInHerit Toolkit**.
 
 ## Recognize details in artworks
 This app allows the recognition of artworks and their details in images captured by the webcam of a smartphone in real time, showing the user the multimedia information related to them.
-Details recognition is implemented using computer vision, applying three different methods:
-* Retrieval using the MobileNet v3 Small network of Tensorflow.js
-* Classification using the MobileNet v3 network on which fine-tuning has been performed on the dataset
-* Object Detection using the SSD/MobileNetV3 network on which fine tuning has been performed for the recognition of the 
-"objects" (details) of the works of the dataset.
+Details recognition is implemented using computer vision, applying three different Object Detection using the SSD/MobileNetV2 network on which fine tuning has been performed for the recognition of the "objects" (details) of the artworks of the dataset.
 
 ## Installation
 The application is implemented using HTML, CSS and JavaScript. It is necessary to have a web server to run it.
-Artowrks and details info is stored in a MySQL database.
+Artworks and details info is stored in a MySQL database.
 Update the `./server/config.php` file to connect to the database. 
 
-## Selecting the CV method
-To select which CV method is used to recognize details (and thus how the interaction is implemented) it is necessary to uncomment one of the scripts at the bottom of the file camera-view.html.
-* getDetailsObjDet.js for Object Detection
+## Application 
+The application was created using PHP, HTML, Javascript and CSS style sheets and when it is started a carousel is shown and allows to view some example of artworks recognizable from the network. 
 
-![Example of object detection](images/info/example1.png "Example of object detection")
-![Example of object detection](images/info/example2.png "Example of object detection")
-![Example of object detection](images/info/example3.png "Example of details info")
+By scrolling with the mouse over these, it is suggested to try the interactive guide and this is possible by clicking on one of the artworks. By carrying out this operation, the webcam of the user's device will be opened.
+
+After having recognized the detail, it will be possible to consult all the information relating to the artwork to which it belongs and to the detected detail.
 
 
-* getDetailsRetrieval for Retrieval
-* getDetailsClass.js for Classification
+### Reserved Area 
+In the home page of the app there is an icon in the top right that allows access to the reserved area for which user authentication is required. There is a login that requires the appropriate insertion of username and password.
 
-### Retrieval
-The CV method based on retrieval is implemented in the file getDetailsRetrieval.js.
-There are two variants of the method, which adopt a different division of the images from which the features are extracted.
-The version can be changed by modifying the value of the version variable at the beginning of the file getDetailsRetrieval.js.
-* version = 1 : the Retrieval is applied to each frame with 5 images: the whole one taken from the webcam and 4 its parts 
-obtained from a symmetric division without overlap.
-* version = 2 : the Retrieval is applied to each frame with 6 images: in addition to the whole one, 5 its portions
-of height and width equal to 2/3 of the measures of the original image are generated, arranged as in the figure
+Once the authentication phase has been completed, the employee has access to the reserved area where he can do all CRUD operations.
+Then, by clicking on the desired artwork, it is possible to view and modify all its information.
+
+In order to make all the information available in other languages, the application was internationalized. 
+
+By clicking on the figure of the artworks it is possible to access to the section relating to its the details, where they can be modified.
+
+The employee can also train the network, but he must select first the details of interest. Then he can confirm and start the training.
